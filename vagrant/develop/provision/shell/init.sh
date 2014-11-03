@@ -1,5 +1,3 @@
-su - vagrant
-
 sudo apt-get update
 sudo apt-get -y install python-dev python-setuptools
 sudo easy_install pip

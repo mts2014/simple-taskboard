@@ -1,3 +1,4 @@
 .vagrant
 .*~
 .nvm
+npm-debug.log

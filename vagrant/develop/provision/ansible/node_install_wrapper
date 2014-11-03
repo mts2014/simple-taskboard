@@ -1,2 +1,0 @@
-chmod +x /home/vagrant/.nvm/nvm.sh
-/home/vagrant/.nvm/nvm.sh && nvm intall 0.10
