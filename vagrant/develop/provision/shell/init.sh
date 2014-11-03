@@ -3,9 +3,10 @@ sudo apt-get -y install python-dev python-setuptools
 sudo easy_install pip
 sudo pip install ansible
 
-sudo cp $1/vagrant/develop/provision/shell/insecure_private_key /home/vagrant/.ssh/insecure_private_key
-sudo cp $1/vagrant/develop/provision/shell/ssh_config /home/vagrant/.ssh/config
+develop_provision_path = /home/vagrant/share/develop/provision
 
-ansible-playbook -i $1/vagrant/develop/provision/ansible/hosts $1/vagrant/develop/provision/ansible/init.yml
+sudo cp develop_provision_path/shell/insecure_private_key /home/vagrant/.ssh/insecure_private_key
+sudo cp develop_provision_path/shell/ssh_config /home/vagrant/.ssh/config
 
+ansible-playbook -i develop_provision_path/ansible/hosts develop_provision_path/ansible/init.yml
 
