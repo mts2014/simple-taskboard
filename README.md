@@ -1,11 +1,12 @@
 simple-taskboard
 ================
 
-# set up
-## devlop-setup
+### devlop-setup
 
+<pre>
 cd ./vagrant/develop
 vagrant up
+</pre>
 
 
 
