@@ -1,7 +1,13 @@
 ---
 - hosts: dev
   tasks:
-    - name: gitをインストール
+    - name: install git
       apt: name=git state=present
       sudo: yes
+    - name: install vim
+      apt: name=vim state=present
+      sudo: yes
+    - name: set git editor
+      command: git config --global core.editor 'vim -c "set fenc=utf-8"'
+      
       
