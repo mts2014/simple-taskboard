@@ -1,0 +1,8 @@
+Host OS
+vagrant init hashicorp/precise32
+
+
+Guest OS
+install ansible
+sudo apt-get install python-setuptools
+

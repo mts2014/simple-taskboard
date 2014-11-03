@@ -1,0 +1,7 @@
+---
+- hosts: dev
+  tasks:
+    - name: gitをインストール
+      apt: name=git state=present
+      sudo: yes
+      
