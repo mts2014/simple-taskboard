@@ -1,6 +1,6 @@
 ---
 
-- hosts: dev
+- hosts: build
   tasks:
     - name: install tools
       apt: name={{ item }} state=present
@@ -9,15 +9,12 @@
         - vim
         - curl
         - git
+        - jenkins
 
     - name: set git editor
       command: git config --global core.editor 'vim -c "set fenc=utf-8"'
     - name: set git credential helper
       command: git config --global credential.helper store
-
-    - name: checkout project repo
-      git: repo=https://github.com/mts2014/simple-taskboard.git
-           dest=/home/vagrant/products/simple-taskboard
 
     - name: intall nvm
       shell: wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.17.3/install.sh | bash
@@ -26,13 +23,11 @@
       raw: source /home/vagrant/.nvm/nvm.sh && nvm install v0.10.33
 
     - name: install node modules
-#      raw: source /home/vagrant/.nvm/nvm.sh && nvm use 0.10 && npm install -g {{ item }}
       npm: name={{ item }} global=yes executable=/home/vagrant/.nvm/v0.10.33/bin/npm
       with_items:
-#        - npm@latest
-        - yo
         - bower
         - grunt-cli
+
 
 
 

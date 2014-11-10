@@ -1,0 +1,38 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+version = 1.0
+group = 'jp.mts'
+
+sourceCompatibility = 1.7
+compileTestJava.sourceCompatibility = 1.7
+compileTestJava.targetCompatibility = 1.7
+
+tasks.withType(AbstractCompile) each {
+	it.options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	def slf4jVersion = '1.7.7'
+	def fluentLeniumVersion = '0.10.2'
+
+	compile "junit:junit:4.11"
+	compile "org.easytesting:fest-assert-core:2.0M10"
+	compile "org.fluentlenium:fluentlenium-core:${fluentLeniumVersion}"
+	compile "org.fluentlenium:fluentlenium-assertj:${fluentLeniumVersion}"
+
+	compile "org.apache.commons:commons-lang3:3.3.2"
+	compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
+	compile "org.slf4j:slf4j-api:${slf4jVersion}"
+	compile "org.slf4j:slf4j-log4j12:${slf4jVersion}"
+	compile "log4j:log4j:1.2.14"
+}
+
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '1.12'
+}
