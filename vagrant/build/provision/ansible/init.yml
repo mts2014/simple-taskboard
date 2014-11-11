@@ -9,7 +9,6 @@
         - vim
         - curl
         - git
-        - jenkins
 
     - name: set git editor
       command: git config --global core.editor 'vim -c "set fenc=utf-8"'
@@ -28,6 +27,13 @@
         - bower
         - grunt-cli
 
+    - name: install jenkins
+      apt: name=jenkins state=present
+      sudo: yes
+
+    - name: copy jenkins binary
+      copy: src=/home/vagrant/share/build/provision/ansible/jenkins.war dest=/usr/share/jenkins/jenkins.war owner=root group=root mode=0644
+      sudo: yes
 
 
 
