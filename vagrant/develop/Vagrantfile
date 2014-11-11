@@ -3,7 +3,7 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
-HOST_VAGRANT_SHARE = "C:/Users/mts/Desktop/Study/products/simple-taskboard/vagrant"
+HOST_VAGRANT_SHARE = File.expand_path('../..',__FILE__)
 GUEST_VAGRANT_SHARE = "/home/vagrant/share"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
