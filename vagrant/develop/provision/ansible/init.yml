@@ -7,10 +7,6 @@
       copy: src=/home/vagrant/share/develop/provision/ansible/custom_home_settings/ dest=/home/vagrant 
             owner=vagrant group=vagrant mode=0644
 
-    - name: checkout neobundle.vim
-      git: repo=https://github.com/Shougo/neobundle.vim.git
-           dest=/home/vagrant/.vim/bundle/neobundle.vim
-
     - name: install tools
       apt: name={{ item }} state=present
       sudo: yes
@@ -18,6 +14,10 @@
         - vim
         - curl
         - git
+
+    - name: checkout neobundle.vim
+      git: repo=https://github.com/Shougo/neobundle.vim.git
+           dest=/home/vagrant/.vim/bundle/neobundle.vim
 
     - name: set git editor
       command: git config --global core.editor 'vim -c "set fenc=utf-8"'
