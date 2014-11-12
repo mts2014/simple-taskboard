@@ -139,6 +139,10 @@ set history=10000
 
 " 色の設定===============
 colorscheme hybrid
+" set t_Co=16
+" set background=dark
+" let g:solarized_termcolors=256
+" colorscheme solarized
 
 
 
@@ -162,6 +166,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'altercation/vim-colors-solarized'
  
 call neobundle#end()
  
