@@ -11,11 +11,19 @@
     "angular-sanitize": "~1.2.0",
     "angular-animate": "~1.2.0",
     "angular-touch": "~1.2.0",
-    "angular-route": "~1.2.0"
+    "angular-route": "~1.2.0",
+            
+    "angular-mocks": "1.2.16",
+    "ngDialog": "~0.3.0" 
+    
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",
-    "angular-scenario": "~1.2.0"
+    "angular-scenario": "~1.2.0",
+    
+    "angular-i18n": "~1.2.24",
+    "jquery-ui": "~1.11.1"
   },
   "appPath": "app"
 }
+
