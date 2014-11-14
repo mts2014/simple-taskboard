@@ -14,6 +14,8 @@
         - vim
         - curl
         - git
+        - libfontconfig
+          # libfontconfig is needed for phantomjs running
 
     - name: checkout neobundle.vim
       git: repo=https://github.com/Shougo/neobundle.vim.git
