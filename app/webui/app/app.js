@@ -1,31 +1,21 @@
 'use strict';
 
-/**
- * @ngdoc overview
- * @name webuiApp
- * @description
- * # webuiApp
- *
- * Main module of the application.
- */
 angular
-  .module('webuiApp', [
+  .module('simple-taskboard.webui', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    
+    'simple-taskboard.webui.sample'
   ])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'sample/main.html',
-        controller: 'MainCtrl'
-      })
-      .when('/about', {
-        templateUrl: 'sample/about.html',
-        controller: 'AboutCtrl'
+        templateUrl: 'sample/sample.html',
+        controller: 'SampleController'
       })
       .otherwise({
         redirectTo: '/'
