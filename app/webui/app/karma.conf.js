@@ -1,12 +1,16 @@
 // Karma configuration
 // http://karma-runner.github.io/0.12/config/configuration-file.html
-// Generated on 2014-11-04 using
+// Generated on 2014-09-08 using
 // generator-karma 0.8.3
 
 module.exports = function(config) {
   'use strict';
 
   config.set({
+    preprocessors: {
+      'app/components/**/*.html': ['ng-html2js']
+    }, 
+          
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
 
@@ -18,6 +22,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'bower_components/jquery/dist/jquery.js',
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/angular-animate/angular-animate.js',
@@ -26,16 +31,20 @@ module.exports = function(config) {
       'bower_components/angular-route/angular-route.js',
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-touch/angular-touch.js',
-      'app/scripts/**/*.js',
-      'test/mock/**/*.js',
-      'test/spec/**/*.js'
+      'bower_components/angular-i18n/angular-locale_ja-jp.js',
+      'bower_components/jquery-ui/jquery-ui.js',
+      'bower_components/ngDialog/js/ngDialog.js',
+      'app/**/*-module.js',
+      'app/**/*.js',
+
+      'app/components/**/*.html'
     ],
 
     // list of files / patterns to exclude
     exclude: [],
 
     // web server port
-    port: 8080,
+    port: 9001,
 
     // Start these browsers, currently available:
     // - Chrome
@@ -52,7 +61,8 @@ module.exports = function(config) {
     // Which plugins to enable
     plugins: [
       'karma-phantomjs-launcher',
-      'karma-jasmine'
+      'karma-jasmine',
+      'karma-ng-html2js-preprocessor'
     ],
 
     // Continuous Integration mode
@@ -63,7 +73,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
 
     // Uncomment the following lines if you are using grunt's server to run the tests
     // proxies: {
@@ -71,5 +81,10 @@ module.exports = function(config) {
     // },
     // URL root prevent conflicts with the site root
     // urlRoot: '_karma_'
+
+
+    ngHtml2JsPreprocessor: { 
+      stripPrefix: 'app/'
+    }
   });
 };
