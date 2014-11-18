@@ -35,14 +35,14 @@ module.exports = function (grunt) {
         tasks: ['wiredep']
       },
       js: {
-        files: ['<%= yeoman.app %>/{,**/}*.js'],
+        files: ['<%= yeoman.app %>/{,**/}*.js', '!<%= yeoman.app %>/{,**/}*_test.js'],
         tasks: ['newer:jshint:all'],
         options: {
           livereload: '<%= connect.options.livereload %>'
         }
       },
       jsTest: {
-        files: ['{,**/}*_test.js'],
+        files: ['<%= yeoman.app %>/{,**/}*_test.js'],
         tasks: ['newer:jshint:test', 'karma']
       },
       styles: {
@@ -125,9 +125,9 @@ module.exports = function (grunt) {
       },
       test: {
         options: {
-          jshintrc: '.jshintrc'
+          jshintrc: '.jshintrc_test'
         },
-        src: ['{,**/}*_.js']
+        src: ['<%= yeoman.app %>/{,**/}*_.js']
       }
     },
 
