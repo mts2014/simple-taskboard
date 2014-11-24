@@ -29,7 +29,7 @@
 
 
     - name: prepare jenkins install
-      apt-key: url=https://jenkins-ci.org/debian/jenkins-ci.org.key state=present
+      apt_key: url=https://jenkins-ci.org/debian/jenkins-ci.org.key state=present
       sudo: yes
     - name: prepare jenkins install
       raw: sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
