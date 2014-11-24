@@ -1,0 +1,81 @@
+---
+
+- hosts: build
+  tasks:
+
+    - name: copy home settings
+      copy: src=/home/ubuntu/products/simple-taskboard/vagrant/build-aws/provision/ansible/custom_home_settings/ dest=/home/ubuntu
+            owner=ubuntu group=ubuntu mode=0644
+
+    - name: install tools
+      apt: name={{ item }} state=present
+      sudo: yes
+      with_items:
+        - vim
+        - curl
+        - libfontconfig
+          # libfontconfig is needed for phantomjs running
+        
+
+    - name: checkout neobundle.vim
+      git: repo=https://github.com/Shougo/neobundle.vim.git
+           dest=/home/ubuntu/.vim/bundle/neobundle.vim
+
+
+    - name: set git editor
+      command: git config --global core.editor 'vim -c "set fenc=utf-8"'
+    - name: set git credential helper
+      command: git config --global credential.helper store
+
+
+    - name: prepare jenkins install
+      apt_key: url=http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key state=present
+      sudo: yes
+    - name: prepare jenkins install
+      command: echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list
+      sudo: yes
+    - name: install jenkins
+      apt: name=jenkins state=present update_cache=yes
+      sudo: yes
+
+    - name: copy jenkins binary
+      copy: src=/home/ubuntu/products/simple-taskboard/vagrant/build-aws/provision/ansible/jenkins.war 
+            dest=/usr/share/jenkins/jenkins.war 
+            owner=root group=root mode=0644
+            force=true
+      sudo: yes
+
+    - name: copy jenkins config
+      copy: src=/home/ubuntu/products/simple-taskboard/vagrant/build-aws/provision/ansible/jenkins
+            dest=/etc/default/jenkins 
+            owner=root group=root mode=0644
+            force=true
+      sudo: yes
+     
+    - name: setup jenkins user (pass=jenkins)
+      user: name=jenkins shell=/bin/bash group=jenkins password=$1$SomeSalt$2CfQrAhuECQILo1TFh83m1
+      sudo: yes
+      
+    - name: intall nvm to jenkins user
+      shell: wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.17.3/install.sh | bash
+      ignore_errors: True
+      sudo: yes
+      sudo_user: jenkins
+      
+    - name: intall node.js to jenkins user
+      raw: source /var/lib/jenkins/.nvm/nvm.sh && nvm install v0.10.33
+      sudo: yes
+      sudo_user: jenkins
+
+    - name: install node modules to jenkins user
+      npm: name={{ item }} global=yes executable=/var/lib/jenkins/.nvm/v0.10.33/bin/npm
+      with_items:
+        - bower
+        - grunt-cli
+      sudo: yes
+      sudo_user: jenkins
+
+    - name: restart jenkins
+      service: name=jenkins state=restarted
+      sudo: yes
+
