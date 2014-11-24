@@ -17,7 +17,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     aws.availability_zone = "ap-northeast-1a"
 
     override.ssh.username = "ubuntu"
-    override.ssh.private_key_path = "./vagrant-aws.pem"
+    override.ssh.private_key_path = "./provision/shell/vagrant-aws.pem"
   end
   
   config.vm.provision "shell" do |s|
