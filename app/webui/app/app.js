@@ -9,13 +9,16 @@ angular
     'ngSanitize',
     'ngTouch',
     
-    'simple-taskboard.webui.sample'
+    'simple-taskboard.webui.components.user',
+    
+    'simple-taskboard.webui.sample',
+    'simple-taskboard.webui.login'
   ])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'sample/sample.html',
-        controller: 'SampleController'
+        templateUrl: 'login/login.html',
+        controller: 'LoginController'
       })
       .otherwise({
         redirectTo: '/'
