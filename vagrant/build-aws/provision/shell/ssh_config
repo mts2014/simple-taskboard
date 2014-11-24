@@ -1,0 +1,4 @@
+Host build
+HostName 127.0.0.1
+User ubuntu
+IdentityFile ~/.ssh/insecure_private_key

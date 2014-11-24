@@ -1,0 +1,53 @@
+---
+
+- hosts: build
+  tasks:
+
+    - name: copy home settings
+      copy: src=/home/vagrant/share/develop/provision/ansible/custom_home_settings/ dest=/home/vagrant 
+            owner=vagrant group=vagrant mode=0644
+
+    - name: install tools
+      apt: name={{ item }} state=present
+      sudo: yes
+      with_items:
+        - vim
+        - curl
+        - git
+        - libfontconfig
+          # libfontconfig is needed for phantomjs running
+        
+
+    - name: checkout neobundle.vim
+      git: repo=https://github.com/Shougo/neobundle.vim.git
+           dest=/home/vagrant/.vim/bundle/neobundle.vim
+
+
+    - name: set git editor
+      command: git config --global core.editor 'vim -c "set fenc=utf-8"'
+    - name: set git credential helper
+      command: git config --global credential.helper store
+
+    - name: intall nvm
+      shell: wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.17.3/install.sh | bash
+      ignore_errors: True
+    - name: intall node.js
+      raw: source /home/vagrant/.nvm/nvm.sh && nvm install v0.10.33
+
+    - name: install node modules
+      npm: name={{ item }} global=yes executable=/home/vagrant/.nvm/v0.10.33/bin/npm
+      with_items:
+        - bower
+        - grunt-cli
+
+    - name: install jenkins
+      apt: name=jenkins state=present
+      sudo: yes
+
+    - name: copy jenkins binary
+      copy: src=/home/vagrant/share/build/provision/ansible/jenkins.war dest=/usr/share/jenkins/jenkins.war owner=root group=root mode=0644
+      sudo: yes
+
+
+
+
