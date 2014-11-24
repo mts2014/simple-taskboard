@@ -1,3 +1,5 @@
+#!/bin/bash
+
 jenkins_home=/var/lib/jenkins
 home_setting_dir=$(pwd)/jenkins_home
 jobs_setting_dir=$(pwd)/jenkins_home/jobs
