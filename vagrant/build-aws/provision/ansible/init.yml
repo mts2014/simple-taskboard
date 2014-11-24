@@ -32,7 +32,8 @@
       command: wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | apt-key add -
       sudo: yes
     - name: prepare jenkins install
-      command: sudo 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
+      command: echo 'deb http://pkg.jenkins-ci.org/debian binary/' > /etc/apt/sources.list.d/jenkins.list
+      sudo: yes
     - name: install jenkins
       apt: name=jenkins state=present update_cache=yes
       sudo: yes
