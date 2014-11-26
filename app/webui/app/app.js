@@ -12,7 +12,9 @@ angular
     'simple-taskboard.webui.components.user',
     
     'simple-taskboard.webui.sample',
-    'simple-taskboard.webui.login'
+    'simple-taskboard.webui.login',
+    
+    'simple-taskboard.webui.mock'
   ])
   .config(function ($routeProvider) {
     $routeProvider

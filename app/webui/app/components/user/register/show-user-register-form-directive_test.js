@@ -11,7 +11,6 @@ describe('showUserRegisterForm directive', function(){
     
     module('simple-taskboard.webui.components.user', function($provide){
       $provide.value('ngDialog', ngDialogMock); 
-      $provide.value('$log', console);
     }); 
     
     inject(function(_$compile_, _$rootScope_){
