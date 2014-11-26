@@ -9,9 +9,14 @@ angular
       scope: {},
       replace: false,
       link: function(scope, element){
+        var dialog = null;
         element.click(function(){
-          ngDialog.open({ template: 'components/user/register/user-register-form.html' });
+          dialog = ngDialog.open({ template: 'components/user/register/user-register-form.html' });
         }); 
+        
+        scope.$on('user.register.success', function(){
+          dialog.close(); 
+        });
       }
     };
   
