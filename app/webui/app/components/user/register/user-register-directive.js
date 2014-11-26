@@ -9,7 +9,9 @@ angular
       scope: false,
       replace: false,
       link: function(scope, element){
+              
         element.click(function(){
+                
           var user = {
             email: scope.email,
             name: scope.userName,

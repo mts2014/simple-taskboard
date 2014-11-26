@@ -20,6 +20,8 @@ angular
             }
           ).success(function(){
             jQuery.extend(currentUser, user);
+            
+            $rootScope.$broadcast('currentuser.changed'); 
             $rootScope.$broadcast('user.register.success'); 
           });
       } 

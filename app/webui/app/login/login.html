@@ -1,1 +1,19 @@
+<form>
+
+  <div class="form-group">
+    <label for="loginId">ログインID (Email)</label>
+    <input id="loginId" type="text" class="form-control" ng-model="loginId">
+  </div>
+  
+  <div class="form-group">
+    <label for="password">パスワード</label>
+    <input id="password" type="password" class="form-control" ng-model="password">
+  </div>
+  
+  <button type="button" class="btn btn-primary" authenticate>ログイン</button>
+
+</form>
+
+<p>
 ユーザ新規登録は<button type="button" class="btn btn-link" id="register-user-link" show-user-register-form>こちら</button>
+</p>

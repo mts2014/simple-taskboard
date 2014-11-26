@@ -11,7 +11,10 @@ angular
       link: function(scope, element){
         var dialog = null;
         element.click(function(){
-          dialog = ngDialog.open({ template: 'components/user/register/user-register-form.html' });
+          dialog = ngDialog.open({ 
+            template: 'components/user/register/user-register-form.html',
+            scope: scope
+          });
         }); 
         
         scope.$on('user.register.success', function(){

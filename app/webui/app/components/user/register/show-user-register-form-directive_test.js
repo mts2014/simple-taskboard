@@ -27,7 +27,9 @@ describe('showUserRegisterForm directive', function(){
     }); 
   
     it('ngDialog#open が呼ばれること', function(){
-      expect(ngDialogMock.open).toHaveBeenCalledWith( {template: 'components/user/register/user-register-form.html' } );
+      expect(ngDialogMock.open).toHaveBeenCalledWith(jasmine.objectContaining({
+        template: 'components/user/register/user-register-form.html' 
+      }));
     });
     
     describe('user.register.success イベントを受け取った場合', function(){
