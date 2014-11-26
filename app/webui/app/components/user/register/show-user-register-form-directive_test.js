@@ -22,7 +22,7 @@ describe('showUserRegisterForm directive', function(){
   });
   it('user.register.success イベントを受け取った場合 ngDialog#close を呼び出すこと', function(){
     
-    var ngDialogMock = jasmine.createSpyObj('ngDialog', ['open']);
+    var ngDialogMock = jasmine.createSpyObj('ngDialog', ['open', 'close']);
     module('simple-taskboard.webui.components.user', function($provide){
       $provide.value('ngDialog', ngDialogMock); 
     }); 
@@ -35,7 +35,9 @@ describe('showUserRegisterForm directive', function(){
     
     var element = $compile('<button show-user-register-form></button>')($rootScope);
     element.click(); 
-    expect(ngDialogMock.open).toHaveBeenCalledWith( {template: 'components/user/register/user-register-form.html' } );
+    
+    $rootScope.$broadcast('user.register.success'); 
+    expect(ngDialogMock.close).toHaveBeenCalledWith();
     
   });
 });
