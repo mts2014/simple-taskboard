@@ -39,17 +39,23 @@
       sudo: yes
 
     - name: copy jenkins binary
-      copy: src=/home/ubuntu/products/simple-taskboard/vagrant/build-aws/provision/ansible/jenkins.war 
+      copy: src=/home/ubuntu/products/simple-taskboard/vagrant/build-aws/provision/ansible/jenkins_settings/jenkins.war 
             dest=/usr/share/jenkins/jenkins.war 
             owner=root group=root mode=0644
             force=true
       sudo: yes
 
     - name: copy jenkins config
-      copy: src=/home/ubuntu/products/simple-taskboard/vagrant/build-aws/provision/ansible/jenkins
+      copy: src=/home/ubuntu/products/simple-taskboard/vagrant/build-aws/provision/ansible/jenkins_settings/jenkins
             dest=/etc/default/jenkins 
             owner=root group=root mode=0644
             force=true
+      sudo: yes
+      
+    - name: copy jenkins settig files
+      copy: src=/home/ubuntu/products/simple-taskboard/vagrant/build-aws/provision/ansible/jenkins_settings/jenkins_home/
+            dest=/var/lib/jenkins/
+            owner=jenkins group=jenkins
       sudo: yes
      
     - name: setup jenkins user (pass=jenkins)
