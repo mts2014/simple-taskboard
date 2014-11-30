@@ -1,0 +1,22 @@
+---
+
+- name: intall nvm
+  shell: wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.17.3/install.sh | bash
+  ignore_errors: True
+  sudo: yes
+  sudo_user: "{{ node_js_user }}"
+          
+- name: intall node.js
+  raw: source {{ home_dir }}/.nvm/nvm.sh && nvm install v0.10.33
+  sudo: yes
+  sudo_user: "{{ node_js_user }}"
+  
+- name: install node modules
+  npm: name={{ item }} global=yes executable={{ home_dir }}/.nvm/v0.10.33/bin/npm
+  with_items:
+    - yo
+    - bower
+    - grunt-cli
+  sudo: yes
+  sudo_user: "{{ node_js_user }}"
+   

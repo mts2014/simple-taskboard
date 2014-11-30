@@ -1,0 +1,43 @@
+---
+
+- name: prepare jenkins install
+  apt_key: url=https://jenkins-ci.org/debian/jenkins-ci.org.key state=present
+  sudo: yes
+          
+- name: prepare jenkins install
+  raw: sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
+  sudo: yes
+          
+- name: install jenkins
+  apt: name=jenkins state=present update_cache=yes
+  sudo: yes
+          
+- name: copy jenkins binary
+  copy: src=jenkins_settings/jenkins.war 
+        dest=/usr/share/jenkins/jenkins.war 
+        owner=root group=root mode=0644
+        force=true
+  sudo: yes
+
+- name: copy jenkins config
+  copy: src=jenkins_settings/jenkins
+        dest=/etc/default/jenkins 
+        owner=root group=root mode=0644
+        force=true
+  sudo: yes
+  
+- name: copy jenkins settig files
+  copy: src=jenkins_settings/jenkins_home/
+        dest=/var/lib/jenkins/
+        owner=jenkins group=jenkins
+        force=true
+  sudo: yes
+ 
+- name: setup jenkins user (pass=jenkins)
+  user: name=jenkins shell=/bin/bash group=jenkins password=$1$SomeSalt$2CfQrAhuECQILo1TFh83m1
+  sudo: yes
+          
+- name: restart jenkins
+  service: name=jenkins state=restarted
+  sudo: yes
+          

@@ -11,9 +11,10 @@
 - name: backup webui module
   command: mv /var/www/ /var/www_bk/
   sudo: yes
+  ignore_errors: True
 
 - name: deploy webui module
-  copy: src={{ webui_dir }}/dist/ dest=/var/www/
+  copy: src={{ src_webui_dist }} dest=/var/www/
   sudo: yes
 
 - name: restart apache2
