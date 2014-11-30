@@ -1,1 +1,27 @@
-hoge
+<p class="text-info"> 以下の情報でユーザ登録します。 </p>
+
+<form>
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input id="email" type="email" class="form-control" ng-model="email">
+  </div>
+  
+  <div class="form-group">
+    <label for="userName">ユーザ名</label>
+    <input id="userName" type="text" class="form-control" ng-model="userName">
+  </div>
+  
+  <div class="form-group">
+    <label for="password">パスワード</label>
+    <input id="password" type="password" class="form-control" ng-model="password">
+  </div>
+  
+  <div class="form-group">
+    <label for="confirmPassword">パスワード (確認用) </label>
+    <input id="confirmPassword" type="password" class="form-control" ng-model="confirmPassword">
+  </div>
+  
+  <button type="button" class="btn btn-primary" user-register>登録</button>
+
+</form>
