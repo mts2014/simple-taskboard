@@ -1,0 +1,21 @@
+---
+
+- name: install apache2
+  apt: name=apache2 state=present
+  sudo: yes
+          
+- name: clear old webui module
+  file: path=/var/www_bk state=absent
+  sudo: yes          
+          
+- name: backup webui module
+  command: mv /var/www/ /var/www_bk/
+  sudo: yes
+
+- name: deploy webui module
+  copy: src={{ webui_dir }}/dist/ dest=/var/www/
+  sudo: yes
+
+- name: restart apache2
+  service: name=apache2 state=restarted
+  sudo: yes

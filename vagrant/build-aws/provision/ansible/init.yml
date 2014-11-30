@@ -56,6 +56,7 @@
       copy: src=/home/ubuntu/products/simple-taskboard/vagrant/build-aws/provision/ansible/jenkins_settings/jenkins_home/
             dest=/var/lib/jenkins/
             owner=jenkins group=jenkins
+            force=true
       sudo: yes
      
     - name: setup jenkins user (pass=jenkins)

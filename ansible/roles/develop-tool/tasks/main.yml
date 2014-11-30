@@ -1,0 +1,40 @@
+---
+
+- name: copy custom home settings
+  copy: src=home_settings/ dest={{ home_dir }}/ 
+        mode=0644
+
+- name: install tools
+  apt: name={{ item }} state=present
+  sudo: yes
+  with_items:
+    - vim
+    - curl
+    - git
+    - libfontconfig
+      # libfontconfig is needed for phantomjs running
+
+- name: checkout neobundle.vim
+  git: repo=https://github.com/Shougo/neobundle.vim.git
+       dest={{ home_dir }}/.vim/bundle/neobundle.vim
+  
+- name: set git editor
+  command: git config --global core.editor 'vim -c "set fenc=utf-8"'
+          
+- name: set git credential helper
+  command: git config --global credential.helper store
+  
+- name: intall nvm
+  shell: wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.17.3/install.sh | bash
+  ignore_errors: True
+          
+- name: intall node.js
+  raw: source {{ home_dir }}/.nvm/nvm.sh && nvm install v0.10.33
+  
+- name: install node modules
+  npm: name={{ item }} global=yes executable={{ home_dir }}/.nvm/v0.10.33/bin/npm
+  with_items:
+    - yo
+    - bower
+    - grunt-cli
+   

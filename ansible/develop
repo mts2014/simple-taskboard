@@ -1,0 +1,14 @@
+[develop-machine]
+localhost
+
+[webservers]
+localhost
+
+[apservers]
+localhost
+
+[dbservers]
+localhost
+
+[buildservers]
+54.65.46.231

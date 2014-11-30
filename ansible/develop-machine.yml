@@ -1,0 +1,7 @@
+---
+
+- hosts: develop-machine
+  roles:
+    - { role: develop-tool, home_dir: /home/vagrant }
+    - { role: project-repo, project_base: /home/vagrant/products }
+    - { role: webserver, webui_dir: /home/vagrant/products/simple-taskboard/app/webui }
