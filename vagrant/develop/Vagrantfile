@@ -3,17 +3,17 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
-HOST_VAGRANT_SHARE = File.expand_path('../..',__FILE__)
-GUEST_VAGRANT_SHARE = "/home/vagrant/share"
-
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "hashicorp/precise32"
-  config.vm.network "private_network", ip: "192.168.55.11"
+  config.vm.box = "hashicorp/precise64"
+  config.vm.network "private_network", ip: "192.168.77.11"
 
-  config.vm.synced_folder HOST_VAGRANT_SHARE, GUEST_VAGRANT_SHARE, :mount_options => ["dmode=777","fmode=666"] 
-                                       # ファイル同期でファイルに実行権がついてしまうとansibleのインベントリファイルが正しく認識できないため
+  config.vm.provision "file", source: "home_settings/.ansible.cfg", destination: "~/.ansible.cfg"
+  config.vm.provision "file", source: "home_settings/.ssh"        , destination: "~/"
+  config.vm.provision "file", source: "../../ansible/"            , destination: "~/"
+
   config.vm.provision "shell" do |s|
-    s.path = "provision/shell/init.sh"
-    s.privileged = false               #rootユーザで実行するとansibleでログインできないため
+    s.path = "init.sh"
+    s.privileged = false  #rootユーザで実行するとansibleでログインできないため
   end
+  
 end

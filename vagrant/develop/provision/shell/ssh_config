@@ -1,4 +1,0 @@
-Host dev
-HostName 127.0.0.1
-User vagrant
-IdentityFile ~/.ssh/insecure_private_key
