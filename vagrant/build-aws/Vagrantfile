@@ -5,8 +5,6 @@ Dotenv.load
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "dummy"
  
-  # config.vm.synced_folder "../..", "/home/ubuntu/vagrant", disabled: true
-
   config.vm.provider :aws do |aws, override|
     aws.access_key_id = "#{ENV['AWS_ACCESS_KEY_ID']}"
     aws.secret_access_key = "#{ENV['AWS_SECRET_ACCESS_KEY']}"
@@ -19,11 +17,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     aws.availability_zone = "ap-northeast-1a"
 
     override.ssh.username = "ubuntu"
-    override.ssh.private_key_path = "./provision/shell/vagrant-aws.pem"
+    override.ssh.private_key_path = "home_settings/.ssh/vagrant-aws.pem"
   end
   
+  config.vm.provision "file", source: "home_settings/.ansible.cfg", destination: "~/.ansible.cfg"
+  config.vm.provision "file", source: "home_settings/.ssh"        , destination: "~/"
+  config.vm.provision "file", source: "../../ansible/"            , destination: "~/"  
+  
   config.vm.provision "shell" do |s|
-    s.path = "provision/shell/init.sh"
+    s.path = "init.sh"
     s.privileged = false               #rootユーザで実行するとansibleでログインできないため
   end  
  
