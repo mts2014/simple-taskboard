@@ -9,16 +9,17 @@
   sudo: yes
           
 - name: install jenkins
-  apt: name=jenkins state=present update_cache=yes
+  apt: name=jenkins state=latest
   sudo: yes
           
-- name: copy jenkins binary
-  copy: src=jenkins_settings/jenkins.war 
-        dest=/usr/share/jenkins/jenkins.war 
-        owner=root group=root mode=0644
-        force=true
+- name: copy jenkins binary from project
+  command: cp -f {{ jenkins_binary }} /usr/share/jenkins/jenkins.war 
   sudo: yes
-
+          
+- name: copy jenkins plugins from project
+  raw: "cp -fR {{ jenkins_plugins_dir }}/*.jpi /var/lib/jenkins/plugins/"  
+  sudo: yes
+          
 - name: copy jenkins config
   copy: src=jenkins_settings/jenkins
         dest=/etc/default/jenkins 
@@ -29,10 +30,15 @@
 - name: copy jenkins settig files
   copy: src=jenkins_settings/jenkins_home/
         dest=/var/lib/jenkins/
-        owner=jenkins group=jenkins
         force=true
   sudo: yes
  
+- name: set jenkins dir attribute
+  file: path=/var/lib/jenkins
+        state=directory recurse=yes
+        owner=jenkins group=jenkins
+  sudo: yes
+          
 - name: setup jenkins user (pass=jenkins)
   user: name=jenkins shell=/bin/bash group=jenkins password=$1$SomeSalt$2CfQrAhuECQILo1TFh83m1
   sudo: yes

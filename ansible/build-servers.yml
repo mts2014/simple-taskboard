@@ -1,7 +1,8 @@
 ---
 
-- hosts: build-server
+- hosts: build
   roles:
     - develop-tool
+    - project-repo
     - jenkins
     - node-js

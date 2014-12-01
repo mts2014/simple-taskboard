@@ -1,5 +1,6 @@
 ---
 
-node_js_user: vagrant
 home_dir: /home/vagrant
-project_base: "{{ home_dir }}/products"
+project_dir: "{{ home_dir }}/products/simpile-taskboard"
+node_js_user: vagrant
+node_js_user_home: "{{ home_dir }}"

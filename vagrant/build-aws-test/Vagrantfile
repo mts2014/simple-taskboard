@@ -20,9 +20,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     override.ssh.private_key_path = "home_settings/.ssh/vagrant-aws.pem"
   end
   
-  #config.vm.provision "file", source: "home_settings/.ansible.cfg", destination: "~/.ansible.cfg"
-  #config.vm.provision "file", source: "home_settings/.ssh"        , destination: "~/"
-  #config.vm.provision "file", source: "../../ansible/"            , destination: "~/"  
+  config.vm.provision "file", source: "home_settings/.ansible.cfg", destination: "~/.ansible.cfg"
+  config.vm.provision "file", source: "home_settings/.ssh"        , destination: "~/"
+  config.vm.provision "file", source: "../../ansible/"            , destination: "~/"  
   
   config.vm.provision "shell" do |s|
     s.path = "init.sh"

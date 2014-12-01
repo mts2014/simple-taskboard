@@ -2,4 +2,4 @@
 
 - name: checkout project repo
   git: repo=https://github.com/mts2014/simple-taskboard.git
-       dest={{ project_base }}/simple-taskboard
+       dest={{ project_dir }}

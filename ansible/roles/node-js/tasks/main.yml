@@ -7,12 +7,12 @@
   sudo_user: "{{ node_js_user }}"
           
 - name: intall node.js
-  raw: source {{ home_dir }}/.nvm/nvm.sh && nvm install v0.10.33
+  raw: source {{ node_js_user_home }}/.nvm/nvm.sh && nvm install v0.10.33
   sudo: yes
   sudo_user: "{{ node_js_user }}"
   
 - name: install node modules
-  npm: name={{ item }} global=yes executable={{ home_dir }}/.nvm/v0.10.33/bin/npm
+  npm: name={{ item }} global=yes executable={{ node_js_user_home }}/.nvm/v0.10.33/bin/npm
   with_items:
     - yo
     - bower
