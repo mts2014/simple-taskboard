@@ -3,7 +3,7 @@
 node_js_user: jenkins
 node_js_user_home: /var/lib/jenkins
 home_dir: /home/ubuntu
-project_dir: "{{ home_dir }}/products/simpile-taskboard"
+project_dir: "{{ home_dir }}/products/simple-taskboard"
 jenkins_binary: "{{ project_dir }}/middleware/jenkins/jenkins.war"
 jenkins_plugins_dir: "{{ project_dir }}/middleware/jenkins/plugins"
 

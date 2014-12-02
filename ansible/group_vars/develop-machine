@@ -1,6 +1,6 @@
 ---
 
 home_dir: /home/vagrant
-project_dir: "{{ home_dir }}/products/simpile-taskboard"
+project_dir: "{{ home_dir }}/products/simple-taskboard"
 node_js_user: vagrant
 node_js_user_home: "{{ home_dir }}"
