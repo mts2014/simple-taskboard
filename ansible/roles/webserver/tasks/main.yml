@@ -4,17 +4,21 @@
   apt: name=apache2 state=present
   sudo: yes
           
+- name: apply apache settings
+  copy: src=etc/apache2/ dest=/etc/apache2/
+  sudo: yes
+          
 - name: clear old webui module
-  file: path=/var/www_bk state=absent
+  file: path=/var/www/html_bk state=absent
   sudo: yes          
           
 - name: backup webui module
-  command: mv /var/www/ /var/www_bk/
+  command: mv /var/www/html/ /var/www/html_bk/
   sudo: yes
   ignore_errors: True
 
 - name: deploy webui module
-  copy: src=app/webui/dist/ dest=/var/www/
+  copy: src=app/webui/dist/ dest=/var/www/html/
   sudo: yes
 
 - name: restart apache2
