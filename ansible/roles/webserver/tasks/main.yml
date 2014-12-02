@@ -4,8 +4,16 @@
   apt: name=apache2 state=present
   sudo: yes
           
-- name: apply apache settings
+- name: copy apache settings
   copy: src=etc/apache2/ dest=/etc/apache2/
+  sudo: yes
+          
+- name: disable default site 
+  command: a2dissite 000-default.conf
+  sudo: yes
+          
+- name: enable simple-taskboard site 
+  command: a2ensite simple-taskboard.conf
   sudo: yes
           
 - name: clear old webui module
