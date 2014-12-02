@@ -1,8 +1,11 @@
 #!/bin/bash
 
+cwd=$(dirname $0)
+base=$(cd "$cwd" && pwd)
+
 jenkins_home=/var/lib/jenkins
-home_setting_dir=$(pwd)/jenkins_home
-jobs_setting_dir=$(pwd)/jenkins_home/jobs
+home_setting_dir=$base/jenkins_home
+jobs_setting_dir=$base/jenkins_home/jobs
 plugin_buckup_dir=$1
 
 rm -fr $home_setting_dir/*.xml
