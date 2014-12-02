@@ -39,6 +39,11 @@
         owner=jenkins group=jenkins
   sudo: yes
           
+- name: set jenkins private key attribute
+  file: path=/var/lib/jenkins/.ssh/acceptance/private-key.pem
+        owner=jenkins group=jenkins mode=0600
+  sudo: yes
+          
 - name: setup jenkins user (pass=jenkins)
   user: name=jenkins shell=/bin/bash 
         group=jenkins groups=sudo 

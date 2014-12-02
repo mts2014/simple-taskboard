@@ -14,7 +14,7 @@
   ignore_errors: True
 
 - name: deploy webui module
-  copy: app/webui/dist/ dest=/var/www/
+  copy: src=app/webui/dist/ dest=/var/www/
   sudo: yes
 
 - name: restart apache2
