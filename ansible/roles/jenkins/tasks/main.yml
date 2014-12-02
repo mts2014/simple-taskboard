@@ -40,7 +40,9 @@
   sudo: yes
           
 - name: setup jenkins user (pass=jenkins)
-  user: name=jenkins shell=/bin/bash group=jenkins password=$1$SomeSalt$2CfQrAhuECQILo1TFh83m1
+  user: name=jenkins shell=/bin/bash 
+        group=jenkins groups=sudo 
+        password=$1$SomeSalt$2CfQrAhuECQILo1TFh83m1
   sudo: yes
           
 - name: restart jenkins
