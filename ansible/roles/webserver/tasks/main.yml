@@ -9,11 +9,11 @@
   sudo: yes
           
 - name: disable default site 
-  command: a2dissite 000-default
+  command: a2dissite 000-default.conf
   sudo: yes
           
 - name: enable simple-taskboard site 
-  command: a2ensite simple-taskboard
+  command: a2ensite simple-taskboard.conf
   sudo: yes
           
 - name: clear old webui module
