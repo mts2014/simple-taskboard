@@ -1,10 +1,10 @@
 package jp.mts.simpletaskboard.test.scenarios;
 
-import static jp.mts.simpletaskboard.test.helpers.UserInputs.*;
+import static jp.mts.simpletaskboard.test.base.UserInputs.*;
 import static jp.mts.simpletaskboard.test.uis.UserRegisterUi.UserInputKey.*;
 import static org.fest.assertions.api.Assertions.*;
-import jp.mts.simpletaskboard.test.helpers.AcceptanceTestBase;
-import jp.mts.simpletaskboard.test.helpers.UI;
+import jp.mts.simpletaskboard.test.base.AcceptanceTestBase;
+import jp.mts.simpletaskboard.test.base.UI;
 import jp.mts.simpletaskboard.test.uis.LoginUi;
 import jp.mts.simpletaskboard.test.uis.UserRegisterUi;
 

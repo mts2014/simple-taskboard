@@ -1,12 +1,12 @@
-package jp.mts.simpletaskboard.test.helpers;
+package jp.mts.simpletaskboard.test.base;
 
 import org.fluentlenium.adapter.FluentTest;
 
-public class AcceptanceUi {
+public class AcceptanceUiBase {
 
 	private FluentTest fluentTest;
 
-	public AcceptanceUi(FluentTest fluentTest) {
+	public AcceptanceUiBase(FluentTest fluentTest) {
 		this.fluentTest = fluentTest;
 	}
 

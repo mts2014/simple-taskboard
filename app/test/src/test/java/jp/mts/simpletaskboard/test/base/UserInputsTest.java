@@ -1,6 +1,8 @@
-package jp.mts.simpletaskboard.test.helpers;
+package jp.mts.simpletaskboard.test.base;
 
 import static org.fest.assertions.api.Assertions.*;
+import jp.mts.simpletaskboard.test.base.UserInputKey;
+import jp.mts.simpletaskboard.test.base.UserInputs;
 
 import org.junit.Test;
 

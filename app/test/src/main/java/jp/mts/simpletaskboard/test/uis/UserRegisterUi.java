@@ -1,15 +1,15 @@
 package jp.mts.simpletaskboard.test.uis;
 
 import static jp.mts.simpletaskboard.test.uis.UserRegisterUi.UserInputKey.*;
-import jp.mts.simpletaskboard.test.helpers.AcceptanceUi;
-import jp.mts.simpletaskboard.test.helpers.Page;
-import jp.mts.simpletaskboard.test.helpers.UserInputs;
+import jp.mts.simpletaskboard.test.base.AcceptanceUiBase;
+import jp.mts.simpletaskboard.test.base.Page;
+import jp.mts.simpletaskboard.test.base.UserInputs;
 import jp.mts.simpletaskboard.test.uis.pages.LoginPage;
 import jp.mts.simpletaskboard.test.uis.pages.UserRegisterPage;
 
 import org.fluentlenium.adapter.FluentTest;
 
-public class UserRegisterUi extends AcceptanceUi {
+public class UserRegisterUi extends AcceptanceUiBase {
 
 	@Page
 	private LoginPage loginPage;
@@ -34,7 +34,7 @@ public class UserRegisterUi extends AcceptanceUi {
 
 	}
 
-	public enum UserInputKey implements jp.mts.simpletaskboard.test.helpers.UserInputKey{
+	public enum UserInputKey implements jp.mts.simpletaskboard.test.base.UserInputKey{
 		EMAIL,
 		ユーザ名,
 		パスワード,

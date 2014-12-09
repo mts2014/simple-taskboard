@@ -32,7 +32,6 @@ dependencies {
 	compile "log4j:log4j:1.2.14"
 }
 
-
 task wrapper(type: Wrapper) {
 	gradleVersion = '1.12'
 }
@@ -40,6 +39,4 @@ task wrapper(type: Wrapper) {
 task acceptancetest(type: Test) {
 	testClassesDir = sourceSets.main.output.classesDir
 	classpath = sourceSets.main.runtimeClasspath
-
-	systemProperty "webdriver.chrome.driver", file(chrome_driver).absolutePath
 }

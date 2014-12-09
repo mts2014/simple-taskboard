@@ -1,13 +1,8 @@
 package jp.mts.simpletaskboard.test.uis.pages;
 
-import jp.mts.simpletaskboard.test.helpers.PageBase;
+import jp.mts.simpletaskboard.test.base.PageBase;
 
 public class UserRegisterPage extends PageBase {
-
-	@Override
-	public String getUrl() {
-		return "http://192.168.77.11/index.html#/";
-	}
 
 	public UserRegisterPage email(String email) {
 		fill("input#email").with(email);

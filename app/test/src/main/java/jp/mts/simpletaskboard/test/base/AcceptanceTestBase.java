@@ -1,8 +1,11 @@
-package jp.mts.simpletaskboard.test.helpers;
+package jp.mts.simpletaskboard.test.base;
+
+import static jp.mts.simpletaskboard.test.base.AcceptanceTestConfig.*;
 
 import java.lang.reflect.Field;
 
-import org.apache.commons.lang3.StringUtils;
+import jp.mts.simpletaskboard.test.lib.appconfig.AppConfig;
+
 import org.fluentlenium.adapter.FluentTest;
 import org.fluentlenium.core.FluentPage;
 import org.junit.Before;
@@ -19,10 +22,7 @@ public abstract class AcceptanceTestBase extends FluentTest {
 
     @BeforeClass
     public static void setupClass(){
-
-    	if(StringUtils.isEmpty(System.getProperty("webdriver.chrome.driver"))){
-    		System.setProperty("webdriver.chrome.driver", "./chromedriver.exe");
-    	}
+    	System.setProperty("webdriver.chrome.driver", AppConfig.value(chrome_driver));
     }
 
 	@Before
@@ -32,7 +32,7 @@ public abstract class AcceptanceTestBase extends FluentTest {
 			if(f.getAnnotation(UI.class) != null){
 				try {
 					f.setAccessible(true);
-					AcceptanceUi ui = (AcceptanceUi)f.getType().getConstructor(FluentTest.class).newInstance(this);
+					AcceptanceUiBase ui = (AcceptanceUiBase)f.getType().getConstructor(FluentTest.class).newInstance(this);
 					f.set(this, ui);
 
 					for(Field uiField : ui.getClass().getDeclaredFields()){

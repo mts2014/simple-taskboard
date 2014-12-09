@@ -1,4 +1,4 @@
-package jp.mts.simpletaskboard.test.helpers;
+package jp.mts.simpletaskboard.test.base;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,6 +1,10 @@
-package jp.mts.simpletaskboard.test.helpers;
+package jp.mts.simpletaskboard.test.base;
 
 import static org.fest.assertions.api.Assertions.*;
+import jp.mts.simpletaskboard.test.base.AcceptanceTestBase;
+import jp.mts.simpletaskboard.test.base.AcceptanceUiBase;
+import jp.mts.simpletaskboard.test.base.Page;
+import jp.mts.simpletaskboard.test.base.UI;
 
 import org.fluentlenium.adapter.FluentTest;
 import org.fluentlenium.core.FluentPage;
@@ -42,7 +46,7 @@ public class AcceptanceTestBaseTest {
 		}
 	}
 
-	public static class FooUi extends AcceptanceUi {
+	public static class FooUi extends AcceptanceUiBase {
 
 		@Page
 		private HogePage hogePage;
