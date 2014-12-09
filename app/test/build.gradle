@@ -36,3 +36,10 @@ dependencies {
 task wrapper(type: Wrapper) {
 	gradleVersion = '1.12'
 }
+
+task acceptancetest(type: Test) {
+	testClassesDir = sourceSets.main.output.classesDir
+	classpath = sourceSets.main.runtimeClasspath
+
+	systemProperty "webdriver.chrome.driver", file(chrome_driver).absolutePath
+}
