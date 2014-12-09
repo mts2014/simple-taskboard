@@ -3,7 +3,7 @@ package jp.mts.simpletaskboard.test.scenarios;
 import static jp.mts.simpletaskboard.test.helpers.UserInputs.*;
 import static jp.mts.simpletaskboard.test.uis.UserRegisterUi.UserInputKey.*;
 import static org.fest.assertions.api.Assertions.*;
-import jp.mts.simpletaskboard.test.helpers.AcceptanceTest;
+import jp.mts.simpletaskboard.test.helpers.AcceptanceTestBase;
 import jp.mts.simpletaskboard.test.helpers.UI;
 import jp.mts.simpletaskboard.test.uis.LoginUi;
 import jp.mts.simpletaskboard.test.uis.UserRegisterUi;
@@ -17,7 +17,7 @@ import org.junit.Test;
  * タスクボードを利用したいからだ
  * </pre>
  */
-public class UserRegisterScenario extends AcceptanceTest {
+public class UserRegisterScenario extends AcceptanceTestBase {
 
 	@UI
 	private UserRegisterUi userRegisterUi;
@@ -27,11 +27,12 @@ public class UserRegisterScenario extends AcceptanceTest {
     @Test
     public void ユーザを新規に登録できること(){
 
-    	userRegisterUi.load()
-    		.ユーザ情報を登録する($in()
-    			.v(ユーザID, "taro")
+    	userRegisterUi.ユーザ情報を登録する($in()
+    			.v(EMAIL, "taro")
     			.v(ユーザ名, "太郎")
-    			.v(パスワード, "pass"));
+    			.v(パスワード, "pass")
+    			.v(確認パスワード, "pass")
+    	);
 
     	assertThat(loginUi.isAtLogin()).isEqualTo(true);
 
