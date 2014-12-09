@@ -1,17 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description>Jenkinsの設定の変更をリポジトリに反映する。&#xd;
-&#xd;
-JOBや設定の変更、プラグインの変更時に実行する</description>
+  <description></description>
   <keepDependencies>false</keepDependencies>
-  <properties/>
+  <properties>
+    <se.diabol.jenkins.pipeline.PipelineProperty plugin="delivery-pipeline-plugin@0.8.7">
+      <taskName>test</taskName>
+      <stageName>Acceptance Test</stageName>
+    </se.diabol.jenkins.pipeline.PipelineProperty>
+  </properties>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@2.3">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
         <url>https://github.com/mts2014/simple-taskboard.git</url>
-        <credentialsId>ee8d6b25-8115-4efe-a95c-e6755dcfad1f</credentialsId>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -33,27 +35,11 @@ JOBや設定の変更、プラグインの変更時に実行する</description>
     <hudson.tasks.Shell>
       <command>#!/bin/bash
 
-./ansible/roles/jenkins/files/jenkins_settings/buckup.sh ./middleware/jenkins/plugins/
-
-git add --all .
-git commit -m &quot;backup jenkins on jenkins job&quot;
-# git push git@github.com:mts2014/simple-taskboard.git HEAD:master
-</command>
+cd app/test
+chmod u+x gradlew
+./gradlew test acceptanceTest</command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers>
-    <hudson.plugins.git.GitPublisher plugin="git@2.3">
-      <configVersion>2</configVersion>
-      <pushMerge>false</pushMerge>
-      <pushOnlyIfSuccess>true</pushOnlyIfSuccess>
-      <forcePush>false</forcePush>
-      <branchesToPush>
-        <hudson.plugins.git.GitPublisher_-BranchToPush>
-          <targetRepoName>origin</targetRepoName>
-          <branchName>master</branchName>
-        </hudson.plugins.git.GitPublisher_-BranchToPush>
-      </branchesToPush>
-    </hudson.plugins.git.GitPublisher>
-  </publishers>
+  <publishers/>
   <buildWrappers/>
 </project>
