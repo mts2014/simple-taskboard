@@ -3,17 +3,13 @@
   <actions/>
   <description></description>
   <keepDependencies>false</keepDependencies>
-  <properties>
-    <se.diabol.jenkins.pipeline.PipelineProperty plugin="delivery-pipeline-plugin@0.8.7">
-      <taskName>deploy</taskName>
-      <stageName>Acceptance Test</stageName>
-    </se.diabol.jenkins.pipeline.PipelineProperty>
-  </properties>
+  <properties/>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@2.3">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
         <url>https://github.com/mts2014/simple-taskboard.git</url>
+        <credentialsId>ee8d6b25-8115-4efe-a95c-e6755dcfad1f</credentialsId>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -33,27 +29,29 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>rm -fr ansible/roles/webserver/files/app/webui/dist/</command>
-    </hudson.tasks.Shell>
-    <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.32.1">
-      <project>simple-taskboard_webui_commit</project>
-      <filter>app/webui/dist/**/*</filter>
-      <target>ansible/roles/webserver/files/</target>
-      <excludes></excludes>
-      <selector class="hudson.plugins.copyartifact.TriggeredBuildSelector">
-        <upstreamFilterStrategy>UseGlobalSetting</upstreamFilterStrategy>
-      </selector>
-      <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
-    </hudson.plugins.copyartifact.CopyArtifact>
-    <hudson.tasks.Shell>
       <command>#!/bin/bash
 
-cd ansible
-ansible-playbook -i acceptance-test site.yml
+./ansible/roles/jenkins/files/jenkins_settings/buckup.sh ./middleware/jenkins/plugins/
 
+git add --all .
+git commit -m &quot;backup jenkins on jenkins job&quot;
+# git push git@github.com:mts2014/simple-taskboard.git HEAD:master
 </command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers/>
+  <publishers>
+    <hudson.plugins.git.GitPublisher plugin="git@2.3">
+      <configVersion>2</configVersion>
+      <pushMerge>false</pushMerge>
+      <pushOnlyIfSuccess>true</pushOnlyIfSuccess>
+      <forcePush>false</forcePush>
+      <branchesToPush>
+        <hudson.plugins.git.GitPublisher_-BranchToPush>
+          <targetRepoName>origin</targetRepoName>
+          <branchName>master</branchName>
+        </hudson.plugins.git.GitPublisher_-BranchToPush>
+      </branchesToPush>
+    </hudson.plugins.git.GitPublisher>
+  </publishers>
   <buildWrappers/>
 </project>
