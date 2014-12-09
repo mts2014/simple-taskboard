@@ -16,7 +16,6 @@ public class UserRegisterUi extends AcceptanceUiBase {
 	@Page
 	private UserRegisterPage userRegisterPage;
 
-
 	public UserRegisterUi(FluentTest fluentTest) {
 		super(fluentTest);
 	}

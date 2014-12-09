@@ -21,7 +21,7 @@ public abstract class PageBase extends FluentPage {
 	}
 
 	protected FluentWebElement awaitUntilPresent(String cssSelector) {
-		await().atMost(3, TimeUnit.SECONDS).until(cssSelector).isPresent();
+		await().atMost(5, TimeUnit.SECONDS).until(cssSelector).isPresent();
 		return findFirst(cssSelector);
 	}
 
