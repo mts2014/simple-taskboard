@@ -63,3 +63,4 @@ task appconfig(type: jp.mts.appconfig.tasks.YamlFileAppConfigInjectTask) {
 	distPath = "$buildDir/app_config"
 }
 
+acceptancetest.dependsOn appconfig
