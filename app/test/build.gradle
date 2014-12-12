@@ -8,12 +8,15 @@ sourceCompatibility = 1.7
 compileTestJava.sourceCompatibility = 1.7
 compileTestJava.targetCompatibility = 1.7
 
-tasks.withType(AbstractCompile) each {
-	it.options.encoding = 'UTF-8'
-}
+def defaultEncoding = 'UTF-8'
+tasks.withType(AbstractCompile) each { it.options.encoding = defaultEncoding }
 
 repositories {
     mavenCentral()
+}
+
+configurations {
+	app_config
 }
 
 dependencies {
@@ -30,7 +33,20 @@ dependencies {
 	compile "org.slf4j:slf4j-api:${slf4jVersion}"
 	compile "org.slf4j:slf4j-log4j12:${slf4jVersion}"
 	compile "log4j:log4j:1.2.14"
+
+	app_config files("$buildDir/app_config")
 }
+
+buildscript {
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
+	dependencies {
+		classpath "jp.mts:gradle-api:0.0.1"
+	}
+}
+
 
 task wrapper(type: Wrapper) {
 	gradleVersion = '1.12'
@@ -38,5 +54,12 @@ task wrapper(type: Wrapper) {
 
 task acceptancetest(type: Test) {
 	testClassesDir = sourceSets.main.output.classesDir
-	classpath = sourceSets.main.runtimeClasspath
+	classpath = configurations.app_config + sourceSets.main.runtimeClasspath
 }
+
+task appconfig(type: jp.mts.appconfig.tasks.YamlFileAppConfigInjectTask) {
+	srcYaml = file("$appConfigRoot/simple-taskboard/$version/$env/app_config.yml")
+	injectTargetFiles = files('src/main/resources/acceptance-test.properties')
+	distPath = "$buildDir/app_config"
+}
+
