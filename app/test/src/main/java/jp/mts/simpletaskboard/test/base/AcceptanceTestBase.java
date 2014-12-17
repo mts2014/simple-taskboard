@@ -1,15 +1,10 @@
 package jp.mts.simpletaskboard.test.base;
 
-import static jp.mts.simpletaskboard.test.base.AcceptanceTestConfig.*;
-
 import java.lang.reflect.Field;
-
-import jp.mts.simpletaskboard.test.lib.appconfig.AppConfig;
 
 import org.fluentlenium.adapter.FluentTest;
 import org.fluentlenium.core.FluentPage;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -18,11 +13,6 @@ public abstract class AcceptanceTestBase extends FluentTest {
     @Override
     public WebDriver getDefaultDriver() {
         return new ChromeDriver();
-    }
-
-    @BeforeClass
-    public static void setupClass(){
-    	System.setProperty("webdriver.chrome.driver", AppConfig.value(chrome_driver));
     }
 
 	@Before

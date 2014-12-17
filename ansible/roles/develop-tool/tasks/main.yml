@@ -32,8 +32,9 @@
 
 - name: add chrome to apt source.list
   raw: echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list 
-  sudo:yes
+  sudo: yes
           
 - name: install chrome
   apt: name=google-chrome-stable state=present update_cache=yes
+  sudo: yes
   
