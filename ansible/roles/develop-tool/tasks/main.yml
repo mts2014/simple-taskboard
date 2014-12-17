@@ -11,6 +11,8 @@
     - vim
     - curl
     - git
+    - python-software-properties
+    - xvfb
     - libfontconfig
       # libfontconfig is needed for phantomjs running
 
@@ -23,4 +25,15 @@
           
 - name: set git credential helper
   command: git config --global credential.helper store
+          
+- name: add chrome apt-key
+  apt_key: url=https://dl-ssl.google.com/linux/linux_signing_key.pub state=present
+  sudo: yes
+
+- name: add chrome to apt source.list
+  raw: echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list 
+  sudo:yes
+          
+- name: install chrome
+  apt: name=google-chrome-stable state=present update_cache=yes
   

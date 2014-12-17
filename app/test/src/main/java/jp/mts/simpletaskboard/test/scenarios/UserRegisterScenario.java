@@ -27,6 +27,7 @@ public class UserRegisterScenario extends AcceptanceTestBase {
     @Test
     public void ユーザを新規に登録できること(){
 
+
     	userRegisterUi.ユーザ情報を登録する($in()
     			.v(EMAIL, "taro")
     			.v(ユーザ名, "太郎")

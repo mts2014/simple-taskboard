@@ -106,7 +106,11 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+export TERM=xterm-256color
+
 export NVM_DIR="/home/vagrant/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
-export TERM=xterm-256color
+export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+
+
