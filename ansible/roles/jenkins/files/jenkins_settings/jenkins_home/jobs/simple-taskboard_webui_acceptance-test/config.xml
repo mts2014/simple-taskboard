@@ -23,13 +23,7 @@
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
     <submoduleCfg class="list"/>
-    <extensions>
-      <hudson.plugins.git.extensions.impl.SubmoduleOption>
-        <disableSubmodules>false</disableSubmodules>
-        <recursiveSubmodules>true</recursiveSubmodules>
-        <trackingSubmodules>false</trackingSubmodules>
-      </hudson.plugins.git.extensions.impl.SubmoduleOption>
-    </extensions>
+    <extensions/>
   </scm>
   <canRoam>true</canRoam>
   <disabled>false</disabled>
@@ -43,16 +37,13 @@
 
 cd app/test
 chmod u+x gradlew chromedriver
-./gradlew -PappConfigRoot=../../app-config/apps -Pversion=1.0 -Penv=acceptance-test clean test acceptancetest</command>
+
+Xvfb :99 -screen 0 1024x768x24 &gt; /dev/null 2&gt;&amp;1 &amp;
+
+DISPLAY=:99.0 ./gradlew clean test acceptancetest -PchromeDriver=chromedriver -PappConfigRoot=../../app-config/apps -Pversion=1.0 -Penv=acceptance-test
+</command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers>
-    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.2-beta-3">
-      <testResults>app/test/build/test-results/*.xml</testResults>
-      <keepLongStdio>false</keepLongStdio>
-      <testDataPublishers/>
-      <healthScaleFactor>1.0</healthScaleFactor>
-    </hudson.tasks.junit.JUnitResultArchiver>
-  </publishers>
+  <publishers/>
   <buildWrappers/>
 </project>

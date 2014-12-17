@@ -54,6 +54,21 @@ ansible-playbook -i acceptance-test site.yml
 </command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers/>
+  <publishers>
+    <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.25">
+      <configs>
+        <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
+          <configs>
+            <hudson.plugins.git.GitRevisionBuildParameters plugin="git@2.3">
+              <combineQueuedCommits>false</combineQueuedCommits>
+            </hudson.plugins.git.GitRevisionBuildParameters>
+          </configs>
+          <projects>simple-taskboard_webui_acceptance-test, </projects>
+          <condition>SUCCESS</condition>
+          <triggerWithNoParameters>false</triggerWithNoParameters>
+        </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
+      </configs>
+    </hudson.plugins.parameterizedtrigger.BuildTrigger>
+  </publishers>
   <buildWrappers/>
 </project>
