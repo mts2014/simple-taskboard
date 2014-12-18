@@ -3,17 +3,12 @@
   <actions/>
   <description></description>
   <keepDependencies>false</keepDependencies>
-  <properties>
-    <se.diabol.jenkins.pipeline.PipelineProperty plugin="delivery-pipeline-plugin@0.8.7">
-      <taskName>test</taskName>
-      <stageName>Acceptance Test</stageName>
-    </se.diabol.jenkins.pipeline.PipelineProperty>
-  </properties>
+  <properties/>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@2.3">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>https://github.com/mts2014/simple-taskboard.git</url>
+        <url>https://github.com/mts2014/app-config.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -35,13 +30,9 @@
     <hudson.tasks.Shell>
       <command>#!/bin/bash
 
-cd app/test
-chmod u+x gradlew chromedriver
-
-Xvfb :99 -screen 0 1024x768x24 &gt; /dev/null 2&gt;&amp;1 &amp;
-
-DISPLAY=:99.0 ./gradlew clean test acceptancetest -PchromeDriver=chromedriver -PappConfigRoot=../../app-config/apps -Pversion=1.0 -Penv=acceptance-test
-</command>
+cd gradle-api
+chmod u+x gradlew
+./gradlew clean install</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
