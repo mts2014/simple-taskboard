@@ -40,7 +40,7 @@ chmod u+x gradlew chromedriver
 
 Xvfb :99 -screen 0 1024x768x24 &gt; /dev/null 2&gt;&amp;1 &amp;
 
-DISPLAY=:99.0 ./gradlew clean test acceptancetest -PchromeDriver=chromedriver -PappConfigRoot=../../app-config/apps -Pversion=1.0 -Penv=acceptance-test
+DISPLAY=:99.0 ./gradlew clean test acceptancetest -PchromeDriver=chromedriver -Penv=acceptance-test -Porg.gradle.daemon=false
 </command>
     </hudson.tasks.Shell>
   </builders>
