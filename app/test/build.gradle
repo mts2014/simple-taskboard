@@ -59,7 +59,7 @@ task acceptancetest(type: Test) {
 }
 
 task appconfig(type: jp.mts.appconfig.tasks.YamlFileAppConfigInjectTask) {
-	srcYaml = file("$appConfigRoot/simple-taskboard/$version/$env/app_config.yml")
+	srcYaml = file("$appConfigRoot/simple-taskboard/$appConfigVersion/$env/app_config.yml")
 	injectTargetFiles = files('src/main/resources/acceptance-test.properties')
 	distPath = "$buildDir/app_config"
 }
