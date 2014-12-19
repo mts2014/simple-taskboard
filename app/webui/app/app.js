@@ -10,6 +10,7 @@ angular
     'ngTouch',
     
     'simple-taskboard.webui.components.user',
+    'simple-taskboard.webui.components.message',
     
     'simple-taskboard.webui.sample',
     'simple-taskboard.webui.login',
