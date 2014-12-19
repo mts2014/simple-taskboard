@@ -23,6 +23,9 @@ angular
             
             $rootScope.$broadcast('currentuser.changed'); 
             $rootScope.$broadcast('user.register.success'); 
+          }).error(function(data){
+            
+            $rootScope.$broadcast('global.error', data.errors); 
           });
       } 
     };
