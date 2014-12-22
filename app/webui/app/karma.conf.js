@@ -38,6 +38,7 @@ module.exports = function(config) {
       'app/**/*.js',
 
       'app/components/**/*.html'
+                          
     ],
 
     // list of files / patterns to exclude
@@ -73,7 +74,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
 
     // Uncomment the following lines if you are using grunt's server to run the tests
     // proxies: {

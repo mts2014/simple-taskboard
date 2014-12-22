@@ -2,21 +2,40 @@
 
 describe('showGlobalMsgs directive', function(){
   
-  it('global.errorイベントでエラーメッセージが表示できること', function(){
-    
+  var $rootScope, $compile, scope;
+  
+  beforeEach(function(){
+  
+    module('components/message/global-message.html');
     module('simple-taskboard.webui.components.message');
-    var $rootScope, $compile;
+    
     inject(function(_$compile_, _$rootScope_){
       $compile = _$compile_;
       $rootScope = _$rootScope_;
     });
     
-    var scope = $rootScope.$new();
+    scope = $rootScope.$new();
     var element = $compile('<div show-global-msgs></div>')(scope);
+    $rootScope.$digest();
     
-    $rootScope.$broadcast('global.error', [{ userMessage: 'hoge' }]);
+  });
+  
+  describe('global.errorイベントが通知されている場合', function(){
+  
+    beforeEach(function(){
+      $rootScope.$broadcast('global.error', [{ userMessage: 'hoge' }]);
+    });
     
-    expect(scope.msg).toEqual('hoge');
+    it('エラーメッセージが保持される', function(){
+      expect(scope.hasGlobalErrors).toBe(true);
+      expect(scope.globalErrorMsgs[0]).toBe('hoge');
+    });
     
+    it('clear.global.errorイベントでエラーメッセージがクリアされる', function(){
+      $rootScope.$broadcast('clear.global.error');
+      expect(scope.hasGlobalErrors).toBe(false);
+      expect(scope.globalErrorMsgs.length).toBe(0);
+    });
+  
   });
 });
