@@ -1,0 +1,15 @@
+<div>
+  
+  <div class="global-errors bg-danger ng-hide" ng-show="hasGlobalErrors">
+    <button type="button" class="close" ng-click="clearGlobalErrors()">
+      <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+    </button>
+    
+    <ul> 
+      <li ng-repeat="msg in globalErrorMsgs"><p class="text-danger">{{msg}}</p></li>
+    </ul>
+  </div> 
+  
+  <div ng-transclude></div>
+  
+</div>

@@ -15,6 +15,7 @@
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="sample/sample.css">
+    <link rel="stylesheet" href="components/message/global-message.css">
     <!-- endbuild -->
   </head>
    
@@ -24,7 +25,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="container">
+    <div class="container" show-global-msgs>
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a ng-href="#">Home</a></li>
@@ -67,6 +68,9 @@
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="app.js"></script>
         <script src="app-mock.js"></script>
+        
+        <script src="components/message/message-module.js"></script>
+        <script src="components/message/show-global-messages-directive.js"></script>
         <script src="components/user/user-module.js"></script>
         <script src="components/user/user-service.js"></script>
         <script src="components/user/register/show-user-register-form-directive.js"></script>

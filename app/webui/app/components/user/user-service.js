@@ -23,6 +23,10 @@ angular
             
             $rootScope.$broadcast('currentuser.changed'); 
             $rootScope.$broadcast('user.register.success'); 
+            $rootScope.$broadcast('clear.global.errors'); 
+          }).error(function(data){
+            
+            $rootScope.$broadcast('global.error', data.errors); 
           });
       } 
     };
