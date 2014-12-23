@@ -1,16 +1,18 @@
 'use strict';
 
 angular
-  .module('simple-taskboard.webui.mock', ['ngMockE2E'])
-  .run(function ($httpBackend) {
+  .module('simple-taskboard.webui.mock', ['ngMockE2E', 'ngStorage'])
+  .run(function ($httpBackend, $sessionStorage) {
+    
+    var $storage = $sessionStorage.$default({ users: [] });
     
     var users = (function(){
-      var _users = [];
       return {
         add: function(user){
-          _users.push(user); 
+          $storage.users.push(user); 
         },
         has: function(user){
+          var _users = $storage.users;
           for(var i=0; i < _users.length; i++){
             if(_users[i].email === user.email) {
               return true;
