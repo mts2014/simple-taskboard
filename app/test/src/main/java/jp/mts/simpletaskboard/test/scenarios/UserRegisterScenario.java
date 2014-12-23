@@ -12,6 +12,8 @@ import org.junit.Test;
 
 /**
  * <pre>
+ * ユーザストーリ：
+ *
  * 新規利用者として
  * ユーザの登録を行いたい
  * タスクボードを利用したいからだ
@@ -27,9 +29,8 @@ public class UserRegisterScenario extends AcceptanceTestBase {
     @Test
     public void ユーザを新規に登録できること(){
 
-
     	userRegisterUi.ユーザ情報を登録する($in()
-    			.v(EMAIL, "taro")
+    			.v(EMAIL, "taro@test.jp")
     			.v(ユーザ名, "太郎")
     			.v(パスワード, "pass")
     			.v(確認パスワード, "pass")
@@ -42,9 +43,22 @@ public class UserRegisterScenario extends AcceptanceTestBase {
 //    	assertThat(isLogined).isEqualTo(true);
     }
 
-    /**
-     * 重複したユーザは登録できないこと
-     */
+    @Test
+    public void 重複するユーザは登録できないこと(){
 
+    	//TODO サーバAPIの呼び出しに変える
+    	userRegisterUi.ユーザ情報を登録する($in()
+    			.v(EMAIL, "taro2@test.jp")
+    	);
+
+
+    	userRegisterUi.ユーザ情報を登録する($in()
+    			.v(EMAIL, "taro2@test.jp")
+    	);
+
+    	assertThat(userRegisterUi.errorMsg())
+    		.isEqualTo("指定されたメールアドレスはすでに登録されています。");
+
+    }
 
 }

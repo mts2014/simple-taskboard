@@ -19,6 +19,9 @@ public class UserInputs {
 	}
 
 	public String v(UserInputKey key) {
+		if(!this.value.containsKey(key)){
+			return key.getDefaultValue();
+		}
 		return this.value.get(key);
 	}
 
