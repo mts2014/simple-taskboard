@@ -8,6 +8,7 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
+    'ngStorage',
     
     'simple-taskboard.webui.components.user',
     'simple-taskboard.webui.components.message',
