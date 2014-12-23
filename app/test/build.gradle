@@ -56,6 +56,7 @@ task acceptancetest(type: Test) {
 	testClassesDir = sourceSets.main.output.classesDir
 	classpath = configurations.app_config + sourceSets.main.runtimeClasspath
 	systemProperty 'webdriver.chrome.driver', "$chromeDriver"
+	exclude '**/*$*' //Enclosedなテストクラスが2度実行されないようにする
 }
 
 task appconfig(type: jp.mts.appconfig.tasks.YamlFileAppConfigInjectTask) {

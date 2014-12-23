@@ -60,5 +60,19 @@ public class UserRegisterUi extends AcceptanceUiBase {
 		return errors.get(0);
 	}
 
+	public boolean canRegister() {
+		return true;
+	}
+
+	public String errorMsg(UserInputKey email) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
+
+	public void ユーザ情報を入力する(UserInputs v) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
 
 }
