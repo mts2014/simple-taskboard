@@ -23,6 +23,8 @@ public class UserRegisterPage extends PageBase {
 
 	public void register() {
 		click("button#user-register");
+		awaitForSeconds(1);
 	}
+
 
 }

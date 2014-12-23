@@ -1,8 +1,6 @@
 package jp.mts.simpletaskboard.test.base;
 
 import static org.fest.assertions.api.Assertions.*;
-import jp.mts.simpletaskboard.test.base.UserInputKey;
-import jp.mts.simpletaskboard.test.base.UserInputs;
 
 import org.junit.Test;
 
@@ -13,9 +11,19 @@ public class UserInputsTest {
 		UserInputs actual = UserInputs.$in().v(TestKey.HOGE, "hoge");
 		assertThat(actual.v(TestKey.HOGE)).isEqualTo("hoge");
 	}
+	@Test
+	public void test_設定していない場合はデフォルト値を参照できること() {
+		UserInputs actual = UserInputs.$in();
+		assertThat(actual.v(TestKey.HOGE)).isEqualTo("default");
+	}
 
 	enum TestKey implements UserInputKey {
-		HOGE
+		HOGE;
+
+		@Override
+		public String getDefaultValue() {
+			return "default";
+		}
 	}
 
 }
