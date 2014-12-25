@@ -1,25 +1,25 @@
 <p class="text-info"> 以下の情報でユーザ登録します。 </p>
 
-<form name="userRegisterForm">
+<form novalidate name="userRegisterForm">
 
   <div class="form-group">
     <label for="email">Email</label>
-    <input id="email" type="email" class="form-control" ng-model="email">
+    <input id="email" type="text" class="form-control" ng-model="email" user-validate>
   </div>
   
   <div class="form-group">
     <label for="userName">ユーザ名</label>
-    <input id="userName" type="text" class="form-control" ng-model="userName">
+    <input id="userName" type="text" class="form-control" ng-model="userName" user-validate>
   </div>
   
   <div class="form-group">
     <label for="password">パスワード</label>
-    <input id="password" type="password" class="form-control" ng-model="password">
+    <input id="password" type="password" class="form-control" ng-model="password" user-validate>
   </div>
   
   <div class="form-group">
     <label for="confirmPassword">パスワード (確認用) </label>
-    <input id="confirmPassword" type="password" class="form-control" ng-model="confirmPassword">
+    <input id="confirmPassword" type="password" class="form-control" ng-model="confirmPassword" user-validate>
   </div>
   
   <button id="user-register" type="button" class="btn btn-primary" user-register>登録</button>

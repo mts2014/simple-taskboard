@@ -2,9 +2,24 @@
 
 angular
   .module('simple-taskboard.webui.components.user')
-  .factory('userService', ['$http', '$rootScope', function($http, $rootScope){
+  .factory('userService', ['$q', '$http', '$rootScope', function($q, $http, $rootScope){
    
     var currentUser = {};
+    
+    function filterErrorsByFields(errors, fields){
+      if(fields.length === 0){
+        return errors; 
+      }
+      var filteredErrors = [];
+      angular.forEach(errors, function(error){
+        angular.forEach(fields, function(field){
+          if(error.fields.indexOf(field) >= 0 && filteredErrors.indexOf(error) < 0){
+            filteredErrors.push(error);  
+          } 
+        }); 
+      }); 
+      return filteredErrors;
+    }
     
     return {
             
@@ -28,7 +43,45 @@ angular
             
             $rootScope.$broadcast('global.error', data.errors); 
           });
-      } 
+      }, 
+    
+      validate: function(user, fields, errors){
+        
+        var defered = $q.defer();
+        $http.post('/api/users/validate', 
+            { 
+              user: {
+                email: user.email, 
+                name: user.name, 
+                password: user.password
+              },
+              fields: fields
+            }
+          ).success(function(){
+                  
+            defered.resolve();
+          }).error(function(data){
+                  
+            var hasFieldError = false;  
+            angular.forEach(fields, function(field){
+              var fieldErrors = filterErrorsByFields(data.errors, [field]);
+              if(fieldErrors.length > 0){
+                hasFieldError = true;
+              }
+              errors[field] = fieldErrors;  
+            });
+            
+            if(hasFieldError) {
+              defered.reject();
+            }else{
+              defered.resolve(); 
+            }
+            
+          });
+        
+        return defered.promise;
+      }
+  
     };
   
   }]);

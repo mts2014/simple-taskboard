@@ -2,7 +2,7 @@
 
 angular
   .module('simple-taskboard.webui.components.message')
-  .directive('showGlobalMsgs', ['$log', function($log){
+  .directive('showGlobalMsgs', [function(){
     
     return {
       restrict: 'A',
