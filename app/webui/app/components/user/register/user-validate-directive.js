@@ -19,13 +19,7 @@ angular
         ngModel.$options = { updateOn: 'blur', updateOnDefault: false };
             
         var field = attrs.ngModel;
-        ngModel.$asyncValidators[ field ] = function(modelValue, viewValue){
-          //if(angular.isUndefined(modelValue) && angular.isUndefined(viewValue)) {
-          //  var defered = $q.defer();
-          //  defered.resolve();
-          //  return defered.promise; 
-          //}
-                
+        ngModel.$asyncValidators[ field ] = function(modelValue){
           var user = {
             email: field === 'email' ? modelValue : scope.email,
             name: field === 'userName' ? modelValue : scope.userName,
