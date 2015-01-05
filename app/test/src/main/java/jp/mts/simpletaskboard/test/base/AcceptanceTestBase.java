@@ -1,6 +1,9 @@
 package jp.mts.simpletaskboard.test.base;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.fluentlenium.adapter.FluentTest;
 import org.fluentlenium.core.FluentPage;
@@ -17,25 +20,35 @@ public abstract class AcceptanceTestBase extends FluentTest {
 
 	@Before
 	public void setupUis(){
+		try {
+			for(Field uiField : this.getFieldsIncludeAncestorsWith(this.getClass(), UI.class)){
+				uiField.setAccessible(true);
+				AcceptanceUiBase ui = (AcceptanceUiBase)uiField.getType().getConstructor(FluentTest.class).newInstance(this);
+				uiField.set(this, ui);
 
-		for(Field f : this.getClass().getDeclaredFields()){
-			if(f.getAnnotation(UI.class) != null){
-				try {
-					f.setAccessible(true);
-					AcceptanceUiBase ui = (AcceptanceUiBase)f.getType().getConstructor(FluentTest.class).newInstance(this);
-					f.set(this, ui);
-
-					for(Field uiField : ui.getClass().getDeclaredFields()){
-						if(uiField.getAnnotation(Page.class) != null){
-							uiField.setAccessible(true);
-							uiField.set(ui, this.createPage((Class<FluentPage>)uiField.getType()));
-						}
-					}
-
-				} catch (Exception e) {
-					throw new RuntimeException(e);
+				for(Field pageField : this.getFieldsIncludeAncestorsWith(ui.getClass(), Page.class)){
+					pageField.setAccessible(true);
+					pageField.set(ui, this.createPage((Class<FluentPage>)pageField.getType()));
 				}
 			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
+	}
+
+	private <A extends Annotation> List<Field> getFieldsIncludeAncestorsWith(Class<?> targetClass, Class<A> annotationType){
+		List<Field> fields = new ArrayList<>();
+
+		Class<?> clazz = targetClass;
+		while(clazz != null && !clazz.equals(Object.class)){
+			for(Field f : clazz.getDeclaredFields()){
+				if(f.getAnnotation(annotationType) != null){
+					fields.add(f);
+				}
+			}
+			clazz = clazz.getSuperclass();
+		}
+
+		return fields;
 	}
 }

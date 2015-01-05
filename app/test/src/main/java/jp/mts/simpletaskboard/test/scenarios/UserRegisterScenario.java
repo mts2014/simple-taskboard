@@ -8,7 +8,11 @@ import jp.mts.simpletaskboard.test.base.UI;
 import jp.mts.simpletaskboard.test.uis.LoginUi;
 import jp.mts.simpletaskboard.test.uis.UserRegisterUi;
 
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
+import org.junit.runner.RunWith;
 
 /**
  * <pre>
@@ -19,46 +23,71 @@ import org.junit.Test;
  * タスクボードを利用したいからだ
  * </pre>
  */
-public class UserRegisterScenario extends AcceptanceTestBase {
+@RunWith(Enclosed.class)
+public class UserRegisterScenario {
 
-	@UI
-	private UserRegisterUi userRegisterUi;
-	@UI
-	private LoginUi loginUi;
+	private static abstract class 共通設定 extends AcceptanceTestBase {
+		@UI UserRegisterUi userRegisterUi;
+		@UI LoginUi loginUi;
+	}
 
-    @Test
-    public void ユーザを新規に登録できること(){
+	public static class 登録済みのユーザが存在しない場合 extends 共通設定 {
 
-    	userRegisterUi.ユーザ情報を登録する($in()
-    			.v(EMAIL, "taro@test.jp")
-    			.v(ユーザ名, "太郎")
-    			.v(パスワード, "pass")
-    			.v(確認パスワード, "pass")
-    	);
+		@Test
+		public void ユーザを新規に登録できること(){
 
-    	assertThat(loginUi.isAtLogin()).isEqualTo(true);
+			userRegisterUi.ユーザ情報を登録する($in()
+					.v(EMAIL, "taro@test.jp")
+					.v(ユーザ名, "太郎")
+					.v(パスワード, "pass")
+					.v(確認パスワード, "pass"));
 
-    	//TODO ログイン機能ができたら下記検証をする
-//    	boolean isLogined = loginUi.ログインする();
-//    	assertThat(isLogined).isEqualTo(true);
-    }
+			//TODO ユーザ参照機能ができたら、ユーザの存在を検証をする
+		}
+	}
 
-    @Test
-    public void 重複するユーザは登録できないこと(){
+	public static class 登録済みのユーザが存在する場合 extends 共通設定 {
 
-    	//TODO サーバAPIの呼び出しに変える
-    	userRegisterUi.ユーザ情報を登録する($in()
-    			.v(EMAIL, "taro2@test.jp")
-    	);
+		@Before
+		public void setUp(){
+			//TODO サーバAPIの呼び出しに変える
+			userRegisterUi.ユーザ情報を登録する($in()
+					.v(EMAIL, "taro2@test.jp"));
+		}
+
+		@Test
+		public void 重複するユーザは登録できないこと(){
+
+			userRegisterUi.ユーザ情報を登録する($in()
+					.v(EMAIL, "taro2@test.jp"));
+
+			assertThat(userRegisterUi.errorMsg())
+				.isEqualTo("指定されたメールアドレスはすでに登録されています。");
+		}
+
+	}
+
+	public static class 入力値不正のテスト extends 共通設定 {
+		@Test
+		@Ignore
+		public void メールアドレスの入力値が不正な形式の場合登録できないこと(){
+			userRegisterUi.ユーザ情報を入力する($in()
+					.v(EMAIL, "a"));
+
+			assertThat(userRegisterUi.errorMsg(EMAIL))
+				.isEqualTo("不正なメールアドレスの形式です。");
+
+			assertThat(userRegisterUi.canRegister())
+				.isFalse();
+		}
+
+		@Test
+		@Ignore
+		public void パスワードと確認用パスワードの入力値が異なる場合登録できないこと(){
+		}
+
+	}
 
 
-    	userRegisterUi.ユーザ情報を登録する($in()
-    			.v(EMAIL, "taro2@test.jp")
-    	);
-
-    	assertThat(userRegisterUi.errorMsg())
-    		.isEqualTo("指定されたメールアドレスはすでに登録されています。");
-
-    }
 
 }
