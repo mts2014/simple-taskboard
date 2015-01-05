@@ -2,7 +2,7 @@
 
 angular
   .module('simple-taskboard.webui.components.user')
-  .directive('userValidate', ['$q', 'userService', function($q, userService){
+  .directive('userValidate', ['$timeout', '$q', 'userService', function($timeout, $q, userService){
      
     return {
       require: 'ngModel',
@@ -11,7 +11,7 @@ angular
       replace: true,
       transclude: true,
       template: function(element, attrs){
-        var field = attrs.ngModel
+        var field = attrs.ngModel;
         return '<input ng-transclude tooltip-html-unsafe="{{ validateErrors[\'' + field + '\'] }}" tooltip-trigger="blur">';
       },
       link: function(scope, element, attrs, ngModel){
@@ -20,7 +20,7 @@ angular
             
         var field = attrs.ngModel;
         ngModel.$asyncValidators[ field ] = function(modelValue, viewValue){
-          if(modelValue == undefined && viewValue == undefined) {
+          if(angular.isUndefined(modelValue) && angular.isUndefined(viewValue)) {
             var defered = $q.defer();
             defered.resolve();
             return defered.promise; 
@@ -36,10 +36,13 @@ angular
           return userService.validate(user, [ field ]);
         };
         
-        scope.validateErrors = {};
-        scope.$on('user.validation.error', function(event, errors){
-          scope.validateErrors[field] = "";
-          if(errors[field] == undefined || errors[field].length === 0) {
+        scope.validateErrors = scope.validateErrors || {};
+        scope.$on('validate.success', function(){
+          $timeout(function(){ scope.validateErrors[field] = ''; });
+        });
+        scope.$on('validate.error', function(event, errors){
+          if(angular.isUndefined(errors[field]) || errors[field].length === 0) {
+            $timeout(function(){ scope.validateErrors[field] = ''; });
             return;
           }
 
@@ -48,10 +51,13 @@ angular
             errorMsgs += '<li>' + error.userMessage + '</li>';
           });
           errorMsgs += '</ul>';
-          scope.validateErrors[field] = errorMsgs;
 
-          element.trigger('focus');
-          element.trigger('blur');
+          $timeout(function(){
+            scope.validateErrors[field] = errorMsgs;
+            element.trigger('focus');
+            element.trigger('blur');
+          });
+
         });
       } 
       

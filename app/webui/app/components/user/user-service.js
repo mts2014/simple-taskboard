@@ -45,7 +45,7 @@ angular
           });
       }, 
     
-      validate: function(user, fields ){
+      validate: function(user, fields){
         var defered = $q.defer();
         $http.post('/api/users/validate', 
             { 
@@ -58,21 +58,27 @@ angular
             }
           ).success(function(){
                   
+            $rootScope.$broadcast('validate.success');
             defered.resolve();
           }).error(function(data){
                   
             var errors = {}; 
-            var hasFieldError = false;  
-            angular.forEach(fields, function(field){
-              var fieldErrors = filterErrorsByFields(data.errors, [field]);
-              if(fieldErrors.length > 0){
-                hasFieldError = true;
-              }
-              errors[field] = fieldErrors;  
-            });
+            var hasError = true;
+
+            if(fields.length === 0){
+              errors.global = data.errors;
+            }else{
+              angular.forEach(fields, function(field){
+                var fieldErrors = filterErrorsByFields(data.errors, [field]);
+                if(fieldErrors.length > 0){
+                  hasError = true;
+                }
+                errors[field] = fieldErrors;  
+              });
+            }
             
-            if(hasFieldError) {
-              $rootScope.$broadcast('user.validation.error', errors);
+            if(hasError) {
+              $rootScope.$broadcast('validate.error', errors);
               defered.reject();
             }else{
               defered.resolve(); 

@@ -78,7 +78,7 @@ describe('userService', function(){
   describe('#validate', function(){
     
     
-    it('エラーがない場合はイベントが発生しないこと', function(){
+    it('エラーがない場合はvalidate.successイベントが発生すること', function(){
       var postUser = { email: 'taro@test', name: 'taro', password:'pass', confirmPassword:'pass' }; 
       var postUserData = '{"user":{"email":"taro@test","name":"taro","password":"pass"},"fields":[]}'; 
       $httpBackend.expectPOST('/api/users/validate', postUserData).respond(200, {});
@@ -86,7 +86,7 @@ describe('userService', function(){
       userService.validate(postUser, []);
       $httpBackend.flush();
       
-      expect($rootScope.$broadcast).not.toHaveBeenCalled(); 
+      expect($rootScope.$broadcast).toHaveBeenCalledWith('validate.success'); 
     }); 
     
     describe('エラーがある場合', function(){
@@ -103,14 +103,14 @@ describe('userService', function(){
         userService.validate(postUser, []);
         $httpBackend.flush();
         
-        expect($rootScope.$broadcast).toHaveBeenCalledWith('validate.error', [globalError, emailError]); 
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('validate.error', { global: [globalError, emailError] }); 
       }); 
       it('fieldsの指定がある場合は validate.error イベントで指定したフィールドのエラーが発生すること', function(){
         expectCallValidate('["email"]');        
         userService.validate(postUser, ['email']);
         $httpBackend.flush();
         
-        expect($rootScope.$broadcast).toHaveBeenCalledWith('validate.error', [ emailError ]); 
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('validate.error', { email: [emailError] }); 
       }); 
       
       function expectCallValidate(fields){
