@@ -2,19 +2,23 @@
 
 angular
   .module('simple-taskboard.webui.components.user')
-  .directive('userValidate', ['$compile', '$q', 'userService', function($compile, $q, userService){
-    
+  .directive('userValidate', ['$q', 'userService', function($q, userService){
+     
     return {
       require: 'ngModel',
       restrict: 'A',
       scope: false,
-      replace: false,
+      replace: true,
+      transclude: true,
+      template: function(element, attrs){
+        var field = attrs.ngModel
+        return '<input ng-transclude tooltip-html-unsafe="{{ validateErrors[\'' + field + '\'] }}" tooltip-trigger="blur">';
+      },
       link: function(scope, element, attrs, ngModel){
-          
+        
         ngModel.$options = { updateOn: 'blur', updateOnDefault: false };
             
-        scope.userValidateErrors = scope.userValidateErrors || {};
-        var field = element.attr('ng-model');
+        var field = attrs.ngModel;
         ngModel.$asyncValidators[ field ] = function(modelValue, viewValue){
           if(modelValue == undefined && viewValue == undefined) {
             var defered = $q.defer();
@@ -23,17 +27,34 @@ angular
           }
                 
           var user = {
-            email: scope.email,
-            name: scope.userName,
-            password: scope.password
+            email: field === 'email' ? modelValue : scope.email,
+            name: field === 'userName' ? modelValue : scope.userName,
+            password: field === 'password' ? modelValue : scope.password,
+            confirmPassword: field === 'confirmPassword' ? modelValue : scope.confirmPassword,
           };
           
-          return userService.validate(user, [ field ], scope.userValidateErrors);
+          return userService.validate(user, [ field ]);
         };
         
-        var errors = $compile('<p>hoge: {{ userValidateErrors }}</p>')(scope); 
-        element.after(errors);
+        scope.validateErrors = {};
+        scope.$on('user.validation.error', function(event, errors){
+          scope.validateErrors[field] = "";
+          if(errors[field] == undefined || errors[field].length === 0) {
+            return;
+          }
+
+          var errorMsgs = '<ul>';
+          angular.forEach(errors[field], function(error){
+            errorMsgs += '<li>' + error.userMessage + '</li>';
+          });
+          errorMsgs += '</ul>';
+          scope.validateErrors[field] = errorMsgs;
+
+          element.trigger('focus');
+          element.trigger('blur');
+        });
       } 
+      
     };
   
   }]);

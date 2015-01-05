@@ -45,8 +45,7 @@ angular
           });
       }, 
     
-      validate: function(user, fields, errors){
-        
+      validate: function(user, fields ){
         var defered = $q.defer();
         $http.post('/api/users/validate', 
             { 
@@ -62,6 +61,7 @@ angular
             defered.resolve();
           }).error(function(data){
                   
+            var errors = {}; 
             var hasFieldError = false;  
             angular.forEach(fields, function(field){
               var fieldErrors = filterErrorsByFields(data.errors, [field]);
@@ -72,6 +72,7 @@ angular
             });
             
             if(hasFieldError) {
+              $rootScope.$broadcast('user.validation.error', errors);
               defered.reject();
             }else{
               defered.resolve(); 

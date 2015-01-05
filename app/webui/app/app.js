@@ -9,6 +9,7 @@ angular
     'ngSanitize',
     'ngTouch',
     'ngStorage',
+    'ui.bootstrap',
     
     'simple-taskboard.webui.components.user',
     'simple-taskboard.webui.components.message',
@@ -18,7 +19,7 @@ angular
     
     'simple-taskboard.webui.mock'
   ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $tooltipProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'login/login.html',
@@ -27,4 +28,14 @@ angular
       .otherwise({
         redirectTo: '/'
       });
+      
+    $tooltipProvider.setTriggers({
+      'mouseenter': 'mouseleave',
+      'click': 'click',
+      'focus': 'blur',
+      'blur': 'focus',
+      'never': 'mouseleave',
+      'show': 'hide'     
+    });
+
   });
