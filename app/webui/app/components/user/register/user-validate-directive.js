@@ -12,7 +12,7 @@ angular
       transclude: true,
       template: function(element, attrs){
         var field = attrs.ngModel;
-        return '<input ng-transclude tooltip-html-unsafe="{{ validateErrors[\'' + field + '\'] }}" tooltip-trigger="focus">';
+        return '<input ng-transclude tooltip-html-unsafe="{{ validateErrors[\'' + field + '\'] }}" tooltip-trigger="blur">';
       },
       link: function(scope, element, attrs, ngModel){
         
@@ -51,6 +51,7 @@ angular
           $timeout(function(){
             scope.validateErrors[field] = errorMsgs;
             element.trigger('focus');
+            element.trigger('blur');
           });
           
           element.parent('div[class*=form-group]').addClass('has-error');
