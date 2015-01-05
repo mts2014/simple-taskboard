@@ -1,27 +1,28 @@
 <p class="text-info"> 以下の情報でユーザ登録します。 </p>
 
-<form novalidate name="userRegisterForm">
+<form novalidate name="userRegisterForm" mark-required-user-register>
 
   <div class="form-group">
-    <label for="email">Email</label>
+    <label for="email" class="control-label">Email</label>
     <input id="email" type="text" class="form-control" ng-model="email" user-validate>
   </div>
   
   <div class="form-group">
-    <label for="userName">ユーザ名</label>
+    <label for="userName" class="control-label">ユーザ名</label>
     <input id="userName" type="text" class="form-control" ng-model="userName" user-validate>
   </div>
   
   <div class="form-group">
-    <label for="password">パスワード</label>
+    <label for="password" class="control-label">パスワード</label>
     <input id="password" type="password" class="form-control" ng-model="password" user-validate>
   </div>
   
   <div class="form-group">
-    <label for="confirmPassword">パスワード (確認用) </label>
+    <label for="confirmPassword" class="control-label">パスワード (確認用) </label>
     <input id="confirmPassword" type="password" class="form-control" ng-model="confirmPassword" user-validate>
   </div>
   
-  <button id="user-register" type="button" class="btn btn-primary" user-register>登録</button>
+  <button id="user-register" type="button" class="btn btn-primary" 
+    ng-class="{ 'disabled' : userRegisterForm.$invalid}" user-register>登録</button>
 
 </form>
