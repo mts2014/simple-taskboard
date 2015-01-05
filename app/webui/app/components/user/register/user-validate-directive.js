@@ -12,7 +12,7 @@ angular
       transclude: true,
       template: function(element, attrs){
         var field = attrs.ngModel;
-        return '<input ng-transclude tooltip-html-unsafe="{{ validateErrors[\'' + field + '\'] }}" tooltip-trigger="blur">';
+        return '<input ng-transclude tooltip-html-unsafe="{{ validateErrors[\'' + field + '\'] }}" tooltip-trigger="focus">';
       },
       link: function(scope, element, attrs, ngModel){
         
@@ -20,11 +20,11 @@ angular
             
         var field = attrs.ngModel;
         ngModel.$asyncValidators[ field ] = function(modelValue, viewValue){
-          if(angular.isUndefined(modelValue) && angular.isUndefined(viewValue)) {
-            var defered = $q.defer();
-            defered.resolve();
-            return defered.promise; 
-          }
+          //if(angular.isUndefined(modelValue) && angular.isUndefined(viewValue)) {
+          //  var defered = $q.defer();
+          //  defered.resolve();
+          //  return defered.promise; 
+          //}
                 
           var user = {
             email: field === 'email' ? modelValue : scope.email,
@@ -57,7 +57,6 @@ angular
           $timeout(function(){
             scope.validateErrors[field] = errorMsgs;
             element.trigger('focus');
-            element.trigger('blur');
           });
           
           element.parent('div[class*=form-group]').addClass('has-error');
