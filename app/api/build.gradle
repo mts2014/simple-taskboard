@@ -24,17 +24,26 @@ repositories {
 
 configurations {
 	app_config
+	testMock
 }
 
 dependencies {
-	compile("org.springframework.boot:spring-boot-starter-web")
+	compile "org.springframework.boot:spring-boot-starter-web"
+	compile "org.springframework.boot:spring-boot-starter-jdbc"
+	compile "org.springframework.boot:spring-boot-starter-test"
 
+	runtime 'org.hsqldb:hsqldb:2.3.2'
+
+	testMock "org.jmockit:jmockit:1.14"    //実行時にモックを有効にするために先に読み込む必要があるため別で管理
+	testCompile "org.jmockit:jmockit:1.14" //eclipse用に設定
 	testCompile "junit:junit:4.11"
-	testCompile "org.jmockit:jmockit:1.8"
 	testCompile "org.easytesting:fest-assert-core:2.0M10"
 
 	app_config files("$buildDir/app_config")
 }
+
+sourceSets.test.compileClasspath = configurations.testMock + sourceSets.test.compileClasspath
+sourceSets.test.runtimeClasspath = configurations.testMock + sourceSets.test.runtimeClasspath
 
 buildscript {
 	repositories {
