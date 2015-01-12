@@ -9,7 +9,6 @@ import jp.mts.simpletaskboard.domain.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -21,16 +20,10 @@ public class UserRepositoryImpl implements UserRepository {
 	@Override
 	public User searchByEmail(final String email) {
 		List<User> users = jdbcTemplate.query(
-				"select id, email from users where email = ?", new Object[]{ email },
-				new RowMapper<User>(){
-					@Override
-					public User mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						User user = new User(rs.getString("id"));
-						user.setEmail(rs.getString("email"));
-						return user;
-					}
-				});
+			"select id, email from users where email = ?",
+			new Object[]{ email },
+			(rs, rowNum) -> { return mapToUser(rs); }
+		);
 
 		if(users.isEmpty()){
 			return null;
@@ -48,19 +41,18 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	@Override
-	public User load(int id) {
-		return jdbcTemplate.queryForObject("select id, email from users where id = ?",
-				new Object[]{id},
-				new RowMapper<User>(){
-					@Override
-					public User mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						User user = new User(rs.getString("id"));
-						user.setEmail(rs.getString("email"));
-						return user;
-					}
-				});
+	public User load(String id) {
+		return jdbcTemplate.queryForObject(
+			"select id, email from users where id = ?",
+			new Object[]{ id },
+			(rs, rowNum) -> { return mapToUser(rs); }
+		);
 	}
 
+	private User mapToUser(ResultSet rs) throws SQLException{
+		User user = new User(rs.getString("id"));
+		user.setEmail(rs.getString("email"));
+		return user;
+	}
 
 }

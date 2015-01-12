@@ -50,7 +50,7 @@ public class UserRepositoryImplTest extends JdbcRepositoryImplTestBase{
 
 		sut.save(user);
 
-		User actual = sut.load(2);
+		User actual = sut.load("2");
 		assertThat(actual).isNotNull();
 		assertThat(actual.getEmail()).isEqualTo("baz@test.jp");
 

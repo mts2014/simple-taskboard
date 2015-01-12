@@ -1,7 +1,5 @@
-//apply plugin: 'war'
 apply plugin: 'java'
 apply plugin: 'eclipse'
-//apply plugin: 'eclipse-wtp'
 apply plugin: 'spring-boot'
 
 jar {
@@ -9,9 +7,9 @@ jar {
 	baseName = 'api'
 }
 
-sourceCompatibility = 1.7
-compileTestJava.sourceCompatibility = 1.7
-compileTestJava.targetCompatibility = 1.7
+sourceCompatibility = 1.8
+compileTestJava.sourceCompatibility = 1.8
+compileTestJava.targetCompatibility = 1.8
 
 def defaultEncoding = 'UTF-8'
 tasks.withType(AbstractCompile) each { it.options.encoding = defaultEncoding }
@@ -68,14 +66,3 @@ task appconfig(type: jp.mts.appconfig.tasks.YamlFileAppConfigInjectTask) {
 	injectTargetFiles = files('src/main/resources/acceptance-test.properties')
 	distPath = "$buildDir/app_config"
 }
-
-//eclipse.wtp.component.contextPath = 'api'
-//eclipse.wtp.facet.file.whenMerged { wtpFacet ->
-//	wtpFacet.facets.clear()
-//	wtpFacet.configure([
-//		new org.gradle.plugins.ide.eclipse.model.Facet('jst.java', '1.7'),
-//		new org.gradle.plugins.ide.eclipse.model.Facet('jst.web', '3.0')
-//	])
-//}
-
-
