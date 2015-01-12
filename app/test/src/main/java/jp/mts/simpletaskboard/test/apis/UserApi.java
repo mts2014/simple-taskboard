@@ -1,9 +1,16 @@
 package jp.mts.simpletaskboard.test.apis;
 
+import static jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey.*;
+import static org.fest.assertions.api.Assertions.*;
+
+import java.io.InputStreamReader;
+
 import jp.mts.simpletaskboard.test.base.UserInputs;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.client.fluent.Request;
-import org.json.simple.JSONArray;
+import org.apache.http.entity.ContentType;
+import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 
@@ -12,14 +19,18 @@ public class UserApi {
 	public boolean 存在するか？(String email) {
 
 		try {
-			String response = Request.Get("http://localhost:8080/api/users?email=" + email)
-					.execute().returnContent().asString();
-			JSONArray responseJsonArray = (JSONArray)JSONValue.parse(response);
-
-			if(responseJsonArray.size() > 1){
-				throw new IllegalStateException("a email must belong to one user");
+			HttpResponse res = Request.Get("http://localhost:8080/api/users?email=" + email)
+					.execute()
+					.returnResponse();
+			if(res.getStatusLine().getStatusCode() == 404){
+				return false;
 			}
-			return responseJsonArray.size() == 1;
+
+			JSONObject response = (JSONObject)JSONValue.parse(
+					new InputStreamReader(res.getEntity().getContent()));
+
+			JSONObject user = (JSONObject)((JSONObject)response.get("contents")).get("user");
+			return user != null && email.equals(user.get("email"));
 
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -31,6 +42,23 @@ public class UserApi {
 	}
 
 	public void 登録する(UserInputs inputs) {
+
+		try {
+			JSONObject json = new JSONObject();
+			json.put("email", inputs.v(EMAIL));
+
+			String res = Request.Post("http://localhost:8080/api/users")
+				.bodyString(json.toJSONString(), ContentType.APPLICATION_JSON)
+				.execute()
+				.returnContent().asString();
+			JSONObject response = (JSONObject)JSONValue.parse(res);
+
+			JSONObject user = (JSONObject)((JSONObject)response.get("contents")).get("user");
+			assertThat(user).isNotNull();
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 
 	}
 
