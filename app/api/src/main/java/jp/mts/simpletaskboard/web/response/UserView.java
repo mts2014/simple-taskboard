@@ -1,6 +1,6 @@
-package jp.mts.simpletaskboard.web.resources;
+package jp.mts.simpletaskboard.web.response;
 
-public class UserResource {
+public class UserView {
 
 	private String email;
 

@@ -1,6 +1,7 @@
 package jp.mts.simpletaskboard.web.controllers;
 
-import jp.mts.simpletaskboard.web.resources.UserResource;
+import jp.mts.simpletaskboard.web.response.RestResponse;
+import jp.mts.simpletaskboard.web.response.UserView;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,11 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsersController {
 
 	@RequestMapping
-	public UserResource searchByEmail(
+	public RestResponse searchByEmail(
 			@RequestParam(required=true, value="email") String email){
-		UserResource userResource = new UserResource();
+		UserView userResource = new UserView();
 		userResource.setEmail(email);
-		return userResource;
+
+		RestResponse response = new RestResponse();
+		response.addContent("user", userResource);
+		return response;
 	}
 
 }
