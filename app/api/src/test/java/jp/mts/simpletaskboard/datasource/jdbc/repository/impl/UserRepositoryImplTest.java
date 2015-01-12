@@ -2,8 +2,10 @@ package jp.mts.simpletaskboard.datasource.jdbc.repository.impl;
 
 import static org.fest.assertions.api.Assertions.*;
 import jp.mts.simpletaskboard.domain.User;
+import jp.mts.simpletaskboard.testhelpers.UserBuilder;
 import mockit.Deencapsulation;
 
+import org.junit.Before;
 import org.junit.Test;
 
 
@@ -11,6 +13,7 @@ public class UserRepositoryImplTest extends JdbcRepositoryImplTestBase{
 
 	UserRepositoryImpl sut;
 
+	@Before
 	public void setup(){
 		sut = new UserRepositoryImpl();
 		Deencapsulation.setField(sut, jdbcTemplate);
@@ -20,7 +23,8 @@ public class UserRepositoryImplTest extends JdbcRepositoryImplTestBase{
 	public void test_emailで検索できること() {
 		User user = sut.searchByEmail("hoge@test.jp");
 
-		assertThat(user).isNotNull();
+		assertThat(user.getId()).isEqualTo("1");
+		assertThat(user.getEmail()).isEqualTo("hoge@test.jp");
 	}
 
 	@Test
@@ -32,11 +36,23 @@ public class UserRepositoryImplTest extends JdbcRepositoryImplTestBase{
 
 	@Test(expected = IllegalStateException.class)
 	public void test_emailで複数件ヒットする場合は例外() {
-		//TODO repository の登録APIにする
-		jdbcTemplate.update("insert into users values (1, 'bar@test.jp')");
-		jdbcTemplate.update("insert into users values (2, 'bar@test.jp')");
+		sut.save(new UserBuilder("100").email("bar@test.jp").build());
+		sut.save(new UserBuilder("101").email("bar@test.jp").build());
 
 		sut.searchByEmail("bar@test.jp");
+	}
+
+	@Test
+	public void test_ユーザ情報を登録できる(){
+
+		User user = new User("2");
+		user.setEmail("baz@test.jp");
+
+		sut.save(user);
+
+		User actual = sut.load(2);
+		assertThat(actual).isNotNull();
+		assertThat(actual.getEmail()).isEqualTo("baz@test.jp");
 
 	}
 

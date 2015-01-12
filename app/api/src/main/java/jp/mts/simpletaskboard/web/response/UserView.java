@@ -1,15 +1,17 @@
 package jp.mts.simpletaskboard.web.response;
 
+import jp.mts.simpletaskboard.domain.User;
+
 public class UserView {
 
-	private String email;
+	private User user;
 
-
-	public String getEmail() {
-		return email;
+	public UserView(User user) {
+		this.user = user;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+
+	public String getEmail(){
+		return user.getEmail();
 	}
 
 }

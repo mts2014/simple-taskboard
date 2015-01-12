@@ -2,15 +2,15 @@ package jp.mts.simpletaskboard.domain;
 
 public class User {
 
-	private int id;
+	private String id;
 	private String email;
 
-	public User(int id) {
+	public User(String id) {
 		super();
 		this.id = id;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 

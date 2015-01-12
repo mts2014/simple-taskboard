@@ -4,8 +4,10 @@ import static org.fest.assertions.api.Assertions.*;
 
 import javax.servlet.http.HttpServletResponse;
 
+import jp.mts.simpletaskboard.domain.User;
 import jp.mts.simpletaskboard.domain.UserRepository;
 import jp.mts.simpletaskboard.testhelpers.UserBuilder;
+import jp.mts.simpletaskboard.web.request.UserRegisterInput;
 import jp.mts.simpletaskboard.web.response.RestResponse;
 import jp.mts.simpletaskboard.web.response.UserView;
 import mockit.Deencapsulation;
@@ -59,6 +61,25 @@ public class UsersControllerTest {
 		RestResponse response = sut.searchByEmail(email, res);
 		UserView user = (UserView)response.getContents().get("user");
 		assertThat(user).isNull();
+	}
+
+	@Test
+	public void test_正しいユーザ情報で登録できること(){
+
+		String email = "hoge@test.jp";
+		UserRegisterInput userRegisterInput = new UserRegisterInput();
+		userRegisterInput.email = email;
+
+		new NonStrictExpectations() {{
+
+			userRepository.save((User)any);
+				times = 1;
+		}};
+
+		RestResponse response = sut.register(userRegisterInput);
+
+		UserView registerdUser = (UserView)response.getContents().get("user");
+		assertThat(registerdUser.getEmail()).isEqualTo(email);
 	}
 
 }

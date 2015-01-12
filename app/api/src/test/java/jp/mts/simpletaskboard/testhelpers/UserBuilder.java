@@ -6,9 +6,9 @@ public class UserBuilder {
 	private User user;
 
 	public UserBuilder(){
-		this(1);
+		this("0");
 	}
-	public UserBuilder(int id){
+	public UserBuilder(String id){
 		user = new User(id);
 		user.setEmail("hoge@test.jp");
 	}

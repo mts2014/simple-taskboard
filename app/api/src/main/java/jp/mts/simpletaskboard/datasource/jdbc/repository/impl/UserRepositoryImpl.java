@@ -26,7 +26,7 @@ public class UserRepositoryImpl implements UserRepository {
 					@Override
 					public User mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
-						User user = new User(rs.getInt("id"));
+						User user = new User(rs.getString("id"));
 						user.setEmail(rs.getString("email"));
 						return user;
 					}
@@ -40,6 +40,26 @@ public class UserRepositoryImpl implements UserRepository {
 		}
 
 		return users.get(0);
+	}
+
+	@Override
+	public void save(User user) {
+		jdbcTemplate.update("insert into users values (?,?)", user.getId(), user.getEmail());
+	}
+
+	@Override
+	public User load(int id) {
+		return jdbcTemplate.queryForObject("select id, email from users where id = ?",
+				new Object[]{id},
+				new RowMapper<User>(){
+					@Override
+					public User mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						User user = new User(rs.getString("id"));
+						user.setEmail(rs.getString("email"));
+						return user;
+					}
+				});
 	}
 
 
