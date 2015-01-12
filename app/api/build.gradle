@@ -1,0 +1,58 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+version = 1.0
+group = 'jp.mts'
+
+sourceCompatibility = 1.7
+compileTestJava.sourceCompatibility = 1.7
+compileTestJava.targetCompatibility = 1.7
+
+def defaultEncoding = 'UTF-8'
+tasks.withType(AbstractCompile) each { it.options.encoding = defaultEncoding }
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+	app_config
+}
+
+dependencies {
+	def slf4jVersion = '1.7.7'
+
+	testCompile "junit:junit:4.11"
+	testCompile "org.easytesting:fest-assert-core:2.0M10"
+
+	compile "org.apache.commons:commons-lang3:3.3.2"
+	compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
+	compile "org.slf4j:slf4j-api:${slf4jVersion}"
+	compile "org.slf4j:slf4j-log4j12:${slf4jVersion}"
+	compile "log4j:log4j:1.2.14"
+
+	app_config files("$buildDir/app_config")
+}
+
+buildscript {
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
+	dependencies {
+		classpath "jp.mts:gradle-api:0.0.1"
+	}
+}
+
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '1.12'
+}
+
+
+task appconfig(type: jp.mts.appconfig.tasks.YamlFileAppConfigInjectTask) {
+	srcYaml = file("$appConfigRoot/simple-taskboard/$appConfigVersion/$env/app_config.yml")
+	injectTargetFiles = files('src/main/resources/acceptance-test.properties')
+	distPath = "$buildDir/app_config"
+}
+
