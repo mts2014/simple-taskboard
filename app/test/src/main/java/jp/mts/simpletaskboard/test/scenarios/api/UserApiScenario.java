@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class UserApiScenario {
 
-	private UserApi userApi;
+	private UserApi userApi = new UserApi();
 
 	@Test
 	public void test_ユーザを登録できること(){

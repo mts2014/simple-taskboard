@@ -13,7 +13,6 @@ tasks.withType(AbstractCompile) each { it.options.encoding = defaultEncoding }
 
 repositories {
     mavenCentral()
-	mavenRepo urls: 'https://github.com/harikrishnan83/maven-repository/raw/master/'
 }
 
 configurations {

@@ -1,8 +1,13 @@
+//apply plugin: 'war'
 apply plugin: 'java'
 apply plugin: 'eclipse'
+//apply plugin: 'eclipse-wtp'
+apply plugin: 'spring-boot'
 
-version = 1.0
-group = 'jp.mts'
+jar {
+	version = '1.0.0'
+	baseName = 'api'
+}
 
 sourceCompatibility = 1.7
 compileTestJava.sourceCompatibility = 1.7
@@ -12,7 +17,9 @@ def defaultEncoding = 'UTF-8'
 tasks.withType(AbstractCompile) each { it.options.encoding = defaultEncoding }
 
 repositories {
-    mavenCentral()
+	mavenLocal()
+	mavenCentral()
+	maven { url "https://repo.spring.io/libs-release" }
 }
 
 configurations {
@@ -20,30 +27,27 @@ configurations {
 }
 
 dependencies {
-	def slf4jVersion = '1.7.7'
+	compile("org.springframework.boot:spring-boot-starter-web")
 
 	testCompile "junit:junit:4.11"
+	testCompile "org.jmockit:jmockit:1.8"
 	testCompile "org.easytesting:fest-assert-core:2.0M10"
-
-	compile "org.apache.commons:commons-lang3:3.3.2"
-	compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
-	compile "org.slf4j:slf4j-api:${slf4jVersion}"
-	compile "org.slf4j:slf4j-log4j12:${slf4jVersion}"
-	compile "log4j:log4j:1.2.14"
 
 	app_config files("$buildDir/app_config")
 }
 
 buildscript {
 	repositories {
+		maven { url "https://repo.spring.io/libs-release" }
 		mavenLocal()
 		mavenCentral()
 	}
 	dependencies {
 		classpath "jp.mts:gradle-api:0.0.1"
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.1.RELEASE")
 	}
-}
 
+}
 
 task wrapper(type: Wrapper) {
 	gradleVersion = '1.12'
@@ -55,4 +59,14 @@ task appconfig(type: jp.mts.appconfig.tasks.YamlFileAppConfigInjectTask) {
 	injectTargetFiles = files('src/main/resources/acceptance-test.properties')
 	distPath = "$buildDir/app_config"
 }
+
+//eclipse.wtp.component.contextPath = 'api'
+//eclipse.wtp.facet.file.whenMerged { wtpFacet ->
+//	wtpFacet.facets.clear()
+//	wtpFacet.configure([
+//		new org.gradle.plugins.ide.eclipse.model.Facet('jst.java', '1.7'),
+//		new org.gradle.plugins.ide.eclipse.model.Facet('jst.web', '3.0')
+//	])
+//}
+
 
