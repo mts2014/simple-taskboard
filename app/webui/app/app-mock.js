@@ -47,6 +47,18 @@ angular
       return [200, {}];
     });
     
+    $httpBackend.whenPOST('/api/users/validate').respond(function(method, url, data){
+      var validateData = angular.fromJson(data); 
+      
+      if(!validateData.user.email) {
+        return [400, errors( 
+          'メールアドレスは必須です。', 'e0001', ['email'] 
+        )]; 
+      }
+      
+      return [200, {}];
+    });
+    
     $httpBackend.whenGET(/.*/).passThrough();
     
   });

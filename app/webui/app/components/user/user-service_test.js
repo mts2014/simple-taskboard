@@ -72,7 +72,56 @@ describe('userService', function(){
     
     });
     
+  });
+  
+  
+  describe('#validate', function(){
     
+    
+    it('エラーがない場合はvalidate.successイベントが発生すること', function(){
+      var postUser = { email: 'taro@test', name: 'taro', password:'pass', confirmPassword:'pass' }; 
+      var postUserData = '{"user":{"email":"taro@test","name":"taro","password":"pass"},"fields":[]}'; 
+      $httpBackend.expectPOST('/api/users/validate', postUserData).respond(200, {});
+      
+      userService.validate(postUser, []);
+      $httpBackend.flush();
+      
+      expect($rootScope.$broadcast).toHaveBeenCalledWith('validate.success'); 
+    }); 
+    
+    describe('エラーがある場合', function(){
+      var postUser, globalError, emailError;
+    
+      beforeEach(function(){
+        postUser = { email: 'taro@test', name: 'taro', password:'pass', confirmPassword:'pass' }; 
+        globalError = { developperMessage: "", userMessage:"error1", errorCode:"1", fields: [] };
+        emailError = { developperMessage: "", userMessage:"error2", errorCode:"2", fields: ['email'] };
+      }); 
+      
+      it('fieldsの指定がない場合は validate.error イベントですべてのエラーが発生すること', function(){
+        expectCallValidate('[]');        
+        userService.validate(postUser, []);
+        $httpBackend.flush();
+        
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('validate.error', { global: [globalError, emailError] }); 
+      }); 
+      it('fieldsの指定がある場合は validate.error イベントで指定したフィールドのエラーが発生すること', function(){
+        expectCallValidate('["email"]');        
+        userService.validate(postUser, ['email']);
+        $httpBackend.flush();
+        
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('validate.error', { email: [emailError] }); 
+      }); 
+      
+      function expectCallValidate(fields){
+        
+        $httpBackend.expectPOST(
+                '/api/users/validate', 
+                '{"user":{"email":"taro@test","name":"taro","password":"pass"},"fields":' + fields + '}')
+          .respond(400, { errors: [ globalError, emailError ] });
+      }
+    });
+  
   });
   
 });
