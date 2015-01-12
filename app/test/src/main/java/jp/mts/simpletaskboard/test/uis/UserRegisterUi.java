@@ -1,36 +1,24 @@
 package jp.mts.simpletaskboard.test.uis;
 
-import static jp.mts.simpletaskboard.test.uis.UserRegisterUi.UserInputKey.*;
+import static jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.mts.simpletaskboard.test.base.AcceptanceUiBase;
 import jp.mts.simpletaskboard.test.base.Page;
 import jp.mts.simpletaskboard.test.base.UserInputs;
+import jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey;
 import jp.mts.simpletaskboard.test.uis.pages.LoginPage;
 import jp.mts.simpletaskboard.test.uis.pages.UserRegisterPage;
 
 import org.fluentlenium.adapter.FluentTest;
+import org.fluentlenium.core.domain.FluentList;
+import org.fluentlenium.core.domain.FluentWebElement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 public class UserRegisterUi extends AcceptanceUiBase {
-
-	public enum UserInputKey implements jp.mts.simpletaskboard.test.base.UserInputKey{
-		EMAIL("test@test.jp"),
-		ユーザ名("yamada taro"),
-		パスワード("pass"),
-		確認パスワード("pass"),
-		;
-
-		private String defaultValue;
-
-		private UserInputKey(String defaultValue) {
-			this.defaultValue = defaultValue;
-		}
-
-		public String getDefaultValue() {
-			return defaultValue;
-		}
-	}
 
 	@Page
 	private LoginPage loginPage;
@@ -61,16 +49,31 @@ public class UserRegisterUi extends AcceptanceUiBase {
 	}
 
 	public boolean canRegister() {
-		return true;
+		FluentWebElement btn = userRegisterPage.findFirst("#user-register");
+		return !btn.getAttribute("class").contains("disabled");
 	}
 
-	public String errorMsg(UserInputKey email) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+	public List<String> errorMsg(UserRegisterKey email) {
+		FluentWebElement input = userRegisterPage.findFirst("input#email");
+		WebElement parantDiv = input.getElement().findElement(By.xpath(".."));
+		FluentList<FluentWebElement> list = new FluentWebElement(parantDiv).find("div.tooltip-inner li");
+
+		List<String> msgs = new ArrayList<>();
+		for(FluentWebElement e : list){
+			msgs.add(e.getText());
+		}
+		return msgs;
 	}
 
-	public void ユーザ情報を入力する(UserInputs v) {
-		// TODO 自動生成されたメソッド・スタブ
+	public void ユーザ情報を入力する(UserInputs inputs) {
+		loginPage.go();
+		loginPage.goToUserRegister();
+
+		userRegisterPage
+			.email(inputs.v(EMAIL))
+			.userName(inputs.v(ユーザ名))
+			.password(inputs.v(パスワード))
+			.passwordForConfirm(inputs.v(確認パスワード));
 
 	}
 
