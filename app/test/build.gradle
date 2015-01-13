@@ -4,9 +4,9 @@ apply plugin: 'eclipse'
 version = 1.0
 group = 'jp.mts'
 
-sourceCompatibility = 1.7
-compileTestJava.sourceCompatibility = 1.7
-compileTestJava.targetCompatibility = 1.7
+sourceCompatibility = 1.8
+compileTestJava.sourceCompatibility = 1.8
+compileTestJava.targetCompatibility = 1.8
 
 def defaultEncoding = 'UTF-8'
 tasks.withType(AbstractCompile) each { it.options.encoding = defaultEncoding }

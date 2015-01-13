@@ -11,7 +11,7 @@ import org.json.simple.JSONObject;
 
 public class UserApi extends ApiBase {
 
-	public boolean 存在するか？(String email) {
+	public boolean 存在するか(String email) {
 
 		try {
 			HttpResponse res = httpGet("/api/users?email=" + email)
@@ -30,7 +30,7 @@ public class UserApi extends ApiBase {
 		}
 	}
 
-	public boolean 存在するか？(String email, String userName) {
+	public boolean 存在するか(String email, String userName) {
 		return false;
 	}
 

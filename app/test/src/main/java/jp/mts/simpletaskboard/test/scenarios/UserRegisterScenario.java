@@ -45,7 +45,7 @@ public class UserRegisterScenario {
 		@Ignore
 		public void ユーザを新規に登録できること(){
 
-			assertThat(userApi.存在するか？("taro@test.jp", "太郎"))
+			assertThat(userApi.存在するか("taro@test.jp", "太郎"))
 				.isFalse();
 
 			userRegisterUi.ユーザ情報を登録する($in()
@@ -54,7 +54,7 @@ public class UserRegisterScenario {
 					.v(パスワード,     "pass")
 					.v(確認パスワード, "pass"));
 
-			assertThat(userApi.存在するか？("taro@test.jp", "太郎"))
+			assertThat(userApi.存在するか("taro@test.jp", "太郎"))
 				.isTrue();
 		}
 	}
