@@ -1,0 +1,68 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot'
+
+jar {
+	version = '1.0.0'
+	baseName = 'api'
+}
+
+sourceCompatibility = 1.8
+compileTestJava.sourceCompatibility = 1.8
+compileTestJava.targetCompatibility = 1.8
+
+def defaultEncoding = 'UTF-8'
+tasks.withType(AbstractCompile) each { it.options.encoding = defaultEncoding }
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	maven { url "https://repo.spring.io/libs-release" }
+}
+
+configurations {
+	app_config
+	testMock
+}
+
+dependencies {
+	compile "org.springframework.boot:spring-boot-starter-web"
+	compile "org.springframework.boot:spring-boot-starter-jdbc"
+	compile "org.springframework.boot:spring-boot-starter-test"
+
+	runtime 'org.hsqldb:hsqldb:2.3.2'
+
+	testMock "org.jmockit:jmockit:1.14"    //実行時にモックを有効にするために先に読み込む必要があるため別で管理
+	testCompile "org.jmockit:jmockit:1.14" //eclipse用に設定
+	testCompile "junit:junit:4.11"
+	testCompile "org.easytesting:fest-assert-core:2.0M10"
+
+	app_config files("$buildDir/app_config")
+}
+
+sourceSets.test.compileClasspath = configurations.testMock + sourceSets.test.compileClasspath
+sourceSets.test.runtimeClasspath = configurations.testMock + sourceSets.test.runtimeClasspath
+
+buildscript {
+	repositories {
+		maven { url "https://repo.spring.io/libs-release" }
+		mavenLocal()
+		mavenCentral()
+	}
+	dependencies {
+		classpath "jp.mts:gradle-api:0.0.1"
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.1.RELEASE")
+	}
+
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '1.12'
+}
+
+
+task appconfig(type: jp.mts.appconfig.tasks.YamlFileAppConfigInjectTask) {
+	srcYaml = file("$appConfigRoot/simple-taskboard/$appConfigVersion/$env/app_config.yml")
+	injectTargetFiles = files('src/main/resources/acceptance-test.properties')
+	distPath = "$buildDir/app_config"
+}
