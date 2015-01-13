@@ -2,34 +2,27 @@ package jp.mts.simpletaskboard.test.apis;
 
 import static jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey.*;
 import static org.fest.assertions.api.Assertions.*;
-
-import java.io.InputStreamReader;
-
 import jp.mts.simpletaskboard.test.base.UserInputs;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 
 
-public class UserApi {
+public class UserApi extends ApiBase {
 
 	public boolean 存在するか？(String email) {
 
 		try {
-			HttpResponse res = Request.Get("http://localhost:8080/api/users?email=" + email)
+			HttpResponse res = httpGet("/api/users?email=" + email)
 					.execute()
 					.returnResponse();
 			if(res.getStatusLine().getStatusCode() == 404){
 				return false;
 			}
 
-			JSONObject response = (JSONObject)JSONValue.parse(
-					new InputStreamReader(res.getEntity().getContent()));
-
-			JSONObject user = (JSONObject)((JSONObject)response.get("contents")).get("user");
+			JSONObjectWrapper json = toJson(res);
+			JSONObject user = json.get("contents").get("user").value();
 			return user != null && email.equals(user.get("email"));
 
 		} catch (Exception e) {
@@ -44,22 +37,21 @@ public class UserApi {
 	public void 登録する(UserInputs inputs) {
 
 		try {
-			JSONObject json = new JSONObject();
-			json.put("email", inputs.v(EMAIL));
+			JSONObject requestJson = new JSONObject();
+			requestJson.put("email", inputs.v(EMAIL));
 
-			String res = Request.Post("http://localhost:8080/api/users")
-				.bodyString(json.toJSONString(), ContentType.APPLICATION_JSON)
+			HttpResponse res = httpPost("/api/users")
+				.bodyString(requestJson.toJSONString(), ContentType.APPLICATION_JSON)
 				.execute()
-				.returnContent().asString();
-			JSONObject response = (JSONObject)JSONValue.parse(res);
+				.returnResponse();
 
-			JSONObject user = (JSONObject)((JSONObject)response.get("contents")).get("user");
+			JSONObjectWrapper json = toJson(res);
+			JSONObject user = json.get("contents").get("user").value();
 			assertThat(user).isNotNull();
 
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-
 	}
 
 }
