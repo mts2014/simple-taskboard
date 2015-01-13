@@ -11,11 +11,11 @@ import org.junit.Test;
 
 public class UserRepositoryImplTest extends JdbcRepositoryImplTestBase{
 
-	UserRepositoryImpl sut;
+	JdbcUserRepository sut;
 
 	@Before
 	public void setup(){
-		sut = new UserRepositoryImpl();
+		sut = new JdbcUserRepository();
 		Deencapsulation.setField(sut, jdbcTemplate);
 	}
 
