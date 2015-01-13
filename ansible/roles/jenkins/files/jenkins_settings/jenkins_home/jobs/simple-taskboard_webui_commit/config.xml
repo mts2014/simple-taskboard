@@ -45,7 +45,7 @@ nvm use 0.10
 
 cd app/webui
 npm install
-bower install
+bower install --force-latest
 
 grunt build
 grunt test
