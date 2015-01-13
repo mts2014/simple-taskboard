@@ -63,10 +63,11 @@ angular
           }).error(function(data){
                   
             var errors = {}; 
-            var hasError = true;
+            var hasError = false;
 
             if(fields.length === 0){
               errors.global = data.errors;
+              hasError = true;
             }else{
               angular.forEach(fields, function(field){
                 var fieldErrors = filterErrorsByFields(data.errors, [field]);

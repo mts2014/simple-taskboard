@@ -19,13 +19,7 @@ angular
         ngModel.$options = { updateOn: 'blur', updateOnDefault: false };
             
         var field = attrs.ngModel;
-        ngModel.$asyncValidators[ field ] = function(modelValue, viewValue){
-          if(angular.isUndefined(modelValue) && angular.isUndefined(viewValue)) {
-            var defered = $q.defer();
-            defered.resolve();
-            return defered.promise; 
-          }
-                
+        ngModel.$asyncValidators[ field ] = function(modelValue){
           var user = {
             email: field === 'email' ? modelValue : scope.email,
             name: field === 'userName' ? modelValue : scope.userName,
@@ -39,10 +33,12 @@ angular
         scope.validateErrors = scope.validateErrors || {};
         scope.$on('validate.success', function(){
           $timeout(function(){ scope.validateErrors[field] = ''; });
+          element.parent('div[class*=form-group]').removeClass('has-error');
         });
         scope.$on('validate.error', function(event, errors){
           if(angular.isUndefined(errors[field]) || errors[field].length === 0) {
             $timeout(function(){ scope.validateErrors[field] = ''; });
+            element.parent('div[class*=form-group]').removeClass('has-error');
             return;
           }
 
@@ -57,6 +53,8 @@ angular
             element.trigger('focus');
             element.trigger('blur');
           });
+          
+          element.parent('div[class*=form-group]').addClass('has-error');
 
         });
       } 
