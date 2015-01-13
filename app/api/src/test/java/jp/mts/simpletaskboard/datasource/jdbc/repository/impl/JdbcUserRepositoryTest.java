@@ -7,9 +7,11 @@ import mockit.Deencapsulation;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-
-public class UserRepositoryImplTest extends JdbcRepositoryImplTestBase{
+@RunWith(SpringJUnit4ClassRunner.class)
+public class JdbcUserRepositoryTest extends JdbcRepositoryTestBase{
 
 	JdbcUserRepository sut;
 
