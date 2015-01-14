@@ -1,0 +1,23 @@
+---
+
+- name: stop api server
+  command: wget -q -O - --post-data=a http://localhost:{{item}}/api/manage/shutdown
+  sudo: yes
+  ignore_errors: True
+  with_items: api_ports
+  
+- name: backup api module
+  raw: cp {{api_deploy_path}}/* {{api_deploy_path}}/backup/
+  sudo: yes
+  ignore_errors: True
+
+- name: deploy api module
+  copy: src=app/api/build/libs/api.jar dest={{api_deploy_path}}/
+  sudo: yes
+
+
+- name: start api server
+  shell: nohup java -Dserver.port={{item}} -jar "{{api_deploy_path}}/api.jar" &
+  sudo: yes
+  ignore_errors: True
+  with_items: api_ports

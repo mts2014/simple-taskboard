@@ -2,5 +2,6 @@
 
 - include: develop-machine.yml
 - include: webservers.yml
+- include: apiservers.yml
 - include: build-servers.yml
 

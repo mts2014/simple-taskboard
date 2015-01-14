@@ -1,7 +1,7 @@
 [webservers]
 acceptance
 
-[apservers]
+[apiservers]
 acceptance
 
 [dbservers]
