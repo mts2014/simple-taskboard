@@ -24,4 +24,16 @@ case "$command" in
     ansible-playbook -i $inventory webservers.yml
   ;;
       
+  "api_build" )
+    cd $base/app/api
+    ./gradlew clean build
+    cp -f $base/app/api/build/libs/api-*.jar $base/ansible/roles/apiserver/files/app/api/build/libs/api.jar
+  ;;
+  
+  "api_deploy" )
+    inventory=$2
+    cd $base/ansible
+    ansible-playbook -i $inventory apiservers.yml
+  ;;
+  
 esac
