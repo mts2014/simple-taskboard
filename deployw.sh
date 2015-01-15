@@ -12,10 +12,11 @@ case "$command" in
     
     cd $base/app/webui
     npm install
-    bower install
+    bower install --force-latest
     grunt build
+    grunt test
     
-    cp -fR $base/app/webui/dist $base/ansible/roles/webserver/files/app/webui/
+    cp -fR $base/app/webui/dist $base/ansible/roles/webserver/files/dist/
   ;;
   
   "webui_deploy" )
@@ -27,7 +28,7 @@ case "$command" in
   "api_build" )
     cd $base/app/api
     ./gradlew clean build
-    cp -f $base/app/api/build/libs/api-*.jar $base/ansible/roles/apiserver/files/app/api/build/libs/api.jar
+    cp -f $base/app/api/build/libs/api-*.jar $base/ansible/roles/apiserver/files/dist/api.jar
   ;;
   
   "api_deploy" )
