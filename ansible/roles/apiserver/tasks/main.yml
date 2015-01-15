@@ -12,7 +12,7 @@
   ignore_errors: True
 
 - name: deploy api module
-  copy: src=app/api/build/libs/api.jar dest={{api_deploy_path}}/
+  copy: src=dist/api.jar dest={{api_deploy_path}}/
   sudo: yes
 
 
