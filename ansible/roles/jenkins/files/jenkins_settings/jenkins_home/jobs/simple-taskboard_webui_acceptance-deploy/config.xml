@@ -33,12 +33,23 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>rm -fr ansible/roles/webserver/files/app/webui/dist/</command>
+      <command>rm -fr ansible/roles/webserver/files/dist/*
+rm -fr ansible/roles/apiserver/files/dist/*</command>
     </hudson.tasks.Shell>
     <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.32.1">
       <project>simple-taskboard_webui_commit</project>
-      <filter>app/webui/dist/**/*</filter>
-      <target>ansible/roles/webserver/files/</target>
+      <filter>ansible/roles/apiserver/files/dist/**/*</filter>
+      <target></target>
+      <excludes></excludes>
+      <selector class="hudson.plugins.copyartifact.TriggeredBuildSelector">
+        <upstreamFilterStrategy>UseGlobalSetting</upstreamFilterStrategy>
+      </selector>
+      <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
+    </hudson.plugins.copyartifact.CopyArtifact>
+    <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.32.1">
+      <project>simple-taskboard_webui_commit</project>
+      <filter>ansible/roles/webserver/files/dist/**/*</filter>
+      <target></target>
       <excludes></excludes>
       <selector class="hudson.plugins.copyartifact.TriggeredBuildSelector">
         <upstreamFilterStrategy>UseGlobalSetting</upstreamFilterStrategy>
@@ -48,10 +59,8 @@
     <hudson.tasks.Shell>
       <command>#!/bin/bash
 
-cd ansible
-ansible-playbook -i acceptance-test site.yml
-
-</command>
+./deployw.sh webui_deploy acceptance-test
+./deployw.sh api_deploy acceptance-test</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
@@ -63,7 +72,7 @@ ansible-playbook -i acceptance-test site.yml
               <combineQueuedCommits>false</combineQueuedCommits>
             </hudson.plugins.git.GitRevisionBuildParameters>
           </configs>
-          <projects>simple-taskboard_webui_acceptance-test, </projects>
+          <projects>simple-taskboard_webui_acceptance-test,</projects>
           <condition>SUCCESS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
         </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
