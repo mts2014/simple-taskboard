@@ -20,7 +20,7 @@ public class JdbcUserRepository implements UserRepository {
 	@Override
 	public User searchByEmail(final String email) {
 		List<User> users = jdbcTemplate.query(
-			"select id, email from users where email = ?",
+			"select id, email, name from users where email = ?",
 			new Object[]{ email },
 			(rs, rowNum) -> { return mapToUser(rs); }
 		);
@@ -37,13 +37,13 @@ public class JdbcUserRepository implements UserRepository {
 
 	@Override
 	public void save(User user) {
-		jdbcTemplate.update("insert into users values (?,?)", user.getId(), user.getEmail());
+		jdbcTemplate.update("insert into users(id, email, name) values (?,?,?)", user.getId(), user.getEmail(), user.getName());
 	}
 
 	@Override
 	public User load(String id) {
 		return jdbcTemplate.queryForObject(
-			"select id, email from users where id = ?",
+			"select id, email, name from users where id = ?",
 			new Object[]{ id },
 			(rs, rowNum) -> { return mapToUser(rs); }
 		);
@@ -52,6 +52,7 @@ public class JdbcUserRepository implements UserRepository {
 	private User mapToUser(ResultSet rs) throws SQLException{
 		User user = new User(rs.getString("id"));
 		user.setEmail(rs.getString("email"));
+		user.setName(rs.getString("name"));
 		return user;
 	}
 

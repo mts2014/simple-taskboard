@@ -66,9 +66,11 @@ public class UsersControllerTest {
 	@Test
 	public void test_正しいユーザ情報で登録できること(){
 
-		String email = "hoge@test.jp";
 		UserRegisterInput userRegisterInput = new UserRegisterInput();
-		userRegisterInput.email = email;
+		userRegisterInput.email = "hoge@test.jp";
+		userRegisterInput.name = "taro";
+		userRegisterInput.password = "password";
+		userRegisterInput.confirmPassword = "confirmPassword";
 
 		new NonStrictExpectations() {{
 
@@ -79,7 +81,9 @@ public class UsersControllerTest {
 		RestResponse response = sut.register(userRegisterInput);
 
 		UserView registerdUser = (UserView)response.getContents().get("user");
-		assertThat(registerdUser.getEmail()).isEqualTo(email);
+
+		assertThat(registerdUser.getEmail()).isEqualTo(userRegisterInput.email);
+		assertThat(registerdUser.getName()).isEqualTo(userRegisterInput.name);
 	}
 
 }
