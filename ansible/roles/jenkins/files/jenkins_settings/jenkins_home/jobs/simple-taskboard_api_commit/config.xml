@@ -26,7 +26,7 @@
     <extensions/>
   </scm>
   <canRoam>true</canRoam>
-  <disabled>false</disabled>
+  <disabled>true</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers>
@@ -40,13 +40,12 @@
     <hudson.tasks.Shell>
       <command>#!/bin/bash
 
-./deployw.sh webui_build
-./deployw.sh api_build</command>
+./deployw.sh webui_build</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>ansible/roles/webserver/files/dist/**/*,ansible/roles/apiserver/files/dist/**/*</artifacts>
+      <artifacts>app/webui/dist/**/*</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
