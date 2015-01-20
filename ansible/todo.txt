@@ -1,3 +1,0 @@
-apiserversのport設定をapp-configから取得できるようにする
-.bashrcのroleごとのフラグメント化
-jdkのインストールをチェックインしているパッケージから行う
