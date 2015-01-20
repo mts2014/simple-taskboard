@@ -29,7 +29,7 @@ public class UserRegisterScenario {
 	private static abstract class 共通設定 extends AcceptanceTestBase {
 		@UI UserRegisterUi userRegisterUi;
 		@UI LoginUi loginUi;
-		UserApi userApi;
+		UserApi userApi = new UserApi();;
 	}
 
 	/**
@@ -42,7 +42,6 @@ public class UserRegisterScenario {
 	public static class 正常にユーザ登録できる extends 共通設定 {
 
 		@Test
-		@Ignore
 		public void ユーザを新規に登録できること(){
 
 			assertThat(userApi.存在するか("taro@test.jp", "太郎"))
