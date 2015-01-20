@@ -86,7 +86,8 @@ module.exports = function (grunt) {
                 '/vendor',
                 connect.static('./vendor')
               ),
-              connect.static(appConfig.app)
+              connect.static(appConfig.app),
+              require("grunt-connect-proxy/lib/utils").proxyRequest 
             ];
           }
         }
@@ -112,7 +113,14 @@ module.exports = function (grunt) {
           open: true,
           base: '<%= yeoman.dist %>'
         }
-      }
+      },
+      proxies: [{
+        context: '/api',
+        host: '10.0.2.2', //virtualbox host
+        port: '8080',
+        https: false,
+        changeOrigin: false
+      }]
     },
 
     // Make sure code styles are up to par and there are no obvious mistakes
@@ -371,6 +379,7 @@ module.exports = function (grunt) {
       'wiredep',
       'concurrent:server',
       'autoprefixer',
+      'configureProxies',
       'connect:livereload',
       'watch'
     ]);
