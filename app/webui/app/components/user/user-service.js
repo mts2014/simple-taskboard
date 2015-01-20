@@ -2,7 +2,7 @@
 
 angular
   .module('simple-taskboard.webui.components.user')
-  .factory('userService', ['$q', '$http', '$rootScope', function($q, $http, $rootScope){
+  .factory('userService', ['$q', '$http', '$rootScope', 'userApi', function($q, $http, $rootScope, userApi){
    
     var currentUser = {};
     
@@ -27,7 +27,7 @@ angular
           
       register: function(user){
         
-        $http.post('/api/users', 
+        $http.post(userApi.registerUrl, 
             { 
               email: user.email, 
               name: user.name, 
