@@ -12,26 +12,15 @@ import org.json.simple.JSONObject;
 public class UserApi extends ApiBase {
 
 	public boolean 存在するか(String email) {
-
-		try {
-			HttpResponse res = httpGet("/api/users?email=" + email)
-					.execute()
-					.returnResponse();
-			if(res.getStatusLine().getStatusCode() == 404){
-				return false;
-			}
-
-			JSONObjectWrapper json = toJson(res);
-			JSONObject user = json.get("contents").get("user").value();
-			return user != null && email.equals(user.get("email"));
-
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		JSONObject user = searchUserByEmail(email);
+		return user != null && email.equals(user.get("email"));
 	}
 
 	public boolean 存在するか(String email, String userName) {
-		return false;
+		JSONObject user = searchUserByEmail(email);
+		return user != null
+				&& email.equals(user.get("email"))
+				&& userName.equals(user.get("name"));
 	}
 
 	public void 登録する(UserInputs inputs) {
@@ -39,6 +28,9 @@ public class UserApi extends ApiBase {
 		try {
 			JSONObject requestJson = new JSONObject();
 			requestJson.put("email", inputs.v(EMAIL));
+			requestJson.put("name", inputs.v(ユーザ名));
+			requestJson.put("password", inputs.v(パスワード));
+			requestJson.put("confirmPassword", inputs.v(確認パスワード));
 
 			HttpResponse res = httpPost("/api/users")
 				.bodyString(requestJson.toJSONString(), ContentType.APPLICATION_JSON)
@@ -52,6 +44,28 @@ public class UserApi extends ApiBase {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private JSONObject searchUserByEmail(String email){
+
+		try {
+			HttpResponse res = httpGet("/api/users?email=" + email)
+					.execute()
+					.returnResponse();
+			if(res.getStatusLine().getStatusCode() == 500){
+				throw new RuntimeException();
+			}
+			if(res.getStatusLine().getStatusCode() == 404){
+				return null;
+			}
+
+			JSONObjectWrapper json = toJson(res);
+			return json.get("contents").get("user").value();
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
 	}
 
 }

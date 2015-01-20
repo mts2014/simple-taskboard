@@ -13,5 +13,8 @@ public class UserView {
 	public String getEmail(){
 		return user.getEmail();
 	}
+	public String getName(){
+		return user.getName();
+	}
 
 }

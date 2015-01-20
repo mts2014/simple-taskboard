@@ -35,23 +35,22 @@ public class UsersController {
 			return new RestResponse();
 		}
 
-		RestResponse response = new RestResponse();
-		response.addContent("user", new UserView(user));
-		return response;
+		return new RestResponse()
+				.addContent("user", new UserView(user));
 	}
 
 
 	@RequestMapping(method=RequestMethod.POST)
 	public RestResponse register(
-			@RequestBody UserRegisterInput userReauest) {
+			@RequestBody UserRegisterInput userRegisterInput) {
 
 		User user = new UserFactory().create();
-		user.setEmail(userReauest.email);
+		user.setEmail(userRegisterInput.email);
+		user.setName(userRegisterInput.name);
 		UserRepository.save(user);
 
-		RestResponse response = new RestResponse();
-		response.addContent("user", new UserView(user));
-		return response;
+		return new RestResponse()
+			.addContent("user", new UserView(user));
 	}
 
 }

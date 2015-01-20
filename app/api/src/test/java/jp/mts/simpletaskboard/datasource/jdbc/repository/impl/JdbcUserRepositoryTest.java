@@ -49,12 +49,13 @@ public class JdbcUserRepositoryTest extends JdbcRepositoryTestBase{
 
 		User user = new User("2");
 		user.setEmail("baz@test.jp");
+		user.setName("taro");
 
 		sut.save(user);
 
 		User actual = sut.load("2");
-		assertThat(actual).isNotNull();
 		assertThat(actual.getEmail()).isEqualTo("baz@test.jp");
+		assertThat(actual.getName()).isEqualTo("taro");
 
 	}
 

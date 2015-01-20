@@ -7,8 +7,9 @@ public class RestResponse {
 
 	private Map<String, Object> content = new HashMap<>();
 
-	public void addContent(String key, Object value){
+	public RestResponse addContent(String key, Object value){
 		content.put(key, value);
+		return this;
 	}
 
 	public Map<String, Object> getContents(){

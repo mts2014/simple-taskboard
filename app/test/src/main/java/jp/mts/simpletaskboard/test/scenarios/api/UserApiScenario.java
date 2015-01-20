@@ -27,9 +27,13 @@ public class UserApiScenario {
 	@Test
 	public void test_ユーザを登録できること(){
 
-		userApi.登録する($in().v(EMAIL, "foo@test.jp"));
+		userApi.登録する($in()
+			.v(EMAIL, "foo@test.jp")
+			.v(ユーザ名, "taro")
+			.v(パスワード, "pass")
+			.v(確認パスワード, "pass"));
 
-		assertThat(userApi.存在するか("foo@test.jp"))
+		assertThat(userApi.存在するか("foo@test.jp", "taro"))
 			.isTrue();
 	}
 }
