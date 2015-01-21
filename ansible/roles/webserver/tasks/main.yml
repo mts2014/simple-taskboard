@@ -15,6 +15,13 @@
 - name: enable simple-taskboard site 
   command: a2ensite simple-taskboard.conf
   sudo: yes
+
+- name: enable modules 
+  apache2_module: state=present name={{ item }}
+  sudo: yes
+  with_items:
+    - proxy
+    - proxy_ajp
           
 - name: clear old webui module
   file: path=/var/www/html_bk state=absent

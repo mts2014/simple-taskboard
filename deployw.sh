@@ -33,8 +33,13 @@ case "$command" in
   
   "api_deploy" )
     inventory=$2
-    cd $base/ansible
-    ansible-playbook -i $inventory apiservers.yml
+    
+    cd $base/app/api
+    ./gradlew appconfig -Penv=$inventory
+    cp -f $base/app/api/build/app_config/*.properties $base/ansible/roles/apiserver/files/app_config/
+    
+    # cd $base/ansible
+    # ansible-playbook -i $inventory apiservers.yml
   ;;
   
 esac
