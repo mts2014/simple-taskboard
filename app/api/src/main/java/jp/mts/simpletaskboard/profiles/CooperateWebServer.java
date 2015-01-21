@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Profile;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Profile({"acceptance-test"})
+@Profile({"develop", "acceptance-test"})
 public @interface CooperateWebServer {
 
 }
