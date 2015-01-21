@@ -61,9 +61,9 @@ task wrapper(type: Wrapper) {
 	gradleVersion = '1.12'
 }
 
-
 task appconfig(type: jp.mts.appconfig.tasks.YamlFileAppConfigInjectTask) {
 	srcYaml = file("$appConfigRoot/simple-taskboard/$appConfigVersion/$env/app_config.yml")
-	injectTargetFiles = files('src/main/resources/acceptance-test.properties')
+	injectTargetFiles = files('src/main/resources/application.properties')
 	distPath = "$buildDir/app_config"
 }
+
