@@ -38,8 +38,8 @@ case "$command" in
     ./gradlew appconfig -Penv=$inventory
     cp -f $base/app/api/build/app_config/*.properties $base/ansible/roles/apiserver/files/app_config/
     
-    cd $base/ansible
-    ansible-playbook -i $inventory apiservers.yml
+    # cd $base/ansible
+    # ansible-playbook -i $inventory apiservers.yml
   ;;
   
 esac
