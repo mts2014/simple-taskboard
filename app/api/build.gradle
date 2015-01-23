@@ -44,6 +44,10 @@ dependencies {
 sourceSets.test.compileClasspath = configurations.testMock + sourceSets.test.compileClasspath
 sourceSets.test.runtimeClasspath = configurations.testMock + sourceSets.test.runtimeClasspath
 
+processResources {
+	exclude 'appconfig'
+}
+
 buildscript {
 	repositories {
 		maven { url "https://repo.spring.io/libs-release" }
