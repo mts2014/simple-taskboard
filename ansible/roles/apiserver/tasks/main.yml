@@ -12,12 +12,14 @@
   ignore_errors: True
 
 - name: deploy api module
-  copy: src=dist/api.jar dest={{api_deploy_path}}/
+  copy: src={{item}} dest={{api_deploy_path}}/
   sudo: yes
-
+  with_items:
+    - dist/api.jar
+    - app_config/application.properties
 
 - name: start api server
-  shell: nohup java -Dserver.port={{item}} -jar "{{api_deploy_path}}/api.jar" &
+  shell: nohup java -jar "{{api_deploy_path}}/api.jar" --server.port={{item}} & 
+         chdir="{{api_deploy_path}}"
   sudo: yes
-  ignore_errors: True
   with_items: api_ports
