@@ -2,7 +2,7 @@
 
 - hosts: apiservers
   roles:
-    - jdk
+#    - jdk
     - apiserver
       
       
