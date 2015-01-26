@@ -87,7 +87,7 @@ module.exports = function (grunt) {
                 connect.static('./vendor')
               ),
               connect.static(appConfig.app),
-              require("grunt-connect-proxy/lib/utils").proxyRequest 
+              require('grunt-connect-proxy/lib/utils').proxyRequest 
             ];
           }
         }
