@@ -15,9 +15,9 @@ angular
     'simple-taskboard.webui.components.message',
     
     'simple-taskboard.webui.sample',
-    'simple-taskboard.webui.login'
+    'simple-taskboard.webui.login',
     
-   // 'simple-taskboard.webui.mock'
+    'simple-taskboard.webui.mock'
   ])
   .config(function ($routeProvider, $tooltipProvider) {
     $routeProvider
