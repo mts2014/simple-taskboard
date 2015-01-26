@@ -32,7 +32,7 @@ public class UserApi extends ApiBase {
 			requestJson.put("password", inputs.v(パスワード));
 			requestJson.put("confirmPassword", inputs.v(確認パスワード));
 
-			HttpResponse res = httpPost("/api/users")
+			HttpResponse res = httpPost("/users")
 				.bodyString(requestJson.toJSONString(), ContentType.APPLICATION_JSON)
 				.execute()
 				.returnResponse();
@@ -49,7 +49,7 @@ public class UserApi extends ApiBase {
 	private JSONObject searchUserByEmail(String email){
 
 		try {
-			HttpResponse res = httpGet("/api/users?email=" + email)
+			HttpResponse res = httpGet("/users?email=" + email)
 					.execute()
 					.returnResponse();
 			if(res.getStatusLine().getStatusCode() == 500){
