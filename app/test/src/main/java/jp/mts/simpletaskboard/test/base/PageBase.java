@@ -47,4 +47,8 @@ public abstract class PageBase extends FluentPage {
 		return errors;
 	}
 
+	protected void forcusTo(String cssSelector){
+		executeScript("$('" + cssSelector + "').focus()");
+	}
+
 }
