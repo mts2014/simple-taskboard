@@ -47,14 +47,11 @@ angular
     
       validate: function(user, fields){
         var defered = $q.defer();
-        $http.post('/api/users/validate', 
+        $http.post('/api/users?validate', 
             { 
-              user: {
-                email: user.email, 
-                name: user.name, 
-                password: user.password
-              },
-              fields: fields
+              email: user.email, 
+              name: user.name, 
+              password: user.password
             }
           ).success(function(){
                   

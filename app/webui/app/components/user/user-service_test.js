@@ -81,7 +81,7 @@ describe('userService', function(){
     it('エラーがない場合はvalidate.successイベントが発生すること', function(){
       var postUser = { email: 'taro@test', name: 'taro', password:'pass', confirmPassword:'pass' }; 
       var postUserData = '{"user":{"email":"taro@test","name":"taro","password":"pass"},"fields":[]}'; 
-      $httpBackend.expectPOST('/api/users/validate', postUserData).respond(200, {});
+      $httpBackend.expectPOST('/api/users?validate', postUserData).respond(200, {});
       
       userService.validate(postUser, []);
       $httpBackend.flush();
@@ -116,7 +116,7 @@ describe('userService', function(){
       function expectCallValidate(fields){
         
         $httpBackend.expectPOST(
-                '/api/users/validate', 
+                '/api/users?validate', 
                 '{"user":{"email":"taro@test","name":"taro","password":"pass"},"fields":' + fields + '}')
           .respond(400, { errors: [ globalError, emailError ] });
       }
