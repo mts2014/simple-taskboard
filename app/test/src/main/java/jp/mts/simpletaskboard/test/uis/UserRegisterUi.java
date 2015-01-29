@@ -1,6 +1,7 @@
 package jp.mts.simpletaskboard.test.uis;
 
 import static jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey.*;
+import static org.fest.assertions.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,17 @@ public class UserRegisterUi extends AcceptanceUiBase {
 
 	}
 
+	public void ユーザ登録情報を検証する(UserInputs inputs) {
+		loginPage.go();
+		loginPage.goToUserRegister();
+
+		if(inputs.isSpecified(EMAIL)){
+			userRegisterPage.email(inputs.v(EMAIL));
+		}
+
+		userRegisterPage.forcusOnRegister();
+	}
+
 
 	public String errorMsg() {
 		List<String> errors = userRegisterPage.globalErrors();
@@ -75,6 +87,10 @@ public class UserRegisterUi extends AcceptanceUiBase {
 			.password(inputs.v(パスワード))
 			.passwordForConfirm(inputs.v(確認パスワード));
 
+	}
+
+	public void エラーメッセージあり(UserRegisterKey key, String message) {
+		assertThat(errorMsg(key)).contains(message);
 	}
 
 

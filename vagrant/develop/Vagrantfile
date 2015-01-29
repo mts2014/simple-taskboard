@@ -16,4 +16,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     s.privileged = false  #rootユーザで実行するとansibleでログインできないため
   end
   
+  # 開発効率を上げるために共有したほうがよいファイル
+  config.vm.synced_folder "../../ansible",    "/home/vagrant/products/simple-taskboard/ansible"
+  config.vm.synced_folder "../../app/api",    "/home/vagrant/products/simple-taskboard/app/api"
+  
 end

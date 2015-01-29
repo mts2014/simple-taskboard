@@ -44,8 +44,7 @@ public class UserRegisterScenario {
 		@Test
 		public void ユーザを新規に登録できること(){
 
-			assertThat(userApi.存在するか("taro@test.jp", "太郎"))
-				.isFalse();
+			userApi.存在しない("taro@test.jp", "太郎");
 
 			userRegisterUi.ユーザ情報を登録する($in()
 					.v(EMAIL,          "taro@test.jp")
@@ -53,8 +52,7 @@ public class UserRegisterScenario {
 					.v(パスワード,     "pass")
 					.v(確認パスワード, "pass"));
 
-			assertThat(userApi.存在するか("taro@test.jp", "太郎"))
-				.isTrue();
+			userApi.存在する("taro@test.jp", "太郎");
 		}
 	}
 
@@ -65,20 +63,19 @@ public class UserRegisterScenario {
 	 * ユーザを登録するときに、すでに同じメールアドレスのユーザが存在するかを知りたい
 	 * 誤登録の可能性があり心配だからだ。
 	 */
-	public static class 重複メールアドレスの場合ユーザを登録できない extends 共通設定 {
+	public static class 重複メールアドレスの場合エラーが通知される extends 共通設定 {
 
 		@Test
-		@Ignore
-		public void 重複するユーザは登録できないこと(){
+		public void すでに存在するメールアドレスを入力するとエラー(){
 
 			userApi.登録する($in()
 					.v(EMAIL, "taro2@test.jp"));
 
-			userRegisterUi.ユーザ情報を登録する($in()
+			userRegisterUi.ユーザ登録情報を検証する($in()
 					.v(EMAIL, "taro2@test.jp"));
 
-			assertThat(userRegisterUi.errorMsg())
-				.contains("指定されたメールアドレスはすでに登録されています。");
+			userRegisterUi.エラーメッセージあり(
+					EMAIL, "指定されたメールアドレスはすでに登録されています。");
 		}
 
 	}

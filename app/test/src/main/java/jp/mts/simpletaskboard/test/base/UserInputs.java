@@ -25,4 +25,8 @@ public class UserInputs {
 		return this.value.get(key);
 	}
 
+	public boolean isSpecified(UserInputKey key){
+		return this.value.containsKey(key);
+	}
+
 }
