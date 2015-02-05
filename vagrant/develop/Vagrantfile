@@ -9,7 +9,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.synced_folder "../..", "/home/vagrant/products/simple-taskboard", 
   	type: "rsync", 
-  	rsync__exclude: ["vagrant/", "middleware/", ".git/"]
+  	rsync__exclude: [
+      "vagrant/", "middleware/", ".git/", 
+      "webui/node_modules/", "webui/bower_components/",
+      "test/bin/", "test/build/" "test/.gradle/",
+      "api/bin/", "api/build/" "api/.gradle/"
+    ]
 
   config.vm.provision "file", source: "home_settings/.ansible.cfg", destination: "~/.ansible.cfg"
   config.vm.provision "file", source: "home_settings/.ssh"        , destination: "~/"

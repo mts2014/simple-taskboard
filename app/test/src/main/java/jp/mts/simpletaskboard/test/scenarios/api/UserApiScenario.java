@@ -2,51 +2,81 @@ package jp.mts.simpletaskboard.test.scenarios.api;
 
 import static jp.mts.simpletaskboard.test.base.UserInputs.*;
 import static jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey.*;
-import static org.fest.assertions.api.Assertions.*;
-
-import java.util.List;
-
 import jp.mts.simpletaskboard.test.apis.UserApi;
 
 import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
+import org.junit.runner.RunWith;
 
+@RunWith(Enclosed.class)
 public class UserApiScenario {
 
-	private UserApi userApi = new UserApi();
-
-	@Test public void
-	ユーザをメールアドレスで検索できること(){
-
-		userApi.存在する("hoge@test.jp");
+	private static abstract class 共通設定 {
+		UserApi userApi = new UserApi();
 	}
 
-	@Test public void
-	存在しないメールアドレスの場合検索結果なし(){
+	public static class 検索 extends 共通設定 {
 
-		userApi.存在しない("bar@test.jp");
+		@Test public void
+		ユーザをメールアドレスで検索できること(){
+
+			userApi.存在する("hoge@test.jp");
+		}
+
+		@Test public void
+		存在しないメールアドレスの場合検索結果なし(){
+
+			userApi.存在しない("bar@test.jp");
+		}
 	}
 
-	@Test public void
-	ユーザを登録できること(){
+	public static class 登録 extends 共通設定 {
 
-		userApi.登録する($in()
-			.v(EMAIL, "foo@test.jp")
-			.v(ユーザ名, "taro")
-			.v(パスワード, "pass")
-			.v(確認パスワード, "pass"));
+		@Test public void
+		ユーザを登録できること(){
 
-		userApi.存在する("foo@test.jp", "taro");
+			userApi.登録する($in()
+					.v(EMAIL, "foo@test.jp")
+					.v(ユーザ名, "taro")
+					.v(パスワード, "pass")
+					.v(確認パスワード, "pass"));
+
+			userApi.存在する("foo@test.jp", "taro");
+		}
+
 	}
 
-	@Test public void
-	ユーザの登録情報を検証できること_すでに存在するメールアドレスの場合エラー(){
+	public static class 登録情報の検証 extends 共通設定 {
 
-		userApi.登録する($in()
-			.v(EMAIL, "baz@text.jp"));
+		@Test public void
+		すでに存在するメールアドレスの場合エラー(){
 
-		List<String> errorMsgs = userApi.登録時の検証をする($in()
-			.v(EMAIL, "baz@text.jp"));
+			userApi.登録する($in()
+					.v(EMAIL, "baz@text.jp"));
 
-		assertThat(errorMsgs).contains("指定されたメールアドレスはすでに登録されています。");
+			userApi.登録時の検証をする($in()
+					.v(EMAIL, "baz@text.jp"))
+				.assertHasError("email", "指定されたメールアドレスはすでに登録されています。");;
+
+		}
+
+
+		@Test public void
+		存在しないメールアドレスの場合エラーにならない(){
+
+			userApi.登録時の検証をする($in()
+					.v(EMAIL, "not.exist@text.jp"))
+				.assertHasNoError();
+		}
+
+		@Test public void
+		メールアドレスが空の場合エラー(){
+
+			userApi.登録時の検証をする($in()
+					.v(EMAIL, ""))
+				.assertHasError("email", "入力してください。");
+
+		}
 	}
+
 }

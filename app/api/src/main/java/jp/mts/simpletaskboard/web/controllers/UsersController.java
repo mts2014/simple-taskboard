@@ -1,6 +1,8 @@
 package jp.mts.simpletaskboard.web.controllers;
 
+
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import jp.mts.simpletaskboard.domain.User;
 import jp.mts.simpletaskboard.domain.UserFactory;
@@ -11,10 +13,16 @@ import jp.mts.simpletaskboard.web.response.RestResponse;
 import jp.mts.simpletaskboard.web.response.UserView;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -56,7 +64,7 @@ public class UsersController {
 
 	@RequestMapping(method=RequestMethod.POST, params="validate")
 	public RestResponse validate(
-			@RequestBody UserRegisterInput userRegisterInput,
+			@RequestBody @Valid UserRegisterInput userRegisterInput,
 			HttpServletResponse res) {
 
 		User user = userRepository.searchByEmail(userRegisterInput.email);
@@ -65,6 +73,26 @@ public class UsersController {
 		if(user != null){
 			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			response.addError(new ApiError("e001", "指定されたメールアドレスはすでに登録されています。", "email"));
+		}
+
+		return response;
+	}
+
+	@ExceptionHandler
+	@ResponseBody
+	public RestResponse hoge(
+			MethodArgumentNotValidException e,
+			HttpServletResponse httpServletResponse){
+
+		httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		RestResponse response = new RestResponse();
+
+		BindingResult bindingResult = e.getBindingResult();
+		for(FieldError fe : bindingResult.getFieldErrors()){
+			response.addError(new ApiError("", fe.getDefaultMessage(), fe.getField()));
+		}
+		for(ObjectError ge : bindingResult.getGlobalErrors()){
+			response.addError(new ApiError("", ge.getDefaultMessage(), null));
 		}
 
 		return response;

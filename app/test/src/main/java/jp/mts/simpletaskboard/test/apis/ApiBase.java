@@ -83,9 +83,18 @@ public class ApiBase {
 			}
 			return list;
 		}
+		public <T> void iterate(IterateCallBack<T> callback){
+			for(Object e : value){
+				callback.execute(new JSONObjectWrapper((JSONObject)e));
+			}
+		}
 
 		public static interface Converter<T> {
 			T converr(JSONObjectWrapper e);
+		}
+
+		public static interface IterateCallBack<T> {
+			void execute(JSONObjectWrapper e);
 		}
 
 	}

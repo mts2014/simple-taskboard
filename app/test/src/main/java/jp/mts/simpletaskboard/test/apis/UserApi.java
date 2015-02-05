@@ -3,7 +3,9 @@ package jp.mts.simpletaskboard.test.apis;
 import static jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey.*;
 import static org.fest.assertions.api.Assertions.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jp.mts.simpletaskboard.test.base.UserInputs;
 
@@ -82,7 +84,7 @@ public class UserApi extends ApiBase {
 		}
 
 	}
-	public List<String> 登録時の検証をする(UserInputs inputs) {
+	public Errors 登録時の検証をする(UserInputs inputs) {
 		try {
 			JSONObject requestJson = new JSONObject();
 			requestJson.put("email", inputs.v(EMAIL));
@@ -95,16 +97,46 @@ public class UserApi extends ApiBase {
 				.execute()
 				.returnResponse();
 
+			final Errors errors = new Errors();
 			if(res.getStatusLine().getStatusCode() == 400){
 				JSONObjectWrapper json = toJson(res);
-				return json.getArray("errors")
-						.convert(e -> e.getString("userMessage"));
+				json.getArray("errors").iterate(error -> {
+
+					List<String> flelds = (List<String>)error.value().get("fields");
+					if(flelds.isEmpty()){
+						errors.add(error.getString("userMessage"));
+					}else{
+						for(String field : flelds){
+							errors.add(field, error.getString("userMessage"));
+						}
+					}
+				});
 			}
 
-			return Lists.newArrayList();
+			return errors;
 
 		} catch (Exception e) {
 			throw new RuntimeException(e);
+		}
+	}
+
+	public static class Errors {
+		private static final String GLOBAL_ERROR_KEY = "global_error";
+		private Map<String, List<String>> errors = new HashMap<>();
+		public void add(String key, String message){
+			if(!errors.containsKey(key)){
+				errors.put(key, Lists.newArrayList());
+			}
+			errors.get(key).add(message);
+		}
+		public void add(String message){
+			add(GLOBAL_ERROR_KEY, message);
+		}
+		public void assertHasError(String key, String message){
+			assertThat(errors.get(key)).contains(message);
+		}
+		public void assertHasNoError() {
+			assertThat(errors).isEmpty();
 		}
 	}
 
