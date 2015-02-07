@@ -26,9 +26,11 @@ configurations {
 }
 
 dependencies {
+	compile 'org.easytesting:fest-util:1.2.5'
 	compile "org.springframework.boot:spring-boot-starter-web"
 	compile "org.springframework.boot:spring-boot-starter-jdbc"
 	compile "org.springframework.boot:spring-boot-starter-actuator"
+
 	testCompile "org.springframework.boot:spring-boot-starter-test"
 
 	runtime 'org.hsqldb:hsqldb:2.3.2'
