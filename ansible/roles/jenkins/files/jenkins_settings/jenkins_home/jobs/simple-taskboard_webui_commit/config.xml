@@ -60,7 +60,7 @@
               <combineQueuedCommits>false</combineQueuedCommits>
             </hudson.plugins.git.GitRevisionBuildParameters>
           </configs>
-          <projects>simple-taskboard_webui_acceptance-deploy,</projects>
+          <projects>simple-taskboard_webui_acceptance-deploy</projects>
           <condition>SUCCESS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
         </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
