@@ -22,6 +22,7 @@ case "$command" in
   "webui_deploy" )
     inventory=$2
     cd $base/ansible
+    chmod -x $inventory
     ansible-playbook -i $inventory webservers.yml
   ;;
       
@@ -39,6 +40,7 @@ case "$command" in
     cp -f $base/app/api/build/app_config/*.properties $base/ansible/roles/apiserver/files/app_config/
     
     cd $base/ansible
+    chmod -x $inventory
     ansible-playbook -i $inventory apiservers.yml
   ;;
   
