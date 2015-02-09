@@ -9,8 +9,12 @@
   sudo: yes
           
 - name: disable default site 
-  command: a2dissite 000-default.conf
+  command: a2dissite {{ item }}
   sudo: yes
+  with_items:
+    - 000-default
+    - 000-default.conf
+  ignore_errors: True
           
 - name: enable simple-taskboard site 
   command: a2ensite simple-taskboard.conf
