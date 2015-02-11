@@ -30,7 +30,7 @@ public class ApiBase {
 	protected JSONObjectWrapper toJson(HttpResponse res){
 		try {
 			return new JSONObjectWrapper((JSONObject)JSONValue.parse(
-					new InputStreamReader(res.getEntity().getContent())));
+					new InputStreamReader(res.getEntity().getContent(), "UTF-8")));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

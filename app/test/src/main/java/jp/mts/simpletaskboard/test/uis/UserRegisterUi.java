@@ -16,8 +16,6 @@ import jp.mts.simpletaskboard.test.uis.pages.UserRegisterPage;
 import org.fluentlenium.adapter.FluentTest;
 import org.fluentlenium.core.domain.FluentList;
 import org.fluentlenium.core.domain.FluentWebElement;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 public class UserRegisterUi extends AcceptanceUiBase {
 
@@ -66,9 +64,9 @@ public class UserRegisterUi extends AcceptanceUiBase {
 	}
 
 	public List<String> errorMsg(UserRegisterKey email) {
-		FluentWebElement input = userRegisterPage.findFirst("input#email");
-		WebElement parantDiv = input.getElement().findElement(By.xpath(".."));
-		FluentList<FluentWebElement> list = new FluentWebElement(parantDiv).find("div.tooltip-inner li");
+
+		FluentList<FluentWebElement> list = userRegisterPage.awaitAndFind(
+				userRegisterPage.findParent("input#email"), "div.tooltip-inner li");
 
 		List<String> msgs = new ArrayList<>();
 		for(FluentWebElement e : list){

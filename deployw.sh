@@ -44,4 +44,14 @@ case "$command" in
     ansible-playbook -i $inventory apiservers.yml
   ;;
   
+  "acceptance_test" )
+    inventory=$2
+    
+    cd $base/app/test
+    chmod u+x gradlew chromedriver  
+    Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 & 
+    
+    DISPLAY=:99.0 ./gradlew clean test acceptancetest -PchromeDriver=chromedriver -Penv=$inventory -Porg.gradle.daemon=false
+  ;;
+  
 esac

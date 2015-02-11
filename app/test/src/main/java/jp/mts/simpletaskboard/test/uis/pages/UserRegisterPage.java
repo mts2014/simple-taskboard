@@ -28,6 +28,7 @@ public class UserRegisterPage extends PageBase {
 
 	public void forcusOnRegister() {
 		forcusTo("button#user-register");
+		awaitForSeconds(3);
 	}
 
 }

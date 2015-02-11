@@ -80,7 +80,7 @@ public class UsersController {
 
 	@ExceptionHandler
 	@ResponseBody
-	public RestResponse hoge(
+	public RestResponse handleExceptionFor(
 			MethodArgumentNotValidException e,
 			HttpServletResponse httpServletResponse){
 

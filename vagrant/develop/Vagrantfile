@@ -11,9 +11,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   	type: "rsync", 
   	rsync__exclude: [
       "vagrant/", "middleware/", ".git/", 
-      "webui/node_modules/", "webui/bower_components/",
-      "test/bin/", "test/build/" "test/.gradle/",
-      "api/bin/", "api/build/" "api/.gradle/"
+      "app/webui/node_modules/", "app/webui/bower_components/",
+      "app/api/bin/",  "app/api/build/",  "app/api/.gradle/",
+      "app/test/bin/", "app/test/build/", "app/test/.gradle/"
     ]
 
   config.vm.provision "file", source: "home_settings/.ansible.cfg", destination: "~/.ansible.cfg"

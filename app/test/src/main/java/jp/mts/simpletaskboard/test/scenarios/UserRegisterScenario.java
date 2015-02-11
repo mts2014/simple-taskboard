@@ -2,7 +2,6 @@ package jp.mts.simpletaskboard.test.scenarios;
 
 import static jp.mts.simpletaskboard.test.base.UserInputs.*;
 import static jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey.*;
-import static org.fest.assertions.api.Assertions.*;
 import jp.mts.simpletaskboard.test.apis.UserApi;
 import jp.mts.simpletaskboard.test.base.AcceptanceTestBase;
 import jp.mts.simpletaskboard.test.base.UI;
@@ -60,10 +59,10 @@ public class UserRegisterScenario {
 	 * サブストーリ
 	 *
 	 * 新規利用者として
-	 * ユーザを登録するときに、すでに同じメールアドレスのユーザが存在するかを知りたい
-	 * 誤登録の可能性があり心配だからだ。
+	 * ユーザを登録するときに、不正な入力値があれば知らせてほしい。
+	 * 間違った情報を登録したくないからだ。
 	 */
-	public static class 重複メールアドレスの場合エラーが通知される extends 共通設定 {
+	public static class 入力値検証 extends 共通設定 {
 
 		@Test
 		public void すでに存在するメールアドレスを入力するとエラー(){
@@ -78,30 +77,25 @@ public class UserRegisterScenario {
 					EMAIL, "指定されたメールアドレスはすでに登録されています。");
 		}
 
-	}
+		@Test
+		public void メールアドレスが未入力の場合入力チェックエラーになること(){
 
+			userRegisterUi.ユーザ登録情報を検証する($in()
+					.v(EMAIL, ""));
 
-	/**
-	 * サブストーリ
-	 *
-	 * 新規利用者として
-	 * ユーザを登録するときに、不正な入力値があれば知らせてほしい。
-	 * 間違った情報を登録したくないからだ。
-	 */
-	public static class 入力値検証 extends 共通設定 {
+			userRegisterUi.エラーメッセージあり(
+					EMAIL, "入力してください。");
+		}
 
 		@Test
 		@Ignore
-		public void メールアドレスが未入力の場合入力チェックエラーになること(){
+		public void メールアドレスの形式が正しくない場合入力チェックエラーになること(){
 
-			userRegisterUi.ユーザ情報を入力する($in()
-					.v(EMAIL, ""));
+			userRegisterUi.ユーザ登録情報を検証する($in()
+					.v(EMAIL, "hoge"));
 
-			assertThat(userRegisterUi.errorMsg(EMAIL))
-				.contains("メールアドレスは必須です。");
-
-			assertThat(userRegisterUi.canRegister())
-				.isFalse();
+			userRegisterUi.エラーメッセージあり(
+					EMAIL, "正しいメールアドレスの形式で入力してください。");
 		}
 
 		@Test
