@@ -28,9 +28,8 @@ for command in $commands; do
     "webui_build" ) 
       set +u
       source ~/.nvm/nvm.sh
-      set -u 
-      
       nvm use 0.10
+      set -u 
       
       cd $base/app/webui
       npm install
