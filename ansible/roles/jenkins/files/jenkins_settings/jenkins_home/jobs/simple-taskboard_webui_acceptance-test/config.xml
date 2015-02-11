@@ -41,12 +41,7 @@
     <hudson.tasks.Shell>
       <command>#!/bin/bash
 
-cd app/test
-chmod u+x gradlew chromedriver
-
-Xvfb :99 -screen 0 1024x768x24 &gt; /dev/null 2&gt;&amp;1 &amp;
-
-DISPLAY=:99.0 ./gradlew clean test acceptancetest -PchromeDriver=chromedriver -Penv=acceptance-test -Porg.gradle.daemon=false
+./deployw.sh acceptance_test --inventory=acceptance-test
 </command>
     </hudson.tasks.Shell>
   </builders>
