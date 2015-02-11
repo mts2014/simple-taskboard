@@ -41,6 +41,7 @@
       <command>#!/bin/bash
 
 ./deployw.sh webui_build api_build
+
 </command>
     </hudson.tasks.Shell>
   </builders>
