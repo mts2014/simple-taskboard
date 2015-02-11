@@ -26,7 +26,10 @@ for command in $commands; do
   case "$command" in
           
     "webui_build" ) 
+      set +u
       source ~/.nvm/nvm.sh
+      set -u 
+      
       nvm use 0.10
       
       cd $base/app/webui
