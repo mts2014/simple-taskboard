@@ -65,8 +65,8 @@ rm -fr ansible/roles/apiserver/files/dist/*</command>
     <hudson.tasks.Shell>
       <command>#!/bin/bash
 
-./deployw.sh webui_deploy acceptance-test
-./deployw.sh api_deploy acceptance-test</command>
+./deployw.sh webui_deploy api_deploy --inventory=acceptance-test
+</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
