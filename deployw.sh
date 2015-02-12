@@ -70,8 +70,8 @@ for command in $commands; do
       
       cd $base/app/test
       chmod u+x gradlew chromedriver  
-      Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 & 
       
+      Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 & 
       DISPLAY=:99.0 ./gradlew clean test acceptancetest -PchromeDriver=chromedriver -Penv=$inventory -Porg.gradle.daemon=false -i -S
     ;;
     
