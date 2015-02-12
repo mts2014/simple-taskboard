@@ -5,19 +5,19 @@ import jp.mts.simpletaskboard.test.base.PageBase;
 public class UserRegisterPage extends PageBase {
 
 	public UserRegisterPage email(String email) {
-		fill("input#email").with(email);
+		awaitAndFill("input#email", email);
 		return this;
 	}
 	public UserRegisterPage userName(String userName) {
-		fill("input#userName").with(userName);
+		awaitAndFill("input#userName", userName);
 		return this;
 	}
 	public UserRegisterPage password(String password) {
-		fill("input#password").with(password);
+		awaitAndFill("input#password", password);
 		return this;
 	}
 	public UserRegisterPage passwordForConfirm(String passwordForConfirm) {
-		fill("input#confirmPassword").with(passwordForConfirm);
+		awaitAndFill("input#confirmPassword", passwordForConfirm);
 		return this;
 	}
 

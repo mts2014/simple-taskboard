@@ -49,7 +49,7 @@ for command in $commands; do
         
     "api_build" )
       cd $base/app/api
-      ./gradlew clean build
+      ./gradlew clean build -i -S
       cp -f $base/app/api/build/libs/api-*.jar $base/ansible/roles/apiserver/files/dist/api.jar
     ;;
     
@@ -57,7 +57,7 @@ for command in $commands; do
       inventory=$(resolve_arg 'inventory' $@)
       
       cd $base/app/api
-      ./gradlew appconfig -Penv=$inventory
+      ./gradlew appconfig -Penv=$inventory -i -S
       cp -f $base/app/api/build/app_config/*.properties $base/ansible/roles/apiserver/files/app_config/
       
       cd $base/ansible
@@ -72,7 +72,7 @@ for command in $commands; do
       chmod u+x gradlew chromedriver  
       Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 & 
       
-      DISPLAY=:99.0 ./gradlew clean test acceptancetest -PchromeDriver=chromedriver -Penv=$inventory -Porg.gradle.daemon=false
+      DISPLAY=:99.0 ./gradlew clean test acceptancetest -PchromeDriver=chromedriver -Penv=$inventory -Porg.gradle.daemon=false -i -S
     ;;
     
   esac

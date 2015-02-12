@@ -33,6 +33,11 @@ public abstract class PageBase extends FluentPage {
 		return findFirst(cssSelector);
 	}
 
+	protected void awaitAndFill(String cssSelector, String value){
+		awaitUntilPresent(cssSelector);
+		fill(cssSelector).with(value);
+	}
+
 	public FluentList<FluentWebElement> awaitAndFind(final FluentWebElement parent, String cssSelector){
 		await().atMost(5, TimeUnit.SECONDS).until(new Predicate<Fluent>() {
 			@Override

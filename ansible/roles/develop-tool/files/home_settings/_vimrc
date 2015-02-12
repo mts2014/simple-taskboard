@@ -144,7 +144,8 @@ colorscheme hybrid
 " let g:solarized_termcolors=256
 " colorscheme solarized
 
-
+" ビジュアルモード選択した部分を*で検索
+vnoremap * "zy:let @/ = @z<CR>n
 
 " ############# NeoBundle ###############
 

@@ -12,6 +12,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   	rsync__exclude: [
       "vagrant/", "middleware/", ".git/", 
       "app/webui/node_modules/", "app/webui/bower_components/",
+      "ansible/roles/apiserver/files/dist/", "ansible/roles/webserver/files/dist/",
       "app/api/bin/",  "app/api/build/",  "app/api/.gradle/",
       "app/test/bin/", "app/test/build/", "app/test/.gradle/"
     ]
