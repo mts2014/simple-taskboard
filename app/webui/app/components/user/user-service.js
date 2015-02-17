@@ -50,7 +50,7 @@ angular
         $http.post('/api/users?validate', 
             { 
               email: user.email, 
-              name: user.name, 
+              userName: user.name, 
               password: user.password
             }
           ).success(function(){
@@ -61,19 +61,20 @@ angular
                   
             var errors = {}; 
             var hasError = false;
-
-            if(fields.length === 0){
-              errors.global = data.errors;
+            
+            angular.forEach(data.errors, function(error){
               hasError = true;
-            }else{
-              angular.forEach(fields, function(field){
-                var fieldErrors = filterErrorsByFields(data.errors, [field]);
-                if(fieldErrors.length > 0){
-                  hasError = true;
-                }
-                errors[field] = fieldErrors;  
-              });
-            }
+              
+              if(error.fields.length < 1){
+                errors.global = errors.global || [];
+                errors.global.push(error);
+              }else{
+                angular.forEach(error.fields, function(field){
+                  errors[field] = errors[field] || []; 
+                  errors[field].push(error);
+                }); 
+              }
+            });
             
             if(hasError) {
               $rootScope.$broadcast('validate.error', errors);

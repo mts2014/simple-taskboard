@@ -5,6 +5,7 @@ import static jp.mts.simpletaskboard.test.base.AcceptanceTestConfig.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import jp.mts.simpletaskboard.test.lib.appconfig.AppConfig;
 
@@ -14,6 +15,7 @@ import org.fluentlenium.core.domain.FluentList;
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 
 import com.google.common.base.Predicate;
 
@@ -38,20 +40,26 @@ public abstract class PageBase extends FluentPage {
 		fill(cssSelector).with(value);
 	}
 
-	public FluentList<FluentWebElement> awaitAndFind(final FluentWebElement parent, String cssSelector){
-		await().atMost(5, TimeUnit.SECONDS).until(new Predicate<Fluent>() {
-			@Override
-			public boolean apply(Fluent input) {
-				FluentList<FluentWebElement> targetElements = parent.find(cssSelector);
-				return !targetElements.isEmpty();
-			}
+	public FluentList<FluentWebElement> awaitAndFindMessageOn(String inputId){
+		String xpath = "//*[@id=\"" + inputId + "\"]/..//div[contains(@class,'tooltip-inner')]//li";
+
+		await().atMost(5, TimeUnit.SECONDS).until((Predicate<Fluent>) input -> {
+			List<WebElement> found = findFirst("body").getElement().findElements(By.xpath(xpath));
+			return !found.isEmpty();
 		});
 
-		return parent.find(cssSelector);
+		List<FluentWebElement> results = findFirst("body").getElement().findElements(By.xpath(xpath))
+			.stream()
+			.map(webElement -> new FluentWebElement(webElement))
+			.collect(Collectors.toList());
+
+		return new FluentList<FluentWebElement>(results);
 	}
-	public FluentWebElement findParent(String cssSelector){
-		FluentWebElement base = findFirst(cssSelector);
-		return new FluentWebElement(base.getElement().findElement(By.xpath("..")));
+	public FluentWebElement findParentById(String id){
+		return new FluentWebElement(
+			findFirst("body").getElement()
+				.findElement(By.xpath("//*[@id=\"" + id + "\"]/.."))
+		);
 	}
 
 	protected void awaitForSeconds(int timeInSeconds) {

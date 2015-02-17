@@ -88,7 +88,6 @@ public class UserRegisterScenario {
 		}
 
 		@Test
-		@Ignore
 		public void メールアドレスの形式が正しくない場合入力チェックエラーになること(){
 
 			userRegisterUi.ユーザ登録情報を検証する($in()
@@ -98,6 +97,24 @@ public class UserRegisterScenario {
 					EMAIL, "正しいメールアドレスの形式で入力してください。");
 		}
 
+		@Test
+		public void ユーザ名が未入力の場合入力チェックエラーになること(){
+
+			userRegisterUi.ユーザ登録情報を検証する($in()
+					.v(ユーザ名, ""));
+
+			userRegisterUi.エラーメッセージあり(
+					ユーザ名, "入力してください。");
+		}
+		@Test
+		public void パスワードが未入力の場合入力チェックエラーになること(){
+
+			userRegisterUi.ユーザ登録情報を検証する($in()
+					.v(パスワード, ""));
+
+			userRegisterUi.エラーメッセージあり(
+					パスワード, "入力してください。");
+		}
 		@Test
 		@Ignore
 		public void パスワードと確認用パスワードの入力値が異なる場合登録できないこと(){

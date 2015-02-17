@@ -73,7 +73,7 @@ public class UsersControllerTest {
 
 		UserRegisterInput userRegisterInput = new UserRegisterInput();
 		userRegisterInput.email = "hoge@test.jp";
-		userRegisterInput.name = "taro";
+		userRegisterInput.userName = "taro";
 		userRegisterInput.password = "password";
 		userRegisterInput.confirmPassword = "confirmPassword";
 
@@ -88,7 +88,7 @@ public class UsersControllerTest {
 		UserView registerdUser = (UserView)response.getContents().get("user");
 
 		assertThat(registerdUser.getEmail()).isEqualTo(userRegisterInput.email);
-		assertThat(registerdUser.getName()).isEqualTo(userRegisterInput.name);
+		assertThat(registerdUser.getName()).isEqualTo(userRegisterInput.userName);
 	}
 
 	@Test

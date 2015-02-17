@@ -55,7 +55,7 @@ public class UsersController {
 
 		User user = new UserFactory().create();
 		user.setEmail(userRegisterInput.email);
-		user.setName(userRegisterInput.name);
+		user.setName(userRegisterInput.userName);
 		userRepository.save(user);
 
 		return new RestResponse()

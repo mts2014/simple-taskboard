@@ -20,11 +20,24 @@ angular
             
         var field = attrs.ngModel;
         ngModel.$asyncValidators[ field ] = function(modelValue){
+          if(field === 'email'){
+            scope.email = modelValue;
+          }
+          if(field === 'userName'){
+            scope.userName = modelValue;
+          }
+          if(field === 'password'){
+            scope.password = modelValue;
+          }
+          if(field === 'confirmPassword'){
+            scope.confirmPassword = modelValue;
+          }
+          
           var user = {
-            email: field === 'email' ? modelValue : scope.email,
-            name: field === 'userName' ? modelValue : scope.userName,
-            password: field === 'password' ? modelValue : scope.password,
-            confirmPassword: field === 'confirmPassword' ? modelValue : scope.confirmPassword,
+            email: scope.email,
+            name: scope.userName,
+            password: scope.password,
+            confirmPassword: scope.confirmPassword
           };
           
           return userService.validate(user, [ field ]);

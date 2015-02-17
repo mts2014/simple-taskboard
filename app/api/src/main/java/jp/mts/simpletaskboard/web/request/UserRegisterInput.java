@@ -8,8 +8,14 @@ public class UserRegisterInput {
 	@NotEmpty
 	@Email
 	public String email;
-	public String name;
+
+	@NotEmpty
+	public String userName;
+
+	@NotEmpty
 	public String password;
+
+
 	public String confirmPassword;
 
 }

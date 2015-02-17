@@ -3,8 +3,8 @@ package jp.mts.simpletaskboard.test.uis;
 import static jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey.*;
 import static org.fest.assertions.api.Assertions.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jp.mts.simpletaskboard.test.base.AcceptanceUiBase;
 import jp.mts.simpletaskboard.test.base.Page;
@@ -14,7 +14,6 @@ import jp.mts.simpletaskboard.test.uis.pages.LoginPage;
 import jp.mts.simpletaskboard.test.uis.pages.UserRegisterPage;
 
 import org.fluentlenium.adapter.FluentTest;
-import org.fluentlenium.core.domain.FluentList;
 import org.fluentlenium.core.domain.FluentWebElement;
 
 public class UserRegisterUi extends AcceptanceUiBase {
@@ -45,9 +44,11 @@ public class UserRegisterUi extends AcceptanceUiBase {
 		loginPage.go();
 		loginPage.goToUserRegister();
 
-		if(inputs.isSpecified(EMAIL)){
-			userRegisterPage.email(inputs.v(EMAIL));
-		}
+		userRegisterPage
+			.email(inputs.v(EMAIL))
+			.userName(inputs.v(ユーザ名))
+			.password(inputs.v(パスワード))
+			.passwordForConfirm(inputs.v(確認パスワード));
 
 		userRegisterPage.forcusOnRegister();
 	}
@@ -63,16 +64,12 @@ public class UserRegisterUi extends AcceptanceUiBase {
 		return !btn.getAttribute("class").contains("disabled");
 	}
 
-	public List<String> errorMsg(UserRegisterKey email) {
+	private List<String> errorMsg(String inputId) {
 
-		FluentList<FluentWebElement> list = userRegisterPage.awaitAndFind(
-				userRegisterPage.findParent("input#email"), "div.tooltip-inner li");
-
-		List<String> msgs = new ArrayList<>();
-		for(FluentWebElement e : list){
-			msgs.add(e.getText());
-		}
-		return msgs;
+		return userRegisterPage.awaitAndFindMessageOn(inputId)
+			.stream()
+			.map(e -> e.getText())
+			.collect(Collectors.toList());
 	}
 
 	public void ユーザ情報を入力する(UserInputs inputs) {
@@ -88,7 +85,7 @@ public class UserRegisterUi extends AcceptanceUiBase {
 	}
 
 	public void エラーメッセージあり(UserRegisterKey key, String message) {
-		assertThat(errorMsg(key)).contains(message);
+		assertThat(errorMsg(key.getId())).contains(message);
 	}
 
 
