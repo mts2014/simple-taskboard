@@ -40,7 +40,7 @@ angular
             confirmPassword: scope.confirmPassword
           };
           
-          return userService.validate(user, [ field ]);
+          return userService.validate(user);
         };
         
         scope.validateErrors = scope.validateErrors || {};

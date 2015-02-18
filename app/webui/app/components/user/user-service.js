@@ -6,21 +6,6 @@ angular
    
     var currentUser = {};
     
-    function filterErrorsByFields(errors, fields){
-      if(fields.length === 0){
-        return errors; 
-      }
-      var filteredErrors = [];
-      angular.forEach(errors, function(error){
-        angular.forEach(fields, function(field){
-          if(error.fields.indexOf(field) >= 0 && filteredErrors.indexOf(error) < 0){
-            filteredErrors.push(error);  
-          } 
-        }); 
-      }); 
-      return filteredErrors;
-    }
-    
     return {
             
       currentUser: currentUser,
@@ -30,7 +15,7 @@ angular
         $http.post(userApi.registerUrl, 
             { 
               email: user.email, 
-              name: user.name, 
+              userName: user.name, 
               password: user.password
             }
           ).success(function(){
@@ -45,7 +30,7 @@ angular
           });
       }, 
     
-      validate: function(user, fields){
+      validate: function(user){
         var defered = $q.defer();
         $http.post('/api/users?validate', 
             { 

@@ -29,7 +29,7 @@ describe('userService', function(){
   describe('#register', function(){
           
     var postUser = { email: 'taro@test', name: 'taro', password:'pass', confirmPassword:'pass' }; 
-    var postUserData = '{"email":"taro@test","name":"taro","password":"pass"}'; 
+    var postUserData = '{"email":"taro@test","userName":"taro","password":"pass"}'; 
           
     describe('登録APIの呼び出しが成功した場合', function(){
       
@@ -80,7 +80,7 @@ describe('userService', function(){
     
     it('エラーがない場合はvalidate.successイベントが発生すること', function(){
       var postUser = { email: 'taro@test', name: 'taro', password:'pass', confirmPassword:'pass' }; 
-      var postUserData = '{"email":"taro@test","name":"taro","password":"pass"}'; 
+      var postUserData = '{"email":"taro@test","userName":"taro","password":"pass"}'; 
       $httpBackend.expectPOST('/api/users?validate', postUserData).respond(200, {});
       
       userService.validate(postUser, []);
@@ -99,25 +99,19 @@ describe('userService', function(){
       }); 
       
       it('fieldsの指定がない場合は validate.error イベントですべてのエラーが発生すること', function(){
-        expectCallValidate('[]');        
-        userService.validate(postUser, []);
+        expectCallValidate();        
+        userService.validate(postUser);
         $httpBackend.flush();
         
-        expect($rootScope.$broadcast).toHaveBeenCalledWith('validate.error', { global: [globalError, emailError] }); 
-      }); 
-      it('fieldsの指定がある場合は validate.error イベントで指定したフィールドのエラーが発生すること', function(){
-        expectCallValidate('["email"]');        
-        userService.validate(postUser, ['email']);
-        $httpBackend.flush();
-        
-        expect($rootScope.$broadcast).toHaveBeenCalledWith('validate.error', { email: [emailError] }); 
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('validate.error', 
+                { global: [globalError], email: [emailError] }); 
       }); 
       
-      function expectCallValidate(fields){
+      function expectCallValidate(){
         
         $httpBackend.expectPOST(
                 '/api/users?validate', 
-                '{"email":"taro@test","name":"taro","password":"pass"}')
+                '{"email":"taro@test","userName":"taro","password":"pass"}')
           .respond(400, { errors: [ globalError, emailError ] });
       }
     });

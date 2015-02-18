@@ -25,8 +25,7 @@ describe('validate directive', function(){
     input.change();
     input.blur();
     
-    expect(userService.validate).toHaveBeenCalledWith(
-      jasmine.objectContaining({ email: "taro@test"}), ['email']);
+    expect(userService.validate).toHaveBeenCalledWith( jasmine.objectContaining({ email: "taro@test"}) );
     
   }); 
         
