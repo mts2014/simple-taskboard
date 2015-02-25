@@ -8,7 +8,6 @@ import jp.mts.simpletaskboard.test.base.UI;
 import jp.mts.simpletaskboard.test.uis.LoginUi;
 import jp.mts.simpletaskboard.test.uis.UserRegisterUi;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -116,8 +115,32 @@ public class UserRegisterScenario {
 					パスワード, "入力してください。");
 		}
 		@Test
-		@Ignore
-		public void パスワードと確認用パスワードの入力値が異なる場合登録できないこと(){
+		public void パスワードの形式が不正の場合入力チェックエラーになること(){
+
+			userRegisterUi.ユーザ登録情報を検証する($in()
+					.v(パスワード, "a"));
+
+			userRegisterUi.エラーメッセージあり(
+					パスワード, "パスワードは半角英数の組み合わせ4文字以上で入力してください。");
+		}
+		@Test
+		public void 確認用パスワードが未入力の場合入力チェックエラーになること(){
+
+			userRegisterUi.ユーザ登録情報を検証する($in()
+					.v(確認パスワード, ""));
+
+			userRegisterUi.エラーメッセージあり(
+					確認パスワード, "入力してください。");
+		}
+		@Test
+		public void 確認用パスワードとパスワードが違う場合入力チェックエラーになること(){
+
+			userRegisterUi.ユーザ登録情報を検証する($in()
+					.v(パスワード, "abcd")
+					.v(確認パスワード, "1234"));
+
+			userRegisterUi.エラーメッセージあり(
+					確認パスワード, "確認用パスワードがパスワードと違います。");
 		}
 
 	}

@@ -16,7 +16,8 @@ angular
             { 
               email: user.email, 
               userName: user.name, 
-              password: user.password
+              password: user.password,
+              confirmPassword: user.confirmPassword
             }
           ).success(function(){
             jQuery.extend(currentUser, user);
@@ -36,7 +37,8 @@ angular
             { 
               email: user.email, 
               userName: user.name, 
-              password: user.password
+              password: user.password,
+              confirmPassword: user.confirmPassword
             }
           ).success(function(){
                   

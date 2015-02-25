@@ -29,12 +29,12 @@ describe('userService', function(){
   describe('#register', function(){
           
     var postUser = { email: 'taro@test', name: 'taro', password:'pass', confirmPassword:'pass' }; 
-    var postUserData = '{"email":"taro@test","userName":"taro","password":"pass"}'; 
+    var expectedPostUserData = '{"email":"taro@test","userName":"taro","password":"pass","confirmPassword":"pass"}'; 
           
     describe('登録APIの呼び出しが成功した場合', function(){
       
       beforeEach(function(){
-        $httpBackend.expectPOST('/api/users', postUserData)
+        $httpBackend.expectPOST('/api/users', expectedPostUserData)
                 .respond(200, {});
       
         userService.register(postUser);
@@ -58,7 +58,7 @@ describe('userService', function(){
       ] };
       
       beforeEach(function(){
-        $httpBackend.expectPOST('/api/users', postUserData)
+        $httpBackend.expectPOST('/api/users', expectedPostUserData)
                 .respond(400, errorResponce);
       
         userService.register(postUser);
@@ -80,41 +80,32 @@ describe('userService', function(){
     
     it('エラーがない場合はvalidate.successイベントが発生すること', function(){
       var postUser = { email: 'taro@test', name: 'taro', password:'pass', confirmPassword:'pass' }; 
-      var postUserData = '{"email":"taro@test","userName":"taro","password":"pass"}'; 
-      $httpBackend.expectPOST('/api/users?validate', postUserData).respond(200, {});
+      var expectedPostUserData = '{"email":"taro@test","userName":"taro","password":"pass","confirmPassword":"pass"}'; 
+      $httpBackend.expectPOST('/api/users?validate', expectedPostUserData).respond(200, {});
       
-      userService.validate(postUser, []);
+      userService.validate(postUser);
       $httpBackend.flush();
       
       expect($rootScope.$broadcast).toHaveBeenCalledWith('validate.success'); 
     }); 
     
-    describe('エラーがある場合', function(){
-      var postUser, globalError, emailError;
-    
-      beforeEach(function(){
-        postUser = { email: 'taro@test', name: 'taro', password:'pass', confirmPassword:'pass' }; 
-        globalError = { developperMessage: "", userMessage:"error1", errorCode:"1", fields: [] };
-        emailError = { developperMessage: "", userMessage:"error2", errorCode:"2", fields: ['email'] };
-      }); 
       
-      it('fieldsの指定がない場合は validate.error イベントですべてのエラーが発生すること', function(){
-        expectCallValidate();        
-        userService.validate(postUser);
-        $httpBackend.flush();
-        
-        expect($rootScope.$broadcast).toHaveBeenCalledWith('validate.error', 
-                { global: [globalError], email: [emailError] }); 
-      }); 
+    it('エラーがある場合はvalidate.error イベントでエラーが通知されること', function(){
+      var postUser = { email: 'taro@test', name: 'taro', password:'pass', confirmPassword:'pass' }; 
+      var expectedPostUserData = '{"email":"taro@test","userName":"taro","password":"pass","confirmPassword":"pass"}'; 
+      var globalError = { developperMessage: "", userMessage:"error1", errorCode:"1", fields: [] };
+      var emailError = { developperMessage: "", userMessage:"error2", errorCode:"2", fields: ['email'] };
       
-      function expectCallValidate(){
-        
-        $httpBackend.expectPOST(
-                '/api/users?validate', 
-                '{"email":"taro@test","userName":"taro","password":"pass"}')
-          .respond(400, { errors: [ globalError, emailError ] });
-      }
-    });
+      $httpBackend.expectPOST('/api/users?validate', expectedPostUserData)
+        .respond(400, { errors: [ globalError, emailError ] });
+      
+      userService.validate(postUser);
+      $httpBackend.flush();
+      
+      expect($rootScope.$broadcast).toHaveBeenCalledWith('validate.error', 
+              { global: [globalError], email: [emailError] }); 
+    });   
+      
   
   });
   
