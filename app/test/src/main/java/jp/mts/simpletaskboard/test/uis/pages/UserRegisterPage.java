@@ -1,9 +1,10 @@
 package jp.mts.simpletaskboard.test.uis.pages;
 
 import jp.mts.simpletaskboard.test.base.PageBase;
+import jp.mts.simpletaskboard.test.base.PageId;
 
 public class UserRegisterPage extends PageBase {
-	public static enum Id {
+	public static enum Id implements PageId {
 		INPUT_EMAIL           ("userRegisterForm_email"),
 		INPUT_USER_NAME       ("userRegisterForm_userName"),
 		INPUT_PASSWORD        ("userRegisterForm_password"),
@@ -16,9 +17,6 @@ public class UserRegisterPage extends PageBase {
 			this.id = id;
 		}
 
-		public String getIdSelector(){
-			return "#" + this.id;
-		}
 		public String getIdValue(){
 			return this.id;
 		}
