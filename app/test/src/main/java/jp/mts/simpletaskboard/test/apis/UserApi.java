@@ -45,7 +45,7 @@ public class UserApi extends ApiBase {
 		try {
 			JSONObject requestJson = new JSONObject();
 			requestJson.put("email", inputs.v(EMAIL));
-			requestJson.put("name", inputs.v(ユーザ名));
+			requestJson.put("userName", inputs.v(ユーザ名));
 			requestJson.put("password", inputs.v(パスワード));
 			requestJson.put("confirmPassword", inputs.v(確認パスワード));
 
@@ -88,7 +88,7 @@ public class UserApi extends ApiBase {
 		try {
 			JSONObject requestJson = new JSONObject();
 			requestJson.put("email", inputs.v(EMAIL));
-			requestJson.put("name", inputs.v(ユーザ名));
+			requestJson.put("userName", inputs.v(ユーザ名));
 			requestJson.put("password", inputs.v(パスワード));
 			requestJson.put("confirmPassword", inputs.v(確認パスワード));
 
