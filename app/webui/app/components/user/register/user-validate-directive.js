@@ -14,7 +14,7 @@ angular
         this.data.confirmPassword = scope.confirmPassword;
       },
       restore: function(scope){
-        if(this.initialized) return;
+        if(this.initialized) { return; }
         scope.email = this.data.email;
         scope.userName = this.data.userName;
         scope.password = this.data.password;
