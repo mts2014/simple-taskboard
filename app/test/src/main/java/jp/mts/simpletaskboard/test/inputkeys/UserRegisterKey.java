@@ -1,16 +1,18 @@
 package jp.mts.simpletaskboard.test.inputkeys;
 
+import jp.mts.simpletaskboard.test.uis.pages.UserRegisterPage;
+
 public enum UserRegisterKey implements jp.mts.simpletaskboard.test.base.UserInputKey{
-	EMAIL         ("test@test.jp", "email"),
-	ユーザ名      ("yamada taro" , "userName"),
-	パスワード    ("pass"        , "password"),
-	確認パスワード("pass"        , "confirmPassword"),
+	EMAIL         ("test@test.jp", UserRegisterPage.Id.INPUT_EMAIL),
+	ユーザ名      ("yamada taro" , UserRegisterPage.Id.INPUT_USER_NAME),
+	パスワード    ("pass"        , UserRegisterPage.Id.INPUT_PASSWORD),
+	確認パスワード("pass"        , UserRegisterPage.Id.INPUT_CONFIRM_PASSWORD),
 	;
 
 	private String defaultValue;
-	private String id;
+	private UserRegisterPage.Id id;
 
-	private UserRegisterKey(String defaultValue, String id) {
+	private UserRegisterKey(String defaultValue, UserRegisterPage.Id id) {
 		this.defaultValue = defaultValue;
 		this.id = id;
 	}
@@ -19,7 +21,7 @@ public enum UserRegisterKey implements jp.mts.simpletaskboard.test.base.UserInpu
 		return defaultValue;
 	}
 
-	public String getId() {
+	public UserRegisterPage.Id getId() {
 		return id;
 	}
 

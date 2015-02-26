@@ -38,6 +38,7 @@ public abstract class PageBase extends FluentPage {
 	protected void awaitAndFill(String cssSelector, String value){
 		awaitUntilPresent(cssSelector);
 		fill(cssSelector).with(value);
+		blur();
 	}
 
 	public FluentList<FluentWebElement> awaitAndFindMessageOn(String inputId){
@@ -78,6 +79,10 @@ public abstract class PageBase extends FluentPage {
 			errors.add(errorMsg.getText());
 		}
 		return errors;
+	}
+
+	protected void blur(){
+		executeScript("$(':focus').blur()");
 	}
 
 	protected void forcusTo(String cssSelector){

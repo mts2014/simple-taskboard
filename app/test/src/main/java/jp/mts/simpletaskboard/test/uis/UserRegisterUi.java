@@ -12,6 +12,7 @@ import jp.mts.simpletaskboard.test.base.UserInputs;
 import jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey;
 import jp.mts.simpletaskboard.test.uis.pages.LoginPage;
 import jp.mts.simpletaskboard.test.uis.pages.UserRegisterPage;
+import jp.mts.simpletaskboard.test.uis.pages.UserRegisterPage.Id;
 
 import org.fluentlenium.adapter.FluentTest;
 import org.fluentlenium.core.domain.FluentWebElement;
@@ -50,7 +51,7 @@ public class UserRegisterUi extends AcceptanceUiBase {
 			.password(inputs.v(パスワード))
 			.passwordForConfirm(inputs.v(確認パスワード));
 
-		userRegisterPage.forcusOnRegister();
+		userRegisterPage.valudateWithForcusOut();
 	}
 
 
@@ -64,9 +65,9 @@ public class UserRegisterUi extends AcceptanceUiBase {
 		return !btn.getAttribute("class").contains("disabled");
 	}
 
-	private List<String> errorMsg(String inputId) {
+	private List<String> errorMsg(Id inputId) {
 
-		return userRegisterPage.awaitAndFindMessageOn(inputId)
+		return userRegisterPage.awaitAndFindMessageOn(inputId.getIdValue())
 			.stream()
 			.map(e -> e.getText())
 			.collect(Collectors.toList());
@@ -85,6 +86,7 @@ public class UserRegisterUi extends AcceptanceUiBase {
 	}
 
 	public void エラーメッセージあり(UserRegisterKey key, String message) {
+		userRegisterPage.forcusOn(key.getId());
 		assertThat(errorMsg(key.getId())).contains(message);
 	}
 
