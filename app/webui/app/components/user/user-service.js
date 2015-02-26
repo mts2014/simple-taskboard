@@ -33,6 +33,7 @@ angular
     
       validate: function(user){
         var defered = $q.defer();
+        
         $http.post('/api/users?validate', 
             { 
               email: user.email, 
@@ -44,14 +45,11 @@ angular
                   
             $rootScope.$broadcast('validate.success');
             defered.resolve();
+            
           }).error(function(data){
                   
             var errors = {}; 
-            var hasError = false;
-            
             angular.forEach(data.errors, function(error){
-              hasError = true;
-              
               if(error.fields.length < 1){
                 errors.global = errors.global || [];
                 errors.global.push(error);
@@ -63,16 +61,12 @@ angular
               }
             });
             
-            if(hasError) {
-              $rootScope.$broadcast('validate.error', errors);
-              defered.reject();
-            }else{
-              defered.resolve(); 
-            }
-            
+            $rootScope.$broadcast('validate.error', errors);
+            defered.reject();
           });
         
         return defered.promise;
+        
       }
   
     };

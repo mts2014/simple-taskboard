@@ -23,6 +23,6 @@
   </div>
   
   <button id="user-register" type="button" class="btn btn-primary" 
-    ng-class="{ 'disabled' : userRegisterForm.$invalid}" user-register>登録</button>
+          ng-disabled="userRegisterForm.$invalid || userRegisterForm.$pending" user-register>登録</button>
 
 </form>

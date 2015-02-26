@@ -136,7 +136,7 @@ public class UserRegisterScenario {
 		public void 確認用パスワードとパスワードが違う場合入力チェックエラーになること(){
 
 			userRegisterUi.ユーザ登録情報を検証する($in()
-					.v(パスワード, "abcd")
+					.v(パスワード,     "abcd")
 					.v(確認パスワード, "1234"));
 
 			userRegisterUi.エラーメッセージあり(
@@ -144,7 +144,5 @@ public class UserRegisterScenario {
 		}
 
 	}
-
-
 
 }

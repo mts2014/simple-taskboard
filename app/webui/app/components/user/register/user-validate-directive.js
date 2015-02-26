@@ -4,6 +4,27 @@ angular
   .module('simple-taskboard.webui.components.user')
   .directive('userValidate', ['$timeout', '$q', 'userService', function($timeout, $q, userService){
      
+    var userInputStore = {
+      initialized: true,
+      data: {},
+      store: function(scope){
+        this.data.email = scope.email;
+        this.data.userName = scope.userName;
+        this.data.password = scope.password;
+        this.data.confirmPassword = scope.confirmPassword;
+      },
+      restore: function(scope){
+        if(this.initialized) return;
+        scope.email = this.data.email;
+        scope.userName = this.data.userName;
+        scope.password = this.data.password;
+        scope.confirmPassword = this.data.confirmPassword;
+      },
+      initialize: function(){
+        this.initialized = true; 
+      }
+    };
+        
     return {
       require: 'ngModel',
       restrict: 'A',
@@ -12,7 +33,7 @@ angular
       transclude: true,
       template: function(element, attrs){
         var field = attrs.ngModel;
-        return '<input ng-transclude tooltip-html-unsafe="{{ validateErrors[\'' + field + '\'] }}" tooltip-trigger="blur">';
+        return '<input ng-transclude tooltip-html-unsafe="{{ validateErrors[\'' + field + '\'] }}" tooltip-trigger="focus">';
       },
       link: function(scope, element, attrs, ngModel){
         
@@ -20,18 +41,13 @@ angular
             
         var field = attrs.ngModel;
         ngModel.$asyncValidators[ field ] = function(modelValue){
-          if(field === 'email'){
-            scope.email = modelValue;
-          }
-          if(field === 'userName'){
-            scope.userName = modelValue;
-          }
-          if(field === 'password'){
-            scope.password = modelValue;
-          }
-          if(field === 'confirmPassword'){
-            scope.confirmPassword = modelValue;
-          }
+                
+          userInputStore.restore(scope);
+          if(field === 'email'){ scope.email = modelValue; }
+          if(field === 'userName'){ scope.userName = modelValue; }
+          if(field === 'password'){ scope.password = modelValue; }
+          if(field === 'confirmPassword'){ scope.confirmPassword = modelValue; }
+          userInputStore.store(scope);
           
           var user = {
             email: scope.email,
@@ -48,6 +64,9 @@ angular
         scope.$on('validate.success', function(){
           $timeout(function(){ scope.validateErrors[field] = ''; });
           element.parent('div[class*=form-group]').removeClass('has-error');
+          
+          ngModel.$setValidity(field, true);
+          userInputStore.initialize();
         });
         
         scope.$on('validate.error', function(event, errors){
@@ -65,7 +84,6 @@ angular
 
           $timeout(function(){
             scope.validateErrors[field] = errorMsgs;
-            element.trigger('focus'); element.trigger('blur');
           });
           
           element.parent('div[class*=form-group]').addClass('has-error');
