@@ -6,8 +6,8 @@ import jp.mts.simpletaskboard.test.base.PageId;
 public class LoginPage extends PageBase {
 
 	public static enum Id implements PageId {
-		INPUT_EMAIL           ("loginForm_email"),
-		INPUT_PASSWORD        ("loginForm_password"),
+		INPUT_LOGINID  ("loginForm_loginId"),
+		INPUT_PASSWORD ("loginForm_password"),
 		;
 		private String id;
 
@@ -27,5 +27,20 @@ public class LoginPage extends PageBase {
 
 	public boolean hasUserRegisterLink() {
 		return findFirst("button#register-user-link") != null;
+	}
+
+	public LoginPage email(String email) {
+		awaitAndFill(Id.INPUT_LOGINID.getIdSelector(), email);
+		return this;
+	}
+
+	public LoginPage password(String password) {
+		awaitAndFill(Id.INPUT_PASSWORD.getIdSelector(), password);
+		return this;
+	}
+
+	public void login() {
+		click("#login-action");
+		awaitForSeconds(3);
 	}
 }

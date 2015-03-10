@@ -14,8 +14,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class JdbcUserRepository implements UserRepository {
 
-	@Autowired
+	private PasswordHashHelper passwordHashHelper = new Sha256PasswordHashHelper();
 	private JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	public JdbcUserRepository(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
 
 	@Override
 	public User searchByEmail(final String email) {
@@ -25,19 +30,13 @@ public class JdbcUserRepository implements UserRepository {
 			(rs, rowNum) -> { return mapToUser(rs); }
 		);
 
-		if(users.isEmpty()){
-			return null;
-		}
-		if(users.size() > 1){
-			throw new IllegalStateException();
-		}
-
-		return users.get(0);
+		return getAtMostOneResult(users);
 	}
 
 	@Override
 	public void save(User user) {
-		jdbcTemplate.update("insert into users(id, email, name) values (?,?,?)", user.getId(), user.getEmail(), user.getName());
+		jdbcTemplate.update("insert into users(id, email, name, password_hash) values (?,?,?,?)",
+				user.getId(), user.getEmail(), user.getName(), passwordHashHelper.hash(user.getPassword()));
 	}
 
 	@Override
@@ -54,6 +53,33 @@ public class JdbcUserRepository implements UserRepository {
 		user.setEmail(rs.getString("email"));
 		user.setName(rs.getString("name"));
 		return user;
+	}
+
+	@Override
+	public User searchByEmailAndPassword(String email, String password) {
+		List<User> users = jdbcTemplate.query(
+			"select id, email, name from users where email = ? and password_hash = ?",
+			new Object[]{ email, passwordHashHelper.hash(password) },
+			(rs, rowNum) -> { return mapToUser(rs); }
+		);
+
+		return getAtMostOneResult(users);
+	}
+
+	private User getAtMostOneResult(List<User> users){
+		if(users.isEmpty()){
+			return null;
+		}
+		if(users.size() > 1){
+			throw new IllegalStateException();
+		}
+
+		return users.get(0);
+	}
+
+	@Autowired(required=false)
+	public void setPasswordHashHelper(PasswordHashHelper passwordHashHelper) {
+		this.passwordHashHelper = passwordHashHelper;
 	}
 
 }

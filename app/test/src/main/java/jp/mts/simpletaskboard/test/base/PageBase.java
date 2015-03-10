@@ -27,7 +27,7 @@ public abstract class PageBase extends FluentPage {
 	}
 
 	protected String getRelativeUrl(){
-		return "index.html";
+		return "#/";
 	}
 
 	protected FluentWebElement awaitUntilPresent(String cssSelector) {

@@ -8,4 +8,6 @@ public interface UserRepository {
 
 	void save(User any);
 
+	User searchByEmailAndPassword(String email, String password);
+
 }

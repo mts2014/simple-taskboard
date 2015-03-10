@@ -3,7 +3,8 @@ package jp.mts.simpletaskboard.datasource.jdbc.repository.impl;
 import static org.fest.assertions.api.Assertions.*;
 import jp.mts.simpletaskboard.domain.User;
 import jp.mts.simpletaskboard.testhelpers.UserBuilder;
-import mockit.Deencapsulation;
+import mockit.Expectations;
+import mockit.Mocked;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,11 +15,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class JdbcUserRepositoryTest extends JdbcRepositoryTestBase{
 
 	JdbcUserRepository sut;
+	@Mocked PasswordHashHelper passwordHashHelper;
 
 	@Before
 	public void setup(){
-		sut = new JdbcUserRepository();
-		Deencapsulation.setField(sut, jdbcTemplate);
+		sut = new JdbcUserRepository(jdbcTemplate);
+		sut.setPasswordHashHelper(passwordHashHelper);
 	}
 
 	@Test
@@ -47,15 +49,36 @@ public class JdbcUserRepositoryTest extends JdbcRepositoryTestBase{
 	@Test
 	public void test_ユーザ情報を登録できる(){
 
+		new Expectations() {{
+			passwordHashHelper.hash("pass");
+				result = "password_hashed_value";
+		}};
+
 		User user = new User("2");
 		user.setEmail("baz@test.jp");
 		user.setName("taro");
+		user.setPassword("pass");
 
 		sut.save(user);
 
 		User actual = sut.load("2");
 		assertThat(actual.getEmail()).isEqualTo("baz@test.jp");
 		assertThat(actual.getName()).isEqualTo("taro");
+
+	}
+
+	@Test
+	public void test_emailとパスワードで検索できる(){
+
+		new Expectations() {{
+			passwordHashHelper.hash("pass");
+				result = "password_hashed_value";
+		}};
+
+		User user = sut.searchByEmailAndPassword("hoge@test.jp", "pass");
+
+		assertThat(user.getId()).isEqualTo("1");
+		assertThat(user.getEmail()).isEqualTo("hoge@test.jp");
 
 	}
 

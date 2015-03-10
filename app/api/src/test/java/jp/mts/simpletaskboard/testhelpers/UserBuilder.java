@@ -17,6 +17,10 @@ public class UserBuilder {
 		this.user.setEmail(email);
 		return this;
 	}
+	public UserBuilder name(String name) {
+		this.user.setName(name);
+		return this;
+	}
 
 	public User build(){
 		return user;

@@ -31,7 +31,7 @@ dependencies {
 	compile "org.springframework.boot:spring-boot-starter-jdbc"
 	compile "org.springframework.boot:spring-boot-starter-actuator"
 	compile "org.apache.commons:commons-lang3:3.3.2"
-
+	compile 'commons-codec:commons-codec:1.10'
 
 	testCompile "org.springframework.boot:spring-boot-starter-test"
 

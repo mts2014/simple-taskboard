@@ -1,5 +1,6 @@
 package jp.mts.simpletaskboard.test.uis;
 
+import static jp.mts.simpletaskboard.test.inputkeys.LoginKey.*;
 import jp.mts.simpletaskboard.test.base.AcceptanceUiBase;
 import jp.mts.simpletaskboard.test.base.Page;
 import jp.mts.simpletaskboard.test.base.UserInputs;
@@ -20,9 +21,13 @@ public class LoginUi extends AcceptanceUiBase {
 		return loginPage.hasUserRegisterLink();
 	}
 
-	public void ログインする(UserInputs v) {
-		// TODO 自動生成されたメソッド・スタブ
+	public void ログインする(UserInputs inputs) {
+		loginPage.go();
 
+		loginPage
+			.email(inputs.v(ログインＩＤ))
+			.password(inputs.v(パスワード))
+			.login();
 	}
 
 }

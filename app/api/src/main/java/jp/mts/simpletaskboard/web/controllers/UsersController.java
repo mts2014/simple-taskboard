@@ -51,11 +51,12 @@ public class UsersController {
 
 	@RequestMapping(method=RequestMethod.POST)
 	public RestResponse register(
-			@RequestBody UserRegisterInput userRegisterInput) {
+			@RequestBody @Valid UserRegisterInput userRegisterInput) {
 
 		User user = new UserFactory().create();
 		user.setEmail(userRegisterInput.email);
 		user.setName(userRegisterInput.userName);
+		user.setPassword(userRegisterInput.password);
 		userRepository.save(user);
 
 		return new RestResponse()

@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="components/message/global-message.css">
     <!-- endbuild -->
   </head>
-   
+
   <body ng-app="simple-taskboard.webui">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -27,11 +27,14 @@
     <!-- Add your site or application content here -->
     <div class="container" show-global-msgs>
       <div class="header">
+        <!--
         <ul class="nav nav-pills pull-right">
           <li class="active"><a ng-href="#">Home</a></li>
           <li><a ng-href="#/about">About</a></li>
           <li><a ng-href="#">Contact</a></li>
         </ul>
+        -->
+        <div class="pull-right">こんにちは。<span class="login-user">{{auth.name}}</span> さん</div>
         <h3 class="text-muted">webui</h3>
       </div>
 
@@ -70,7 +73,7 @@
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="app.js"></script>
         <script src="app-mock.js"></script>
-        
+
         <script src="components/api/api-module.js"></script>
         <script src="components/message/message-module.js"></script>
         <script src="components/message/show-global-messages-directive.js"></script>
@@ -79,10 +82,15 @@
         <script src="components/user/register/show-user-register-form-directive.js"></script>
         <script src="components/user/register/user-register-directive.js"></script>
         <script src="components/user/register/user-validate-directive.js"></script>
+        <script src="components/authenticate/authenticate-module.js"></script>
+        <script src="components/authenticate/authenticate-directive.js"></script>
+        <script src="components/authenticate/auth-service.js"></script>
         <script src="sample/sample-module.js"></script>
         <script src="sample/sample-controller.js"></script>
         <script src="login/login-module.js"></script>
         <script src="login/login-controller.js"></script>
+        <script src="taskboard/taskboard-module.js"></script>
+        <script src="taskboard/taskboard-controller.js"></script>
         <!-- endbuild -->
 </body>
 </html>

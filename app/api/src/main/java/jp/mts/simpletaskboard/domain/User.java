@@ -5,6 +5,7 @@ public class User {
 	private String id;
 	private String email;
 	private String name;
+	private String password;
 
 	public User(String id) {
 		super();
@@ -30,5 +31,14 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 
 }
