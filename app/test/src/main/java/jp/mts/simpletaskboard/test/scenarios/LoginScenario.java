@@ -42,4 +42,17 @@ public class LoginScenario extends AcceptanceTestBase {
 
 		taskboardUi.ログインユーザが表示されている("ログインテストユーザ");
 	}
+
+	@Test public void
+	未登録のユーザに対して_存在しないエラーが通知されること(){
+
+		loginUi.ログインする($in()
+				.v(LoginKey.ログインＩＤ, "not_exist@test.jp")
+				.v(LoginKey.パスワード,   "loginpass"));
+		
+		
+		loginUi.エラーメッセージあり(
+				"IDまたはパスワードが間違っています。");
+
+	}
 }

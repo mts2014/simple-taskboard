@@ -1,6 +1,7 @@
 package jp.mts.simpletaskboard.test.uis;
 
 import static jp.mts.simpletaskboard.test.inputkeys.LoginKey.*;
+import static org.fest.assertions.api.Assertions.*;
 import jp.mts.simpletaskboard.test.base.AcceptanceUiBase;
 import jp.mts.simpletaskboard.test.base.Page;
 import jp.mts.simpletaskboard.test.base.UserInputs;
@@ -28,6 +29,10 @@ public class LoginUi extends AcceptanceUiBase {
 			.email(inputs.v(ログインＩＤ))
 			.password(inputs.v(パスワード))
 			.login();
+	}
+
+	public void エラーメッセージあり(String message) {
+		assertThat(loginPage.globalErrors()).contains(message);
 	}
 
 }

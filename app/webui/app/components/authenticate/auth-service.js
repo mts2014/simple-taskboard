@@ -14,8 +14,8 @@ angular
         }).success(function(data){
           jQuery.extend(auth, data.contents.auth);
           $rootScope.$broadcast('success.authenticate');
-        }).error(function(){
-          console.log('! error');
+        }).error(function(data){
+          $rootScope.$broadcast('global.error', data.errors);
         });
       }
     };

@@ -1,6 +1,8 @@
 package jp.mts.simpletaskboard.web.controllers;
 
 
+import static jp.mts.simpletaskboard.web.response.ErrorId.*;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -73,7 +75,7 @@ public class UsersController {
 		RestResponse response = new RestResponse();
 		if(user != null){
 			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			response.addError(new ApiError("e001", "指定されたメールアドレスはすでに登録されています。", "email"));
+			response.addError(ApiError.ofErrorId(e001, "email"));
 		}
 
 		return response;
@@ -90,10 +92,10 @@ public class UsersController {
 
 		BindingResult bindingResult = e.getBindingResult();
 		for(FieldError fe : bindingResult.getFieldErrors()){
-			response.addError(new ApiError("", fe.getDefaultMessage(), fe.getField()));
+			response.addError(ApiError.ofMessage(fe.getDefaultMessage(), fe.getField()));
 		}
 		for(ObjectError ge : bindingResult.getGlobalErrors()){
-			response.addError(new ApiError("", ge.getDefaultMessage(), null));
+			response.addError(ApiError.ofMessage(ge.getDefaultMessage()));
 		}
 
 		return response;

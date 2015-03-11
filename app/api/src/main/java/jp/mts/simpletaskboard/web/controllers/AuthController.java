@@ -1,9 +1,14 @@
 package jp.mts.simpletaskboard.web.controllers;
 
 
+import static jp.mts.simpletaskboard.web.response.ErrorId.*;
+
+import javax.servlet.http.HttpServletResponse;
+
 import jp.mts.simpletaskboard.domain.User;
 import jp.mts.simpletaskboard.domain.UserRepository;
 import jp.mts.simpletaskboard.web.request.AuthenticateInput;
+import jp.mts.simpletaskboard.web.response.ApiError;
 import jp.mts.simpletaskboard.web.response.AuthView;
 import jp.mts.simpletaskboard.web.response.RestResponse;
 
@@ -21,9 +26,16 @@ public class AuthController {
 
 	@RequestMapping(value="/authenticate", method=RequestMethod.POST)
 	public RestResponse authenticate(
-			@RequestBody AuthenticateInput input) {
+			@RequestBody AuthenticateInput input,
+			HttpServletResponse res) {
 
 		User user = userRepository.searchByEmailAndPassword(input.authId, input.password);
+
+		if(user == null){
+			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			return new RestResponse().addError(
+					ApiError.ofErrorId(e002, "email", "password"));
+		}
 
 		return new RestResponse()
 			.addContent("auth", new AuthView(user));

@@ -3,7 +3,7 @@
 angular
   .module('simple-taskboard.webui.components.user')
   .directive('userRegister', ['userService', function(userService){
-    
+
     return {
       restrict: 'A',
       scope: false,
@@ -13,12 +13,13 @@ angular
           var user = {
             email: scope.email,
             name: scope.userName,
-            password: scope.password
+            password: scope.password,
+            confirmPassword: scope.confirmPassword
           };
           userService.register(user);
-          
-        }); 
+
+        });
       }
     };
-  
+
   }]);

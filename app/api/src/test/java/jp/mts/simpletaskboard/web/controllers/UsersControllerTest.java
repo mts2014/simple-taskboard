@@ -51,7 +51,7 @@ public class UsersControllerTest {
 	}
 
 	@Test
-	public void test_存在しないemailの場合はnull() {
+	public void test_存在しないemailの場合はエラー() {
 
 		final String email = "foo@test.jp";
 		new NonStrictExpectations() {{
@@ -100,6 +100,8 @@ public class UsersControllerTest {
 		new Expectations() {{
 			userRepository.searchByEmail(userRegisterInput.email);
 				result = new UserBuilder().build();
+
+			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}};
 
 		RestResponse response = sut.validate(userRegisterInput, res);
