@@ -22,6 +22,7 @@ describe('userRegister directive', function(){
     scope.email = 'taro@test';
     scope.userName = 'taro';
     scope.password = 'pass';
+    scope.confirmPassword = 'pass';
 
     var element = $compile('<button user-register></button>')(scope);
     element.click();
