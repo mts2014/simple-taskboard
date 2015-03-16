@@ -4,6 +4,7 @@ package jp.mts.simpletaskboard.web.controllers;
 import static jp.mts.simpletaskboard.web.response.ErrorId.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import jp.mts.simpletaskboard.domain.User;
 import jp.mts.simpletaskboard.domain.UserRepository;
@@ -19,14 +20,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AuthController {
+public class AuthController extends ControllerBase {
 
 	@Autowired
 	private UserRepository userRepository;
 
 	@RequestMapping(value="/authenticate", method=RequestMethod.POST)
 	public RestResponse authenticate(
-			@RequestBody AuthenticateInput input,
+			@RequestBody @Valid  AuthenticateInput input,
 			HttpServletResponse res) {
 
 		User user = userRepository.searchByEmailAndPassword(input.authId, input.password);

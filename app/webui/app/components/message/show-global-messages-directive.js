@@ -3,7 +3,7 @@
 angular
   .module('simple-taskboard.webui.components.message')
   .directive('showGlobalMsgs', [function(){
-    
+
     return {
       restrict: 'A',
       scope: false,
@@ -13,13 +13,13 @@ angular
       link: function(scope){
         scope.$on('global.error', function(event, errors){
           scope.hasGlobalErrors = true;
-          
+
           scope.globalErrorMsgs = [];
-          angular.forEach(errors, function(error){
-            scope.globalErrorMsgs.push(error.userMessage);             
+          angular.forEach(errors, function(error, i){
+            scope.globalErrorMsgs.push({ index: i, value: error.userMessage});
           });
         });
-        
+
         scope.$on('clear.global.error', function(){
           scope.clearGlobalErrors();
         });
@@ -31,5 +31,5 @@ angular
 
       }
     };
-  
+
   }]);
