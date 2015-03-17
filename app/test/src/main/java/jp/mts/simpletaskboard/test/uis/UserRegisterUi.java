@@ -4,7 +4,6 @@ import static jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey.*;
 import static org.fest.assertions.api.Assertions.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import jp.mts.simpletaskboard.test.base.AcceptanceUiBase;
 import jp.mts.simpletaskboard.test.base.Page;
@@ -12,7 +11,6 @@ import jp.mts.simpletaskboard.test.base.UserInputs;
 import jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey;
 import jp.mts.simpletaskboard.test.uis.pages.LoginPage;
 import jp.mts.simpletaskboard.test.uis.pages.UserRegisterPage;
-import jp.mts.simpletaskboard.test.uis.pages.UserRegisterPage.Id;
 
 import org.fluentlenium.adapter.FluentTest;
 import org.fluentlenium.core.domain.FluentWebElement;
@@ -51,7 +49,7 @@ public class UserRegisterUi extends AcceptanceUiBase {
 			.password(inputs.v(パスワード))
 			.passwordForConfirm(inputs.v(確認パスワード));
 
-		userRegisterPage.valudateWithForcusOut();
+		userRegisterPage.validateInputs();
 	}
 
 
@@ -63,14 +61,6 @@ public class UserRegisterUi extends AcceptanceUiBase {
 	public boolean canRegister() {
 		FluentWebElement btn = userRegisterPage.findFirst("#user-register");
 		return !btn.getAttribute("class").contains("disabled");
-	}
-
-	private List<String> errorMsg(Id inputId) {
-
-		return userRegisterPage.awaitAndFindMessageOn(inputId.getIdValue())
-			.stream()
-			.map(e -> e.getText())
-			.collect(Collectors.toList());
 	}
 
 	public void ユーザ情報を入力する(UserInputs inputs) {
@@ -86,9 +76,7 @@ public class UserRegisterUi extends AcceptanceUiBase {
 	}
 
 	public void エラーメッセージあり(UserRegisterKey key, String message) {
-		userRegisterPage.forcusOn(key.getId());
-		assertThat(errorMsg(key.getId())).contains(message);
+		assertThat(userRegisterPage.errorMsg(key.getId())).contains(message);
 	}
-
 
 }

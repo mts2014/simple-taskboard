@@ -44,12 +44,5 @@ public class UserRegisterPage extends PageBase {
 		awaitForSeconds(3);
 	}
 
-	public void valudateWithForcusOut() {
-		blur();
-		awaitForSeconds(3);
-	}
-	public void forcusOn(Id inputId) {
-		forcusTo(inputId.getIdSelector());
-	}
 
 }

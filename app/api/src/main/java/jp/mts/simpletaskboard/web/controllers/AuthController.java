@@ -20,12 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping(value="/authenticate")
 public class AuthController extends ControllerBase {
 
 	@Autowired
 	private UserRepository userRepository;
 
-	@RequestMapping(value="/authenticate", method=RequestMethod.POST)
+	@RequestMapping(method=RequestMethod.POST)
 	public RestResponse authenticate(
 			@RequestBody @Valid  AuthenticateInput input,
 			HttpServletResponse res) {
@@ -42,4 +43,8 @@ public class AuthController extends ControllerBase {
 			.addContent("auth", new AuthView(user));
 	}
 
+	@RequestMapping(params="validate", method=RequestMethod.POST)
+	public RestResponse validate(@RequestBody @Valid  AuthenticateInput input) {
+		return new RestResponse();
+	}
 }

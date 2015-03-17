@@ -6,23 +6,23 @@
     <label for="email" class="control-label">Email</label>
     <input id="userRegisterForm_email" type="text" class="form-control" ng-model="email" user-validate>
   </div>
-  
+
   <div class="form-group">
     <label for="userName" class="control-label">ユーザ名</label>
     <input id="userRegisterForm_userName" type="text" class="form-control" ng-model="userName" user-validate>
   </div>
-  
+
   <div class="form-group">
     <label for="password" class="control-label">パスワード</label>
     <input id="userRegisterForm_password" type="password" class="form-control" ng-model="password" user-validate>
   </div>
-  
+
   <div class="form-group">
     <label for="confirmPassword" class="control-label">パスワード (確認用) </label>
     <input id="userRegisterForm_confirmPassword" type="password" class="form-control" ng-model="confirmPassword" user-validate>
   </div>
-  
-  <button id="user-register" type="button" class="btn btn-primary" 
+
+  <button id="user-register" type="button" class="btn btn-primary"
           ng-disabled="userRegisterForm.$invalid || userRegisterForm.$pending" user-register>登録</button>
 
 </form>

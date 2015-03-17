@@ -10,7 +10,7 @@ angular
       replace: false  ,
       link: function(scope, element){
         element.click(function(){
-          authService.authenticate(scope.loginId, scope.password);
+          authService.authenticate(scope.authId, scope.password);
         });
 
         scope.$on('success.authenticate', function(){

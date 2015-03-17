@@ -16,7 +16,7 @@ describe('authenticate directive', function(){
     });
 
     var scope = $rootScope.$new();
-    scope.loginId='test';
+    scope.authId='test';
     scope.password='pass';
     var button = $compile('<button authenticate></button>')(scope);
 

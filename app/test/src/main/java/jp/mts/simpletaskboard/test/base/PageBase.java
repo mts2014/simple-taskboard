@@ -89,4 +89,21 @@ public abstract class PageBase extends FluentPage {
 		executeScript("$('" + cssSelector + "').focus()");
 	}
 
+	public void validateInputs() {
+		blur();
+		awaitForSeconds(3);
+	}
+
+	private void forcusOn(PageId pageId) {
+		forcusTo(pageId.getIdSelector());
+	}
+
+	public List<String> errorMsg(PageId pageId) {
+		forcusOn(pageId);
+
+		return awaitAndFindMessageOn(pageId.getIdValue())
+			.stream()
+			.map(e -> e.getText())
+			.collect(Collectors.toList());
+	}
 }

@@ -1,30 +1,25 @@
 'use strict';
 
 angular
-  .module('simple-taskboard.webui.components.user')
-  .directive('userValidate', ['$timeout', '$q', 'userService', function($timeout, $q, userService){
-
-    var userInputStore = {
+  .module('simple-taskboard.webui.components.authenticate')
+  .directive('authValidate', ['$timeout', 'authService', function($timeout, authService){
+    
+    var loginInputStore = {
       initialized: false,
       data: {},
       store: function(scope){
-        this.data.email = scope.email;
-        this.data.userName = scope.userName;
+        this.data.authId = scope.authId;
         this.data.password = scope.password;
-        this.data.confirmPassword = scope.confirmPassword;
       },
       restore: function(scope){
         if(this.initialized) { return; }
-        scope.email = this.data.email;
-        scope.userName = this.data.userName;
+        scope.authId = this.data.authId;
         scope.password = this.data.password;
-        scope.confirmPassword = this.data.confirmPassword;
       },
       initialize: function(){
         this.initialized = true;
       }
     };
-
     return {
       require: 'ngModel',
       restrict: 'A',
@@ -42,21 +37,12 @@ angular
         var field = attrs.ngModel;
         ngModel.$asyncValidators[ field ] = function(modelValue){
 
-          userInputStore.restore(scope);
-          if(field === 'email'){ scope.email = modelValue; }
-          if(field === 'userName'){ scope.userName = modelValue; }
+          loginInputStore.restore(scope);
+          if(field === 'authId'){ scope.authId = modelValue; }
           if(field === 'password'){ scope.password = modelValue; }
-          if(field === 'confirmPassword'){ scope.confirmPassword = modelValue; }
-          userInputStore.store(scope);
+          loginInputStore.store(scope);
 
-          var user = {
-            email: scope.email,
-            name: scope.userName,
-            password: scope.password,
-            confirmPassword: scope.confirmPassword
-          };
-
-          return userService.validate(user);
+          return authService.validate(scope.authId, scope.password);
         };
 
         scope.validateErrors = scope.validateErrors || {};
@@ -66,7 +52,7 @@ angular
           element.parent('div[class*=form-group]').removeClass('has-error');
 
           ngModel.$setValidity(field, true);
-          userInputStore.initialize();
+          loginInputStore.initialize();
         });
 
         scope.$on('validate.error', function(event, errors){
@@ -92,5 +78,4 @@ angular
       }
 
     };
-
   }]);
