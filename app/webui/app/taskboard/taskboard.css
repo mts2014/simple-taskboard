@@ -1,0 +1,41 @@
+@charset "utf-8";
+
+.taskboard-header {
+  margin-bottom: 5px;
+}
+
+.task-status-group {
+  height: 250px;
+
+  border-style: solid;
+  border-width: 1px;
+}
+
+dl.task {
+  font-size: 8px;
+
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 15px 15px 15px 15px;
+
+  width: 150px;
+  height: 80px;
+  padding-top: 5px;
+
+}
+
+dl.task dt {
+  float: left;
+  clear: left;
+  width: 30px;
+  margin-left: 5px;
+}
+dl.task dd {
+  float: left;
+  width: 100px;
+}
+
+select#group-select {
+  display: inline;
+  width: 50%;
+}
