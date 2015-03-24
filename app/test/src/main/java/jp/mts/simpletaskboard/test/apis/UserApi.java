@@ -1,13 +1,12 @@
 package jp.mts.simpletaskboard.test.apis;
 
-import static jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey.*;
 import static org.fest.assertions.api.Assertions.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jp.mts.simpletaskboard.test.base.UserInputs;
+import jp.mts.simpletaskboard.test.uis.UserRegisterUi;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
@@ -40,14 +39,14 @@ public class UserApi extends ApiBase {
 		assertThat(existsUser).isEqualTo(expected);
 	}
 
-	public void 登録する(UserInputs inputs) {
+	public void 登録する(UserRegisterUi.Input input) {
 
 		try {
 			JSONObject requestJson = new JSONObject();
-			requestJson.put("email", inputs.v(EMAIL));
-			requestJson.put("userName", inputs.v(ユーザ名));
-			requestJson.put("password", inputs.v(パスワード));
-			requestJson.put("confirmPassword", inputs.v(確認パスワード));
+			requestJson.put("email", input.email);
+			requestJson.put("userName", input.userName);
+			requestJson.put("password", input.password);
+			requestJson.put("confirmPassword", input.confirmPassword);
 
 			HttpResponse res = httpPost("/users")
 				.bodyString(requestJson.toJSONString(), ContentType.APPLICATION_JSON)
@@ -84,13 +83,13 @@ public class UserApi extends ApiBase {
 		}
 
 	}
-	public Errors 登録時の検証をする(UserInputs inputs) {
+	public Errors 登録時の検証をする(UserRegisterUi.Input input) {
 		try {
 			JSONObject requestJson = new JSONObject();
-			requestJson.put("email", inputs.v(EMAIL));
-			requestJson.put("userName", inputs.v(ユーザ名));
-			requestJson.put("password", inputs.v(パスワード));
-			requestJson.put("confirmPassword", inputs.v(確認パスワード));
+			requestJson.put("email", input.email);
+			requestJson.put("userName", input.userName);
+			requestJson.put("password", input.password);
+			requestJson.put("confirmPassword", input.confirmPassword);
 
 			HttpResponse res = httpPost("/users?validate")
 				.bodyString(requestJson.toJSONString(), ContentType.APPLICATION_JSON)

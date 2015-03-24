@@ -1,7 +1,6 @@
 package jp.mts.simpletaskboard.test.scenarios;
 
-import static jp.mts.simpletaskboard.test.base.UserInputs.*;
-import static jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey.*;
+import static jp.mts.simpletaskboard.test.uis.UserRegisterUi.*;
 import jp.mts.simpletaskboard.test.apis.UserApi;
 import jp.mts.simpletaskboard.test.base.AcceptanceTestBase;
 import jp.mts.simpletaskboard.test.base.UI;
@@ -44,11 +43,11 @@ public class UserRegisterScenario {
 
 			userApi.存在しない("taro@test.jp", "太郎");
 
-			userRegisterUi.ユーザ情報を登録する($in()
-					.v(EMAIL,          "taro@test.jp")
-					.v(ユーザ名,       "太郎")
-					.v(パスワード,     "pass")
-					.v(確認パスワード, "pass"));
+			userRegisterUi.ユーザ情報を登録する(入力()
+					.EMAIL("taro@test.jp")
+					.ユーザ名("太郎")
+					.パスワード("pass")
+					.確認パスワード("pass"));
 
 			userApi.存在する("taro@test.jp", "太郎");
 		}
@@ -66,81 +65,81 @@ public class UserRegisterScenario {
 		@Test
 		public void すでに存在するメールアドレスを入力するとエラー(){
 
-			userApi.登録する($in()
-					.v(EMAIL, "taro2@test.jp"));
+			userApi.登録する(入力()
+					.EMAIL("taro2@test.jp"));
 
-			userRegisterUi.ユーザ登録情報を検証する($in()
-					.v(EMAIL, "taro2@test.jp"));
+			userRegisterUi.ユーザ登録情報を検証する(入力()
+					.EMAIL("taro2@test.jp"));
 
 			userRegisterUi.エラーメッセージあり(
-					EMAIL, "指定されたメールアドレスはすでに登録されています。");
+					UserRegisterUi.InputKey.EMAIL, "指定されたメールアドレスはすでに登録されています。");
 		}
 
 		@Test
 		public void メールアドレスが未入力の場合入力チェックエラーになること(){
 
-			userRegisterUi.ユーザ登録情報を検証する($in()
-					.v(EMAIL, ""));
+			userRegisterUi.ユーザ登録情報を検証する(入力()
+					.EMAIL(""));
 
 			userRegisterUi.エラーメッセージあり(
-					EMAIL, "入力してください。");
+					UserRegisterUi.InputKey.EMAIL, "入力してください。");
 		}
 
 		@Test
 		public void メールアドレスの形式が正しくない場合入力チェックエラーになること(){
 
-			userRegisterUi.ユーザ登録情報を検証する($in()
-					.v(EMAIL, "hoge"));
+			userRegisterUi.ユーザ登録情報を検証する(入力()
+					.EMAIL("hoge"));
 
 			userRegisterUi.エラーメッセージあり(
-					EMAIL, "正しいメールアドレスの形式で入力してください。");
+					UserRegisterUi.InputKey.EMAIL, "正しいメールアドレスの形式で入力してください。");
 		}
 
 		@Test
 		public void ユーザ名が未入力の場合入力チェックエラーになること(){
 
-			userRegisterUi.ユーザ登録情報を検証する($in()
-					.v(ユーザ名, ""));
+			userRegisterUi.ユーザ登録情報を検証する(入力()
+					.ユーザ名(""));
 
 			userRegisterUi.エラーメッセージあり(
-					ユーザ名, "入力してください。");
+					UserRegisterUi.InputKey.ユーザ名, "入力してください。");
 		}
 		@Test
 		public void パスワードが未入力の場合入力チェックエラーになること(){
 
-			userRegisterUi.ユーザ登録情報を検証する($in()
-					.v(パスワード, ""));
+			userRegisterUi.ユーザ登録情報を検証する(入力()
+					.パスワード(""));
 
 			userRegisterUi.エラーメッセージあり(
-					パスワード, "入力してください。");
+					UserRegisterUi.InputKey.パスワード, "入力してください。");
 		}
 		@Test
 		public void パスワードの形式が不正の場合入力チェックエラーになること(){
 
-			userRegisterUi.ユーザ登録情報を検証する($in()
-					.v(パスワード, "a"));
+			userRegisterUi.ユーザ登録情報を検証する(入力()
+					.パスワード("a"));
 
 			userRegisterUi.エラーメッセージあり(
-					パスワード, "パスワードは半角英数の組み合わせ4文字以上で入力してください。");
+					UserRegisterUi.InputKey.パスワード, "パスワードは半角英数の組み合わせ4文字以上で入力してください。");
 		}
 		@Test
 		public void 確認用パスワードが未入力の場合入力チェックエラーになること(){
 
-			userRegisterUi.ユーザ登録情報を検証する($in()
-					.v(確認パスワード, ""));
+			userRegisterUi.ユーザ登録情報を検証する(入力()
+					.確認パスワード(""));
 
 			userRegisterUi.エラーメッセージあり(
-					確認パスワード, "入力してください。");
+					UserRegisterUi.InputKey.確認パスワード, "入力してください。");
 		}
 		@Test
 		public void 確認用パスワードとパスワードが違う場合入力チェックエラーになること(){
 
-			userRegisterUi.ユーザ登録情報を検証する($in()
-					.v(パスワード,     "abcd")
-					.v(確認パスワード, "1234"));
+			userRegisterUi.ユーザ登録情報を検証する(入力()
+					.パスワード    ("abcd")
+					.確認パスワード("1234"));
 
 			userRegisterUi.エラーメッセージあり(
-					確認パスワード, "確認用パスワードがパスワードと違います。");
+					UserRegisterUi.InputKey.確認パスワード, "確認用パスワードがパスワードと違います。");
 		}
 
 	}

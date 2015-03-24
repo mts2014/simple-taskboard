@@ -1,10 +1,9 @@
 package jp.mts.simpletaskboard.test.scenarios;
 
-import static jp.mts.simpletaskboard.test.base.UserInputs.*;
+import static jp.mts.simpletaskboard.test.uis.LoginUi.*;
 import static jp.mts.simpletaskboard.test.uis.TaskboardUi.*;
 import jp.mts.simpletaskboard.test.apis.UserApi;
 import jp.mts.simpletaskboard.test.base.UI;
-import jp.mts.simpletaskboard.test.inputkeys.LoginKey;
 import jp.mts.simpletaskboard.test.uis.LoginUi;
 import jp.mts.simpletaskboard.test.uis.TaskboardUi;
 
@@ -29,9 +28,10 @@ public class TaskboardDisplayScenario {
 	@Test public void
 	登録されているタスクがタスクボード上に表示されること(){
 
-		loginUi.ログインする($in()
-				.v(LoginKey.ログインＩＤ, "hoge@test.jp")
-				.v(LoginKey.パスワード,   "pass"));
+		loginUi.ログインする(
+				入力()
+					.ログインＩＤ("hoge@test.jp")
+					.パスワード("pass"));
 
 		taskboardUi.タスクが表示されている(
 				TODOタスク()

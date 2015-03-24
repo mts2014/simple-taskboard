@@ -1,11 +1,9 @@
 package jp.mts.simpletaskboard.test.scenarios;
 
-import static jp.mts.simpletaskboard.test.base.UserInputs.*;
+import static jp.mts.simpletaskboard.test.uis.UserRegisterUi.*;
 import jp.mts.simpletaskboard.test.apis.UserApi;
 import jp.mts.simpletaskboard.test.base.AcceptanceTestBase;
 import jp.mts.simpletaskboard.test.base.UI;
-import jp.mts.simpletaskboard.test.inputkeys.LoginKey;
-import jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey;
 import jp.mts.simpletaskboard.test.uis.LoginUi;
 import jp.mts.simpletaskboard.test.uis.TaskboardUi;
 
@@ -35,15 +33,15 @@ public class LoginScenario {
 		@Test public void
 		登録済みのユーザに対して_メールアドレスとパスワードでログインできること(){
 
-			userApi.登録する($in()
-					.v(UserRegisterKey.EMAIL,          "login-scenario@test.jp")
-					.v(UserRegisterKey.ユーザ名,       "ログインテストユーザ")
-					.v(UserRegisterKey.パスワード,     "loginpass")
-					.v(UserRegisterKey.確認パスワード, "loginpass"));
+			userApi.登録する(入力()
+					.EMAIL         ("login-scenario@test.jp")
+					.ユーザ名      ("ログインテストユーザ")
+					.パスワード    ("loginpass")
+					.確認パスワード("loginpass"));
 
-			loginUi.ログインする($in()
-					.v(LoginKey.ログインＩＤ, "login-scenario@test.jp")
-					.v(LoginKey.パスワード,   "loginpass"));
+			loginUi.ログインする(LoginUi.入力()
+					.ログインＩＤ("login-scenario@test.jp")
+					.パスワード  ("loginpass"));
 
 			taskboardUi.タスクボードが表示されている();
 
@@ -57,9 +55,9 @@ public class LoginScenario {
 		@Test public void
 		未登録のユーザに対して_存在しないエラーが通知されること(){
 
-			loginUi.ログインする($in()
-					.v(LoginKey.ログインＩＤ, "not_exist@test.jp")
-					.v(LoginKey.パスワード,   "loginpass"));
+			loginUi.ログインする(LoginUi.入力()
+					.ログインＩＤ("not_exist@test.jp")
+					.パスワード  ("loginpass"));
 
 
 			loginUi.エラーメッセージあり(
@@ -81,23 +79,23 @@ public class LoginScenario {
 		@Test public void
 		メールアドレスが未入力の場合入力チェックエラーになること(){
 
-			loginUi.認証情報を検証する($in()
-					.v(LoginKey.ログインＩＤ, "")
-					.v(LoginKey.パスワード,   "loginpass"));
+			loginUi.認証情報を検証する(LoginUi.入力()
+					.ログインＩＤ("")
+					.パスワード  ("loginpass"));
 
 			loginUi.エラーメッセージあり(
-					LoginKey.ログインＩＤ, "入力してください。");
+					LoginUi.InputKey.ログインＩＤ, "入力してください。");
 		}
 
 		@Test public void
 		パスワードが未入力の場合入力チェックエラーになること(){
 
-			loginUi.認証情報を検証する($in()
-					.v(LoginKey.ログインＩＤ, "test")
-					.v(LoginKey.パスワード,   ""));
+			loginUi.認証情報を検証する(LoginUi.入力()
+					.ログインＩＤ("test")
+					.パスワード  ("loginpass"));
 
 			loginUi.エラーメッセージあり(
-					LoginKey.パスワード, "入力してください。");
+					LoginUi.InputKey.パスワード, "入力してください。");
 		}
 	}
 }

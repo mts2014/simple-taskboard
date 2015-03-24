@@ -1,11 +1,8 @@
 package jp.mts.simpletaskboard.test.uis;
 
-import static jp.mts.simpletaskboard.test.inputkeys.LoginKey.*;
 import static org.fest.assertions.api.Assertions.*;
 import jp.mts.simpletaskboard.test.base.AcceptanceUiBase;
 import jp.mts.simpletaskboard.test.base.Page;
-import jp.mts.simpletaskboard.test.base.UserInputs;
-import jp.mts.simpletaskboard.test.inputkeys.LoginKey;
 import jp.mts.simpletaskboard.test.uis.pages.LoginPage;
 
 import org.fluentlenium.adapter.FluentTest;
@@ -23,12 +20,12 @@ public class LoginUi extends AcceptanceUiBase {
 		return loginPage.hasUserRegisterLink();
 	}
 
-	public void ログインする(UserInputs inputs) {
+	public void ログインする(Input input) {
 		loginPage.go();
 
 		loginPage
-			.email(inputs.v(ログインＩＤ))
-			.password(inputs.v(パスワード))
+			.email(input.loginId)
+			.password(input.password)
 			.login();
 	}
 
@@ -36,20 +33,53 @@ public class LoginUi extends AcceptanceUiBase {
 		assertThat(loginPage.globalErrors()).contains(message);
 	}
 
-	public void 認証情報を検証する(UserInputs inputs) {
+	public void 認証情報を検証する(Input input) {
 		loginPage.go();
 
 		loginPage
-			.email(inputs.v(ログインＩＤ))
-			.password(inputs.v(パスワード));
+			.email(input.loginId)
+			.password(input.password);
 
 		loginPage
 			.validateInputs();
 
 	}
 
-	public void エラーメッセージあり(LoginKey key, String message) {
+	public void エラーメッセージあり(LoginUi.InputKey key, String message) {
 		assertThat(loginPage.errorMsg(key.getId())).contains(message);
+	}
+
+	public static Input 入力(){
+		return new Input();
+	}
+
+	public static class Input {
+		String loginId = "test@test.jp";
+		String password = "pass";
+
+		public Input ログインＩＤ(String loginId){
+			this.loginId = loginId;
+			return this;
+		}
+		public Input パスワード(String password){
+			this.password = password;
+			return this;
+		}
+	}
+
+	public enum InputKey {
+		ログインＩＤ (LoginPage.Id.INPUT_LOGINID),
+		パスワード   (LoginPage.Id.INPUT_PASSWORD),
+		;
+
+		private LoginPage.Id id;
+
+		private InputKey(LoginPage.Id id) {
+			this.id = id;
+		}
+		public LoginPage.Id getId() {
+			return id;
+		}
 	}
 
 }

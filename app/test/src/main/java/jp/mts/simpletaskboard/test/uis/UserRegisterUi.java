@@ -1,14 +1,11 @@
 package jp.mts.simpletaskboard.test.uis;
 
-import static jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey.*;
 import static org.fest.assertions.api.Assertions.*;
 
 import java.util.List;
 
 import jp.mts.simpletaskboard.test.base.AcceptanceUiBase;
 import jp.mts.simpletaskboard.test.base.Page;
-import jp.mts.simpletaskboard.test.base.UserInputs;
-import jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey;
 import jp.mts.simpletaskboard.test.uis.pages.LoginPage;
 import jp.mts.simpletaskboard.test.uis.pages.UserRegisterPage;
 
@@ -26,28 +23,28 @@ public class UserRegisterUi extends AcceptanceUiBase {
 		super(fluentTest);
 	}
 
-	public void ユーザ情報を登録する(UserInputs inputs) {
+	public void ユーザ情報を登録する(Input input) {
 		loginPage.go();
 		loginPage.goToUserRegister();
 
 		userRegisterPage
-			.email(inputs.v(EMAIL))
-			.userName(inputs.v(ユーザ名))
-			.password(inputs.v(パスワード))
-			.passwordForConfirm(inputs.v(確認パスワード))
+			.email(input.email)
+			.userName(input.userName)
+			.password(input.password)
+			.passwordForConfirm(input.confirmPassword)
 			.register();
 
 	}
 
-	public void ユーザ登録情報を検証する(UserInputs inputs) {
+	public void ユーザ登録情報を検証する(Input input) {
 		loginPage.go();
 		loginPage.goToUserRegister();
 
 		userRegisterPage
-			.email(inputs.v(EMAIL))
-			.userName(inputs.v(ユーザ名))
-			.password(inputs.v(パスワード))
-			.passwordForConfirm(inputs.v(確認パスワード));
+			.email(input.email)
+			.userName(input.userName)
+			.password(input.password)
+			.passwordForConfirm(input.confirmPassword);
 
 		userRegisterPage.validateInputs();
 	}
@@ -63,20 +60,55 @@ public class UserRegisterUi extends AcceptanceUiBase {
 		return !btn.getAttribute("class").contains("disabled");
 	}
 
-	public void ユーザ情報を入力する(UserInputs inputs) {
-		loginPage.go();
-		loginPage.goToUserRegister();
-
-		userRegisterPage
-			.email(inputs.v(EMAIL))
-			.userName(inputs.v(ユーザ名))
-			.password(inputs.v(パスワード))
-			.passwordForConfirm(inputs.v(確認パスワード));
-
+	public void エラーメッセージあり(InputKey key, String message) {
+		assertThat(userRegisterPage.errorMsg(key.getId())).contains(message);
 	}
 
-	public void エラーメッセージあり(UserRegisterKey key, String message) {
-		assertThat(userRegisterPage.errorMsg(key.getId())).contains(message);
+
+	public static Input 入力(){
+		return new Input();
+	}
+
+	public static class Input {
+		public String email = "test@test.jp";
+		public String userName = "yamada taro";
+		public String password = "pass";
+		public String confirmPassword = "pass";
+
+		public Input EMAIL(String email){
+			this.email = email;
+			return this;
+		}
+		public Input ユーザ名(String userName){
+			this.userName = userName;
+			return this;
+		}
+		public Input パスワード(String password){
+			this.password = password;
+			return this;
+		}
+		public Input 確認パスワード(String confirmPassword){
+			this.confirmPassword = confirmPassword;
+			return this;
+		}
+	}
+
+	public enum InputKey {
+		EMAIL         (UserRegisterPage.Id.INPUT_EMAIL),
+		ユーザ名      (UserRegisterPage.Id.INPUT_USER_NAME),
+		パスワード    (UserRegisterPage.Id.INPUT_PASSWORD),
+		確認パスワード(UserRegisterPage.Id.INPUT_CONFIRM_PASSWORD),
+		;
+
+		private UserRegisterPage.Id id;
+
+		private InputKey(UserRegisterPage.Id id) {
+			this.id = id;
+		}
+
+		public UserRegisterPage.Id getId() {
+			return id;
+		}
 	}
 
 }

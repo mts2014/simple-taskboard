@@ -1,7 +1,6 @@
 package jp.mts.simpletaskboard.test.scenarios.api;
 
-import static jp.mts.simpletaskboard.test.base.UserInputs.*;
-import static jp.mts.simpletaskboard.test.inputkeys.UserRegisterKey.*;
+import static jp.mts.simpletaskboard.test.uis.UserRegisterUi.*;
 import jp.mts.simpletaskboard.test.apis.UserApi;
 
 import org.junit.Test;
@@ -35,11 +34,11 @@ public class UserApiScenario {
 		@Test public void
 		ユーザを登録できること(){
 
-			userApi.登録する($in()
-				.v(EMAIL,          "foo@test.jp")
-				.v(ユーザ名,       "taro")
-				.v(パスワード,     "pass")
-				.v(確認パスワード, "pass"));
+			userApi.登録する(入力()
+				.EMAIL         ("foo@test.jp")
+				.ユーザ名      ("taro")
+				.パスワード    ("pass")
+				.確認パスワード("pass"));
 
 			userApi.存在する("foo@test.jp", "taro");
 		}
@@ -51,10 +50,8 @@ public class UserApiScenario {
 		@Test public void
 		メールアドレスが空の場合エラー(){
 
-			userApi.登録時の検証をする($in()
-					.v(EMAIL, ""))
+			userApi.登録時の検証をする(入力().EMAIL(""))
 				.assertHasError("email", "入力してください。");
-
 		}
 	}
 
